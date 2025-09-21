@@ -158,7 +158,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
           content: prev.content + imageMarkdown 
         }));
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error uploading image:', error);
       if (error.message && error.message.includes('Bucket not found')) {
         setFormError('Storage bucket not found. Please create a "blog-images" bucket in your Supabase Storage dashboard first.');
@@ -195,8 +195,9 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
         read_time: formData.read_time,
         status: formData.status,
         featured: formData.featured,
-        thumbnail_url: formData.thumbnail_url || null,
-        images: blogImages
+        thumbnail_url: formData.thumbnail_url || undefined,
+        images: blogImages,
+        published_date: new Date().toISOString(), 
       };
 
       if (editingPost) {

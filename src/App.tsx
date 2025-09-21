@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
+import './App.css';
+
 // Add a CSS class for social icon size
 const socialIconClass = 'bi social-icon';
 
@@ -50,25 +52,6 @@ const App = () => {
     loadPublishedBlogPosts(); // Load blog posts on app start
   }, []);
 
-  // Load YouTube videos on component mount
-  useEffect(() => {
-    const loadYouTubeVideos = async () => {
-      try {
-        setVideosLoading(true);
-        const videos = await youtubeService.getChannelVideos(12); // Get latest 12 videos
-        setYoutubeVideos(videos);
-      } catch (error) {
-        console.error('Error loading YouTube videos:', error);
-        // Fallback videos will be used automatically
-        setYoutubeVideos(youtubeService.getFallbackVideos());
-      } finally {
-        setVideosLoading(false);
-      }
-    };
-
-    loadYouTubeVideos();
-  }, []);
-
   const loadPublishedBlogPosts = async () => {
     try {
       console.log('🔄 Loading published blog posts...');
@@ -113,25 +96,34 @@ const App = () => {
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
             {/* Left Content */}
             <div className="text-left">
-              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn">
+              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
                 The Storytelling Gateway to Africa
               </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 animate-elegant-slideUp">
-                
+              {/* Hero Title */}
+              <h1 className="hero-title text-4xl md:text-6xl mb-6 font-semibold leading-tight animate-elegant-slideUp">
                 <span className="block bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent animate-shimmer bg-[length:200%_100%]">
                   What's Your Story Africa
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
-                Join Catherine Mwangi on a transformative journey through authentic African narratives. 
-                From boardrooms to communities, we amplify the voices that shape our continent's future.
+              {/* First Paragraph */}
+              <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
+                This space holds my collection of work: stories, reflections, and the experiences that have shaped
+                my 25-year journey in media and communications, including my most recent role as Head of TV at Kenya Television Network.
+              </p>
+              
+              {/* Second Paragraph */}
+              <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
+                At its core, this is a space to connect freely, honor our shared humanity, and celebrate the power of stories. Whether through my podcast What's Your Story Africa, my writings, or the paths I've walked in media, I sincerely
+                hope that you feel seen, heard, inspired, and elevated as we share our experiences with clarity and heart.
               </p>
 
+              {/* Buttons */}
               <div className="flex flex-col sm:flex-row gap-6 animate-elegant-slideUp" style={{ animationDelay: '0.6s' }}>
                 <a 
                   href="https://www.youtube.com/@WhatsYourStoryAfrica" 
@@ -244,121 +236,6 @@ const App = () => {
           </div>
         </div>
       </section>
-
-      {/* Call to Action */}
-      <section className="py-12 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            {/* Logo */}
-            <div className="text-center lg:text-left">
-              <button 
-                onClick={() => setCurrentView('home')}
-                className="flex items-center justify-center lg:justify-start"
-              >
-                <img 
-                  src="/img/logo/wysa-logo.png" 
-                  alt="What's Your Story Africa Logo" 
-                  className="h-16 w-auto max-w-[250px] object-contain transition-opacity duration-300 hover:opacity-80 brightness-0 invert"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    const textFallback = document.createElement('span');
-                    textFallback.textContent = "What's Your Story Africa";
-                    textFallback.className = "text-lg font-bold text-white hover:text-emerald-100 transition-colors";
-                    target.parentNode?.appendChild(textFallback);
-                  }}
-                />
-              </button>
-            </div>
-
-            {/* Main Content - Center */}
-            <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                For Legacy & Posterity
-              </h2>
-              <p className="text-base text-emerald-100 mb-4">
-                Share Your Own Story
-              </p>
-              <button 
-                onClick={() => setCurrentView('connect')}
-                className="inline-flex items-center px-5 py-2.5 bg-white text-emerald-600 font-semibold rounded-full hover:bg-emerald-50 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              >
-                Get In Touch
-                <ExternalLink className="w-5 h-5 ml-2" />
-              </button>
-            </div>
-
-            {/* Social Media Links */}
-            <div className="flex items-center justify-center lg:justify-end space-x-4">
-              <div className="text-center lg:text-right mb-4 lg:mb-0">
-                <p className="text-xs text-emerald-100 mb-2"></p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <a 
-                  href="https://linkedin.com/in/catherinemwangitv" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-                  aria-label="Connect on LinkedIn"
-                  title="LinkedIn"
-                >
-                  <i className="bi bi-linkedin"></i>
-                </a>
-                <a 
-                  href="https://tiktok.com/@cathmwangi" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-                  aria-label="Follow on TikTok"
-                  title="TikTok"
-                >
-                  <i className="bi bi-tiktok"></i>
-                </a>
-                <a 
-                  href="https://facebook.com/CatherineMwangiKE" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-                  aria-label="Follow on Facebook"
-                  title="Facebook"
-                >
-                  <i className="bi bi-facebook"></i>
-                </a>
-                <a 
-                  href="https://instagram.com/cathmwangi" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-                  aria-label="Follow on Instagram"
-                  title="Instagram"
-                >
-                  <i className="bi bi-instagram"></i>
-                </a>
-                <a 
-                  href="https://x.com/CathMwangi" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-                  aria-label="Follow on X (Twitter)"
-                  title="X (Twitter)"
-                >
-                  <i className="bi bi-twitter-x"></i>
-                </a>
-                <a 
-                  href="https://www.youtube.com/@WhatsYourStoryAfrica" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-                  aria-label="Subscribe on YouTube"
-                  title="YouTube"
-                >
-                  <i className="bi bi-youtube"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 
@@ -379,7 +256,16 @@ const App = () => {
                 {/* First set of images */}
                 <div className="flex space-x-6 flex-shrink-0">
                   <img 
-                    src="/img/catherine/catherine-1.jpg"
+                    src="/img/catherine/IMG_3363.jpg"
+                    alt="Catherine Mwangi speaking at an event"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                   <img 
+                    src="/img/catherine/_TWL0019.JPG"
                     alt="Catherine Mwangi speaking at an event"
                     className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
@@ -388,7 +274,7 @@ const App = () => {
                     }}
                   />
                   <img 
-                    src="/img/catherine/catherine-2.jpg"
+                    src="/img/catherine/DSC_0480.jpg"
                     alt="Catherine Mwangi in the studio"
                     className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
@@ -397,7 +283,7 @@ const App = () => {
                     }}
                   />
                   <img 
-                    src="/img/catherine/catherine-3.jpg"
+                    src="/img/catherine/_TWL2723.JPG"
                     alt="Catherine Mwangi interviewing a guest"
                     className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
@@ -406,7 +292,7 @@ const App = () => {
                     }}
                   />
                   <img 
-                    src="/img/catherine/catherine-4.jpg"
+                    src="/img/catherine/IMG_0013.JPG"
                     alt="Catherine Mwangi at a conference"
                     className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
@@ -415,7 +301,7 @@ const App = () => {
                     }}
                   />
                   <img 
-                    src="/img/catherine/catherine-5.jpg"
+                    src="/img/catherine/sg-70.JPG"
                     alt="Catherine Mwangi with community leaders"
                     className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
@@ -424,7 +310,124 @@ const App = () => {
                     }}
                   />
                   <img 
-                    src="/img/catherine/catherine-6.jpg"
+                    src="/img/catherine/20220622_103037.jpg"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/20220719_193352.jpg"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/_TWL0006.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/_TWL0019.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/_TWL2723.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/_TWL8636.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/_TWM0198.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/_TWM0760.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/DSC_0480.jpg"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/DSC_5436.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/IMG_20160613_093604.jpg"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/ktn-74.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/IMG-20220716-WA0066.jpg"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                  <img 
+                    src="/img/catherine/IMG-20220715-WA0145.jpg"
                     alt="Catherine Mwangi behind the scenes"
                     className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
@@ -433,7 +436,6 @@ const App = () => {
                     }}
                   />
                 </div>
-                
                 {/* Duplicate set for seamless loop */}
                 <div className="flex space-x-6 flex-shrink-0">
                   <img 
@@ -473,7 +475,7 @@ const App = () => {
                     }}
                   />
                   <img 
-                    src="/img/catherine/catherine-5.jpg"
+                    src="/img/catherine/_TWLOO6.JPG"
                     alt="Catherine Mwangi with community leaders"
                     className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
@@ -502,22 +504,52 @@ const App = () => {
         
         {/* About Section */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-12 border border-white/50 shadow-xl">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">About Catherine</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-6 leading-snug">About Catherine</h2>
           <div className="prose prose-lg text-gray-600 max-w-none">
-            <p className="mb-6">
-              Catherine Mwangi is a seasoned media professional with over a decade of experience in television, 
-              digital media, and storytelling. Her journey from leading TV networks to creating impactful 
-              podcasts has been driven by a passion for amplifying authentic African narratives.
+            <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+              For more than 25 years, my life has been woven into the fabric of storytelling. 
+              My career in media began as an intern at Kenya Television Network (KTN). 
+              Those early days laid the foundation for everything that followed: curiosity, resilience, 
+              and a deep respect for the power of storytelling. Over the years, I explored different paths 
+              across leading media houses in East Africa, honing my craft and expanding my understanding of
+              how media shapes societies.
             </p>
-            <p className="mb-6">
-              Through "What's Your Story Africa," Catherine creates a platform where diverse voices across 
-              the continent can share their experiences, challenges, and triumphs. Her work focuses on 
-              highlighting stories that inspire, educate, and drive positive change in communities.
+            <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+              In 2013, I experienced a full-circle moment: returning to KTN as Head of TV, 
+              exactly where my journey had begun. Storytelling, for me, has never been just a career; 
+              it's a calling. Leading three television channels was both a privilege and a responsibility. 
+              It meant curating content that informed and inspired, managing large teams of creatives and 
+              on-screen talent, and making strategic decisions that impacted millions of viewers.
+              More importantly, it meant mentoring hundreds of professionals, creating opportunities for thousands, 
+              and leaving a legacy of excellence and purpose-driven storytelling.
             </p>
-            <p>
-              With a background in journalism and digital content creation, Catherine brings a unique 
-              perspective to storytelling that bridges traditional media with modern digital platforms, 
-              ensuring African stories reach global audiences.
+            <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+              My work has taken me beyond Kenya to global stages across Africa, the Middle East, and Europe, 
+              where I have moderated high-level panels, conducted thought-provoking interviews, 
+              and facilitated cross-cultural dialogues. These experiences affirmed for me that stories, 
+              when told with authenticity, transcend borders and awaken our shared humanity. 
+              Whether in front of the camera, behind it, or on international platforms, my focus has remained the same: 
+              to create spaces where stories can be told with dignity and heard with empathy.
+            </p>
+            <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+              Today, I continue this mission through <strong>What's Your Story Africa</strong>, 
+              a platform that began as a television show and has since evolved into a podcast and community.
+            </p>
+            <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+              Beyond the cameras, lights, and mics, I have dedicated myself to mentoring the next generation of storytellers and communicators. 
+              Whether it's guiding young people finding their voice, equipping professionals with tools to speak with confidence, 
+              or coaching TV presenters, podcasters, and leaders to sharpen their craft, I see mentorship as legacy work. 
+              My goal is not just to prepare others for careers in media, but to help them step into their purpose, 
+              so they can shape conversations and communities with clarity and courage.
+            </p>
+            <p className="text-lg md:text-l leading-relaxed tracking-wide">
+              Alongside this, I have embraced life coaching as a way to walk with people through their personal journeys, 
+              especially those navigating the defining years of 25–35, as well as parents who entrust me to mentor their teenage daughters. 
+              Over the years, many have sought me out as a sounding board for life's transitions, 
+              and I now honor that trust by offering structured coaching. 
+              Whether through one-on-one sessions, organizational storytelling workshops, or the What's Your Story Africa community, 
+              my mission is the same: restore dignity to storytelling, amplify unheard voices, 
+              and help people step fully into their story — for legacy, for posterity, and for impact.
             </p>
           </div>
         </div>
@@ -688,18 +720,39 @@ const App = () => {
           />
           {/* Blog Outro Section */}
           <div className="mt-12 mb-8 p-6 bg-gradient-to-br from-emerald-50 to-white/80 rounded-2xl border border-emerald-100 shadow">
-            <p className="text-lg text-gray-700 leading-relaxed text-center">
-              If this blog resonated with you, share your thoughts, reflections, or lived experiences in the comments or reach out directly; I believe every story has the power to teach and inspire. And if you'd like to share your journey, I'd be honored to host you on our Podcast What's Your Story Africa. Simply leave your details on the contact page. Together, let's inspire change and remind the world of the power of stories well told - now and for generations to come.
+            <p className="text-lg text-gray-700 leading-relaxed text-center mb-4">
+              Catherine's experience in media and communications spans 25 years, most recently as Head of TV at Kenya Television Network. Today, she pours her heart into What's Your Story Africa - a podcast that reminds us of the power within every human story.
             </p>
+           
           </div>
-          <footer className="mt-12 pt-8 border-t border-gray-200">
-            <button
-              onClick={() => setCurrentView('catherine')}
-              className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
-            >
-              ← Back to Catherine Mwangi
-            </button>
-          </footer>
+
+          {/* Comments Section */}
+          <div className="mt-8">
+            <h4 className="text-lg font-semibold mb-4">Leave a Comment</h4>
+            <form className="space-y-4">
+              <input
+                type="text"
+                placeholder="Your Name"
+                className="w-full p-3 border border-gray-300 rounded-lg"
+              />
+              <input
+                type="email"
+                placeholder="Your Email"
+                className="w-full p-3 border border-gray-300 rounded-lg"
+              />
+              <textarea
+                placeholder="Your Comment"
+                className="w-full p-3 border border-gray-300 rounded-lg"
+                rows={4}
+              />
+              <button
+                type="submit"
+                className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
         </article>
       </div>
     </div>
@@ -871,13 +924,130 @@ const App = () => {
     setCurrentView(`blog-${post.slug}`);
   };
 
+  // Footer component to be used on all pages
+  const Footer = () => (
+    <footer className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 py-12">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          {/* Logo */}
+          <div className="text-center lg:text-left">
+            <button 
+              onClick={() => setCurrentView('home')}
+              className="flex items-center justify-center lg:justify-start"
+            >
+              <img 
+                src="/img/logo/wysa-logo.png" 
+                alt="What's Your Story Africa Logo" 
+                className="h-16 w-auto max-w-[250px] object-contain transition-opacity duration-300 hover:opacity-80 brightness-0 invert"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const textFallback = document.createElement('span');
+                  textFallback.textContent = "What's Your Story Africa";
+                  textFallback.className = "text-lg font-bold text-white hover:text-emerald-100 transition-colors";
+                  target.parentNode?.appendChild(textFallback);
+                }}
+              />
+            </button>
+          </div>
+
+          {/* Main Content - Center */}
+          <div className="text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+              For Legacy & Posterity
+            </h2>
+            <p className="text-base text-emerald-100 mb-4">
+              Share Your Own Story
+            </p>
+            <button 
+              onClick={() => setCurrentView('connect')}
+              className="inline-flex items-center px-5 py-2.5 bg-white text-emerald-600 font-semibold rounded-full hover:bg-emerald-50 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              Get In Touch
+              <ExternalLink className="w-5 h-5 ml-2" />
+            </button>
+          </div>
+
+          {/* Social Media Links */}
+          <div className="flex items-center justify-center lg:justify-end space-x-4">
+            <div className="text-center lg:text-right mb-4 lg:mb-0">
+              <p className="text-xs text-emerald-100 mb-2"></p>
+            </div>
+            <div className="flex items-center space-x-3">
+              <a 
+                href="https://linkedin.com/in/catherinemwangitv" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+                aria-label="Connect on LinkedIn"
+                title="LinkedIn"
+              >
+                <i className="bi bi-linkedin"></i>
+              </a>
+              <a 
+                href="https://tiktok.com/@cathmwangi" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+                aria-label="Follow on TikTok"
+                title="TikTok"
+              >
+                <i className="bi bi-tiktok"></i>
+              </a>
+              <a 
+                href="https://facebook.com/CatherineMwangiKE" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+                aria-label="Follow on Facebook"
+                title="Facebook"
+              >
+                <i className="bi bi-facebook"></i>
+              </a>
+              <a 
+                href="https://instagram.com/cathmwangi" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+                aria-label="Follow on Instagram"
+                title="Instagram"
+              >
+                <i className="bi bi-instagram"></i>
+              </a>
+              <a 
+                href="https://x.com/CathMwangi" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+                aria-label="Follow on X (Twitter)"
+                title="X (Twitter)"
+              >
+                <i className="bi bi-twitter-x"></i>
+              </a>
+              <a 
+                href="https://www.youtube.com/@WhatsYourStoryAfrica" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+                aria-label="Subscribe on YouTube"
+                title="YouTube"
+              >
+                <i className="bi bi-youtube"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+
   if (viewingBlogPost) {
     return (
       <div className="relative min-h-screen bg-white">
         {/* Navigation */}
         <nav className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6">
-           <div className="flex items-center justify-between h-20">
+            <div className="flex items-center justify-between h-20">
               <button 
                 onClick={() => setCurrentView('home')}
                 className="text-xl font-bold text-gray-900 hover:text-emerald-600 transition-colors"
@@ -902,9 +1072,12 @@ const App = () => {
           </div>
         </nav>
         
-       <main className="pt-20">
+        <main className="pt-20">
           {renderBlogPost(viewingBlogPost)}
         </main>
+        
+        {/* Footer on blog post page */}
+        <Footer />
       </div>
     );
   }
@@ -1020,6 +1193,9 @@ const App = () => {
         {currentView === 'catherine' && renderCatherine()}
         {currentView === 'connect' && renderConnect()}
       </main>
+      
+      {/* Footer on all pages */}
+      <Footer />
       
       {/* Blog Manager Modal */}
       {showBlogManager && (
