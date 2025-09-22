@@ -54,18 +54,18 @@ const App = () => {
 
   const loadPublishedBlogPosts = async () => {
     try {
-      console.log('🔄 Loading published blog posts...');
+      console.log('Loading published blog posts...');
       // First, process any new files from storage
       await blogService.processBlogFromStorage();
-      console.log('✅ Storage processing completed');
+      console.log(' Storage processing completed');
       // Then load published posts
       const posts = await blogService.getPublishedPosts();
-      console.log('📚 Loaded posts with thumbnails:');
+      console.log(' Loaded posts with thumbnails:');
       posts.forEach((post, index) => {
         console.log(`  ${index}: "${post.title}" - thumbnail_url: ${post.thumbnail_url || 'null (will use default)'}`);
         // Test the specific URL you provided
         if (post.thumbnail_url === 'https://huknolxcluaeizvemtnb.supabase.co/storage/v1/object/public/blog-images/1757667632856-66w2e3wzevh.JPG') {
-          console.log('🎯 Found the specific URL you mentioned!');
+          console.log('Found the specific URL you mentioned!');
           // Test if we can fetch it
           fetch(post.thumbnail_url, { method: 'HEAD' })
             .then(response => {
@@ -73,13 +73,13 @@ const App = () => {
               console.log('📋 Response headers:', [...response.headers.entries()]);
             })
             .catch(error => {
-              console.log('❌ URL fetch test failed:', error);
+              console.log(' URL fetch test failed:', error);
             });
         }
       });
       setPublishedBlogPosts(posts);
     } catch (error) {
-      console.error('❌ Error loading blog posts:', error);
+      console.error(' Error loading blog posts:', error);
     }
   };
 
@@ -309,6 +309,15 @@ const App = () => {
                       target.src = "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                     }}
                   />
+                       <img 
+                    src="/img/catherine/_TWL8636.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
                   <img 
                     src="/img/catherine/20220622_103037.jpg"
                     alt="Catherine Mwangi behind the scenes"
@@ -354,15 +363,7 @@ const App = () => {
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                     }}
                   />
-                  <img 
-                    src="/img/catherine/_TWL8636.JPG"
-                    alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
-                    }}
-                  />
+             
                   <img 
                     src="/img/catherine/_TWM0198.JPG"
                     alt="Catherine Mwangi behind the scenes"
@@ -426,6 +427,15 @@ const App = () => {
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                     }}
                   />
+                   <img 
+                    src="/img/catherine/IMG_3442.jpg"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
                   <img 
                     src="/img/catherine/IMG-20220715-WA0145.jpg"
                     alt="Catherine Mwangi behind the scenes"
@@ -435,6 +445,16 @@ const App = () => {
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                     }}
                   />
+                   <img 
+                    src="/img/catherine/_TWL8636.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+
                 </div>
                 {/* Duplicate set for seamless loop */}
                 <div className="flex space-x-6 flex-shrink-0">
@@ -572,17 +592,17 @@ const App = () => {
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        console.log('❌ Failed to load thumbnail:', post.thumbnail_url || 'no thumbnail_url');
-                        console.log('📝 Post title:', post.title);
-                        console.log('🔄 Falling back to default thumbnail');
+                        console.log(' Failed to load thumbnail:', post.thumbnail_url || 'no thumbnail_url');
+                        console.log(' Post title:', post.title);
+                        console.log(' Falling back to default thumbnail');
                         target.src = getDefaultThumbnail(index);
                       }}
                       onLoad={() => {
                         if (post.thumbnail_url) {
-                          console.log('✅ Successfully loaded custom thumbnail:', post.thumbnail_url);
-                          console.log('📝 For post:', post.title);
+                          console.log(' Successfully loaded custom thumbnail:', post.thumbnail_url);
+                          console.log(' For post:', post.title);
                         } else {
-                          console.log('✅ Successfully loaded default thumbnail for:', post.title);
+                          console.log(' Successfully loaded default thumbnail for:', post.title);
                         }
                       }}
                     />
@@ -846,73 +866,9 @@ const App = () => {
           </div>
         </div>
       </div>
-      {/* Social Media Links Row */}
-      <div className="mt-16 flex flex-col items-center">
-        <p className="text-xs text-gray-500 mb-3">Connect on Socials</p>
-        <div className="flex items-center space-x-4">
-          <a 
-            href="https://linkedin.com/in/catherinemwangitv" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Connect on LinkedIn"
-            title="LinkedIn"
-          >
-            <i className="bi bi-linkedin"></i>
-          </a>
-          <a 
-            href="https://tiktok.com/@cathmwangi" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Follow on TikTok"
-            title="TikTok"
-          >
-            <i className="bi bi-tiktok"></i>
-          </a>
-          <a 
-            href="https://facebook.com/CatherineMwangiKE" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Follow on Facebook"
-            title="Facebook"
-          >
-            <i className="bi bi-facebook"></i>
-          </a>
-          <a 
-            href="https://instagram.com/cathmwangi" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Follow on Instagram"
-            title="Instagram"
-          >
-            <i className="bi bi-instagram"></i>
-          </a>
-          <a 
-            href="https://x.com/CathMwangi" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Follow on X (Twitter)"
-            title="X (Twitter)"
-          >
-            <i className="bi bi-twitter-x"></i>
-          </a>
-          <a 
-            href="https://www.youtube.com/@WhatsYourStoryAfrica" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Subscribe on YouTube"
-            title="YouTube"
-          >
-            <i className="bi bi-youtube"></i>
-          </a>
-        </div>
+     
       </div>
-    </div>
+    
   );
 
   // Check if we're viewing a specific blog post
