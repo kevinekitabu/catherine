@@ -1,5 +1,5 @@
 /* Elegant Ivory–Emerald Theme - Modern Refinement */
-
+@import url(https://fonts.bunny.net/css?family=poppins:300);
 /* CSS Variables for consistency */
 :root {
   --ivory-base: #fdfdf9;
@@ -7,7 +7,8 @@
   --emerald-mid: #047857;
   --emerald-light: #10b981;
   --accent-gold: #c5a880;
-  --text-dark: #222;
+  --text-dark: #0000;
+  --sandie-white: #ffff;
   --shadow-light: rgba(0, 0, 0, 0.08);
   --shadow-medium: rgba(0, 0, 0, 0.12);
   --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -15,9 +16,9 @@
 
 /* Global refinements */
 * {
-  font-family: 'Times New Roman', serif;
-  letter-spacing: 0.03em;
-  line-height: 1.65;
+  font-family: 'Poppins', san-serif;
+  letter-spacing: 0.01em;
+  line-height: 1.;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -26,14 +27,14 @@
 /* Elegant full-page background */
 body {
   background: linear-gradient(180deg, #fdfdf9 0%, #faf7f1 100%);
-  color: var(--text-dark);
+  color: #0000;
   scroll-behavior: smooth;
 }
 
 /* Refined headings with better gradient control */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Times New Roman', serif;
-  font-style: italic;
+  font-family: 'Poppins', san-serif;
+  
   letter-spacing: 0.01em;
   line-height: 1.3;
   font-weight: 600;
@@ -43,21 +44,11 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer-move 8s ease-in-out infinite;
+  
   position: relative;
 }
 
-/* Add subtle underline effect on headings */
-h1::after, h2::after {
-  content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent-gold), transparent);
-  transition: var(--transition-smooth);
-}
+
 
 h1:hover::after, h2:hover::after {
   width: 100px;
@@ -304,16 +295,72 @@ h1:hover::after, h2:hover::after {
   }
 }
 
-/* Ensure track is wide enough and loops smoothly */
+.carousel-wrapper {
+  overflow: hidden;     /* hides scrollbars */
+  white-space: nowrap;  /* keeps items in one row */
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;        /* lays images side by side */
+}
+
 @keyframes carousel {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* only shift half the width */
 }
 
 .animate-carousel {
-  animation: carousel 40s linear infinite; /* adjust speed */
+  animation: carousel 60s linear infinite; /* adjust 60s for speed */
 }
+
+/* ============================
+   Override: force white text + remove shimmer inside the 3-green-box grid
+   Targets: .grid.grid-cols-1.md\:grid-cols-3 > div (the three boxes)
+   ============================ */
+
+/* Make everything inside each box render as white and cancel the heading gradient */
+.grid.grid-cols-1.md\:grid-cols-3 > div,
+.grid.grid-cols-1.md\:grid-cols-3 > div * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important; /* for background-clip text */
+}
+
+/* Specifically turn off gradient/background-clip and animations for headings inside the boxes */
+.grid.grid-cols-1.md\:grid-cols-3 > div h1,
+.grid.grid-cols-1.md\:grid-cols-3 > div h2,
+.grid.grid-cols-1.md\:grid-cols-3 > div h3,
+.grid.grid-cols-1.md\:grid-cols-3 > div h4,
+.grid.grid-cols-1.md\:grid-cols-3 > div h5,
+.grid.grid-cols-1.md\:grid-cols-3 > div h6 {
+  background: none !important;
+  background-image: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  animation: none !important;
+  text-shadow: none !important;
+}
+
+/* Make sure icons (e.g., bootstrap icons) inherit white */
+.grid.grid-cols-1.md\:grid-cols-3 > div i,
+.grid.grid-cols-1.md\:grid-cols-3 > div svg {
+  color: #ffffff !important;
+  fill: currentColor !important;
+}
+
+/* Ensure buttons inside the boxes keep readable white text even if other rules exist */
+.grid.grid-cols-1.md\:grid-cols-3 > div a,
+.grid.grid-cols-1.md\:grid-cols-3 > div button {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Optional: small tweak to keep any .text-* utility colors from overriding */
+.grid.grid-cols-1.md\:grid-cols-3 > div .text-white {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+
