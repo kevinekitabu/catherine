@@ -105,11 +105,21 @@ const App = () => {
               </div>
               
               {/* Hero Title */}
-              <h1 className="hero-title text-4xl md:text-6xl mb-6 font-semibold leading-tight animate-elegant-slideUp">
-                <span className="block bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent animate-shimmer bg-[length:200%_100%]">
-                  What's Your Story Africa
-                </span>
-              </h1>
+              <div className="mb-6 animate-elegant-slideUp">
+                <img 
+                  src="/img/logo/story.jpeg"
+                  alt="What's Your Story Africa Logo"
+                  className="w-full max-w-md mx-auto rounded-3xl shadow-2xl hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const textFallback = document.createElement('span');
+                    textFallback.textContent = "What's Your Story Africa";
+                    textFallback.className = "text-4xl md:text-6xl font-semibold leading-tight text-emerald-700";
+                    target.parentNode?.appendChild(textFallback);
+                  }}
+                />
+              </div>
               
               {/* First Paragraph */}
               <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
