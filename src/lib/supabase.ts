@@ -81,11 +81,11 @@ export const blogService = {
       .single();
     
     if (error) {
-      console.error('❌ Error creating blog post:', error);
+      console.error(' Error creating blog post:', error);
       throw error;
     }
     
-    console.log('✅ Blog post created successfully:', data);
+    console.log(' Blog post created successfully:', data);
     return data;
   },
 
@@ -101,11 +101,11 @@ export const blogService = {
       .single();
     
     if (error) {
-      console.error('❌ Error updating blog post:', error);
+      console.error(' Error updating blog post:', error);
       throw error;
     }
     
-    console.log('✅ Blog post updated successfully:', data);
+    console.log(' Blog post updated successfully:', data);
     return data;
   },
 

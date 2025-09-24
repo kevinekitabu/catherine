@@ -58,13 +58,13 @@ export const youtubeService = {
         url: 'https://www.youtube.com/watch?v=Sbnk3Me0AMc'
       },
       {
-        id: 'Qle8TPMJK60',
-        title: 'Anthony Mwangi',
-        guestName: 'Anthony Mwangi',
+        id: '1BsZ-_ec734',
+        title: 'Kevin Irungu',
+        guestName: 'Kevin Irungu',
         abstract: '',
-        thumbnail: 'https://img.youtube.com/vi/Qle8TPMJK60/maxresdefault.jpg',
-        publishedAt: '2024-01-03T00:00:00Z',
-        url: 'https://www.youtube.com/watch?v=Qle8TPMJK60'
+        thumbnail: 'https://img.youtube.com/vi/1BsZ-_ec734/maxresdefault.jpg',
+        publishedAt: '2025-06-03T00:00:00Z',
+        url: 'https://www.youtube.com/watch?v=1BsZ-_ec734'
       },
       {
         id: 'yHI7aJENqMo',
@@ -85,13 +85,13 @@ export const youtubeService = {
         url: 'https://www.youtube.com/watch?v=I9FhbB0yRvI'
       },
       {
-        id: 'I9FhbB0yRvI',
-        title: 'Triza Wandene',
-        guestName: 'Triza Wandene',
+        id: 'rAFf79FkmJU',
+        title: 'Dr.Dinesh Varsani',
+        guestName: 'Dr.Dinesh Varsani',
         abstract: '',
-        thumbnail: 'https://img.youtube.com/vi/I9FhbB0yRvI/maxresdefault.jpg',
+        thumbnail: 'https://img.youtube.com/vi/rAFf79FkmJU/maxresdefault.jpg',
         publishedAt: '2023-12-31T00:00:00Z',
-        url: 'https://www.youtube.com/watch?v=I9FhbB0yRvI'
+        url: 'https://www.youtube.com/watch?v=rAFf79FkmJU'
       }
     ];
 
