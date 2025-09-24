@@ -16,9 +16,9 @@
 
 /* Global refinements */
 * {
-  font-family: 'Poppins', san-serif;
+  font-family: 'Poppins', sans-serif;
   letter-spacing: 0.01em;
-  line-height: 1.;
+  line-height: 1.6;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -27,14 +27,14 @@
 /* Elegant full-page background */
 body {
   background: linear-gradient(180deg, #fdfdf9 0%, #faf7f1 100%);
-  color: #0000;
+  color: #333;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Refined headings with better gradient control */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', san-serif;
-  
+  font-family: 'Poppins', sans-serif;
   letter-spacing: 0.01em;
   line-height: 1.3;
   font-weight: 600;
@@ -44,11 +44,8 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  
   position: relative;
 }
-
-
 
 h1:hover::after, h2:hover::after {
   width: 100px;
@@ -275,6 +272,251 @@ h1:hover::after, h2:hover::after {
   background: linear-gradient(to bottom, var(--emerald-light), var(--accent-gold));
 }
 
+/* ============================
+   SIDE PANEL FIXES
+   ============================ */
+
+/* Ensure side panel stacks properly on mobile and displays correctly */
+@media (max-width: 1023px) {
+  .lg\:col-span-1 {
+    order: 2;
+    margin-top: 2rem;
+  }
+  
+  .lg\:col-span-3 {
+    order: 1;
+  }
+}
+
+/* Fix for grid layout alignment */
+.grid.grid-cols-1.lg\:grid-cols-4 {
+  align-items: start;
+  min-height: auto;
+}
+
+/* Side panel container fixes */
+.w-full.lg\:w-80 {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .w-full.lg\:w-80 {
+    width: 20rem; /* 320px */
+  }
+}
+
+/* Sticky positioning for side panel */
+.sticky {
+  position: sticky;
+  top: 6rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+}
+
+/* Side panel section styling */
+.bg-white\/80.backdrop-blur-sm.rounded-2xl.p-6.border.border-white\/50.shadow-lg {
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.bg-white\/80.backdrop-blur-sm.rounded-2xl.p-6.border.border-white\/50.shadow-lg:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Ensure proper spacing in side panel */
+.space-y-8 > * + * {
+  margin-top: 2rem;
+}
+
+/* Fix for carousel overflow affecting layout */
+.carousel-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  animation: scroll 30s linear infinite;
+  width: max-content;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Gradient overlays for carousel */
+.carousel-wrapper::before,
+.carousel-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.carousel-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(253, 253, 249, 1), transparent);
+}
+
+.carousel-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(253, 253, 249, 1), transparent);
+}
+
+/* Ensure images in side panel display correctly */
+.side-panel-section img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Fix for search input in side panel */
+.relative input {
+  width: 100%;
+}
+
+/* Ensure side panel doesn't affect main content flow */
+.lg\:col-span-3 {
+  min-width: 0;
+}
+
+/* Mobile-specific side panel fixes */
+@media (max-width: 768px) {
+  .side-panel-section {
+    margin: 1rem 0;
+  }
+  
+  .bg-white\/80.backdrop-blur-sm.rounded-2xl.p-6 {
+    padding: 1.5rem;
+    margin: 0 0.5rem;
+  }
+  
+  .sticky {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+}
+
+/* Ensure side panel scrolls independently on desktop */
+@media (min-width: 1024px) {
+  .sticky {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--emerald-light) transparent;
+  }
+  
+  .sticky::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .sticky::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .sticky::-webkit-scrollbar-thumb {
+    background: var(--emerald-light);
+    border-radius: 2px;
+  }
+}
+
+/* Fix for Bootstrap icons in side panel */
+.bi.social-icon {
+  font-size: 1.1rem !important;
+}
+
+/* Ensure text doesn't overflow in side panel */
+.flex-1.min-w-0 {
+  min-width: 0;
+}
+
+.text-sm.font-medium.text-gray-900.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================
+   SPECIFIC FIXES FOR YOUR COMPONENT ISSUES
+   ============================ */
+
+/* Fix the main grid container alignment */
+.max-w-7xl.mx-auto.px-6.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* Ensure proper vertical spacing */
+.space-y-8 > * {
+  margin-bottom: 0;
+}
+
+.space-y-8 > * + * {
+  margin-top: 2rem;
+}
+
+/* Fix for the Next Button component */
+.text-center.mt-8.pt-6.border-t.border-gray-200 {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+
+/* Ensure side panel sections have consistent height */
+.bg-white\/80.backdrop-blur-sm.rounded-2xl.p-6 {
+  min-height: auto;
+  height: auto;
+}
+
+/* Fix for the comment form in side panel */
+form.space-y-3 input,
+form.space-y-3 textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ============================
+   ADDITIONAL LAYOUT FIXES
+   ============================ */
+
+/* Ensure the main content area doesn't overflow */
+.min-h-screen {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Fix for the navigation bar spacing */
+nav.fixed.top-0.left-0.right-0.z-40 {
+  height: 5rem;
+}
+
+main.pt-20 {
+  padding-top: 5rem;
+}
+
+/* Ensure footer stays at bottom */
+.relative.min-h-screen.bg-white {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Fix for image loading in side panel */
+img.w-12.h-12.rounded-lg.object-cover.flex-shrink-0 {
+  flex-shrink: 0;
+  min-width: 3rem;
+}
+
 /* Responsive improvements */
 @media (max-width: 768px) {
   .card {
@@ -296,37 +538,34 @@ h1:hover::after, h2:hover::after {
 }
 
 .carousel-wrapper {
-  overflow: hidden;     /* hides scrollbars */
-  white-space: nowrap;  /* keeps items in one row */
+  overflow: hidden;
+  white-space: nowrap;
   width: 100%;
 }
 
 .carousel-track {
-  display: flex;        /* lays images side by side */
+  display: flex;
 }
 
 @keyframes carousel {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* only shift half the width */
+  100% { transform: translateX(-50%); }
 }
 
 .animate-carousel {
-  animation: carousel 60s linear infinite; /* adjust 60s for speed */
+  animation: carousel 60s linear infinite;
 }
 
 /* ============================
    Override: force white text + remove shimmer inside the 3-green-box grid
-   Targets: .grid.grid-cols-1.md\:grid-cols-3 > div (the three boxes)
    ============================ */
 
-/* Make everything inside each box render as white and cancel the heading gradient */
 .grid.grid-cols-1.md\:grid-cols-3 > div,
 .grid.grid-cols-1.md\:grid-cols-3 > div * {
   color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important; /* for background-clip text */
+  -webkit-text-fill-color: #ffffff !important;
 }
 
-/* Specifically turn off gradient/background-clip and animations for headings inside the boxes */
 .grid.grid-cols-1.md\:grid-cols-3 > div h1,
 .grid.grid-cols-1.md\:grid-cols-3 > div h2,
 .grid.grid-cols-1.md\:grid-cols-3 > div h3,
@@ -343,24 +582,69 @@ h1:hover::after, h2:hover::after {
   text-shadow: none !important;
 }
 
-/* Make sure icons (e.g., bootstrap icons) inherit white */
 .grid.grid-cols-1.md\:grid-cols-3 > div i,
 .grid.grid-cols-1.md\:grid-cols-3 > div svg {
   color: #ffffff !important;
   fill: currentColor !important;
 }
 
-/* Ensure buttons inside the boxes keep readable white text even if other rules exist */
 .grid.grid-cols-1.md\:grid-cols-3 > div a,
 .grid.grid-cols-1.md\:grid-cols-3 > div button {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
 
-/* Optional: small tweak to keep any .text-* utility colors from overriding */
 .grid.grid-cols-1.md\:grid-cols-3 > div .text-white {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
 
+/* ============================
+   FINAL TWEAKS FOR SIDE PANEL
+   ============================ */
 
+/* Ensure side panel content is properly aligned */
+.flex.items-center.space-x-3.group {
+  align-items: flex-start;
+}
+
+/* Fix for small images in recent posts */
+.w-12.h-12.rounded-lg.object-cover {
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* Ensure smooth transitions */
+.bg-white\/80.backdrop-blur-sm.rounded-2xl.p-6.border.border-white\/50.shadow-lg {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fix for mobile navigation spacing */
+@media (max-width: 768px) {
+  main.pt-20 {
+    padding-top: 6rem;
+  }
+  
+  .max-w-7xl.mx-auto.px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Ensure proper z-index stacking */
+nav.fixed.top-0.left-0.right-0.z-40 {
+  z-index: 40;
+}
+
+.sticky {
+  z-index: 10;
+}
+
+/* Fix for font family typo */
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+}
