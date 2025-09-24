@@ -54,32 +54,32 @@ const App = () => {
 
   const loadPublishedBlogPosts = async () => {
     try {
-      console.log('🔄 Loading published blog posts...');
+      console.log('Loading published blog posts...');
       // First, process any new files from storage
       await blogService.processBlogFromStorage();
-      console.log('✅ Storage processing completed');
+      console.log(' Storage processing completed');
       // Then load published posts
       const posts = await blogService.getPublishedPosts();
-      console.log('📚 Loaded posts with thumbnails:');
+      console.log(' Loaded posts with thumbnails:');
       posts.forEach((post, index) => {
         console.log(`  ${index}: "${post.title}" - thumbnail_url: ${post.thumbnail_url || 'null (will use default)'}`);
         // Test the specific URL you provided
         if (post.thumbnail_url === 'https://huknolxcluaeizvemtnb.supabase.co/storage/v1/object/public/blog-images/1757667632856-66w2e3wzevh.JPG') {
-          console.log('🎯 Found the specific URL you mentioned!');
+          console.log('Found the specific URL you mentioned!');
           // Test if we can fetch it
           fetch(post.thumbnail_url, { method: 'HEAD' })
             .then(response => {
-              console.log('🌐 URL fetch test result:', response.status, response.statusText);
-              console.log('📋 Response headers:', [...response.headers.entries()]);
+              console.log(' URL fetch test result:', response.status, response.statusText);
+              console.log(' Response headers:', [...response.headers.entries()]);
             })
             .catch(error => {
-              console.log('❌ URL fetch test failed:', error);
+              console.log(' URL fetch test failed:', error);
             });
         }
       });
       setPublishedBlogPosts(posts);
     } catch (error) {
-      console.error('❌ Error loading blog posts:', error);
+      console.error(' Error loading blog posts:', error);
     }
   };
 
@@ -105,21 +105,11 @@ const App = () => {
               </div>
               
               {/* Hero Title */}
-              <div className="mb-6 animate-elegant-slideUp">
-                <img 
-                  src="/img/logo/story.jpeg"
-                  alt="What's Your Story Africa Logo"
-                  className="w-full max-w-md mx-auto rounded-3xl shadow-2xl hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    const textFallback = document.createElement('span');
-                    textFallback.textContent = "What's Your Story Africa";
-                    textFallback.className = "text-4xl md:text-6xl font-semibold leading-tight text-emerald-700";
-                    target.parentNode?.appendChild(textFallback);
-                  }}
-                />
-              </div>
+              <h1 className="hero-title text-4xl md:text-6xl mb-6 font-semibold leading-tight animate-elegant-slideUp">
+                <span className="block bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent animate-shimmer bg-[length:200%_100%]">
+                  What's Your Story Africa
+                </span>
+              </h1>
               
               {/* First Paragraph */}
               <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
@@ -184,68 +174,89 @@ const App = () => {
       </section>
 
       {/* YouTube Videos Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-          </div>
+        {/* YouTube Videos Section - FIXED */}
+<section className="py-24 bg-white mt-16">
+  <div className="max-w-7xl mx-auto px-6">
+    
+    {/* Increased spacing above videos */}
+    <div className="mb-12"></div>
+    
+    {videosLoading ? (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {[...Array(9)].map((_, index) => (
+          <div key={index} className="bg-gray-200 rounded-xl h-52 animate-pulse"></div>
+        ))}
+      </div>
+    ) : (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {youtubeVideos.map((video, index) => {
+          // Fix for duplicate keys - use index as fallback
+          const uniqueKey = video.id ? `${video.id}-${index}` : `video-${index}`;
+          
+          // Get the guest name safely
+          const rawName = video.guestName || video.title || 'Guest Speaker';
+          
+          // Clean the name properly
+          const cleanName = rawName
+            .replace(/What's Your Story Africa[:\-\s]*/gi, '')
+            .replace(/Whats Your Story Africa[:\-\s]*/gi, '')
+            .replace(/WYSA[:\-\s]*/gi, '')
+            .replace(/Episode[:\-\s]*\d*[:\-\s]*/gi, '')
+            .replace(/^[:\-\s]+/, '')
+            .trim();
 
-          {videosLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(9)].map((_, index) => (
-                <div key={index} className="bg-gray-200 rounded-2xl h-64 animate-pulse"></div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {youtubeVideos.map((video) => (
-                <div key={video.id} className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                  <div className="relative">
-                    <img 
-                      src={video.thumbnail} 
-                      alt={video.title}
-                      className="w-full h-40 object-cover bg-gray-100 group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <Play className="w-8 h-8 text-emerald-600 ml-1" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">
-                        {video.guestName}
-                      </h3>
-                      <a 
-                        href={video.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
-                      >
-                        Watch Now
-                        <ExternalLink className="w-4 h-4 ml-1" />
-                      </a>
-                    </div>
+          return (
+            <div key={uniqueKey} className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="relative">
+                <img 
+                  src={video.thumbnail} 
+                  alt={`${cleanName} - What's Your Story Africa`}
+                  className="w-full h-48 object-cover bg-gray-100 group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80";
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+                    <Play className="w-5 h-5 text-emerald-600 ml-0.5" />
                   </div>
                 </div>
-              ))}
+              </div>
+              <div className="p-4 flex items-center justify-between min-h-[60px]">
+                <h3 className="text-base font-semibold text-gray-900 flex-1 pr-3 line-clamp-2 leading-tight">
+                  {cleanName}
+                </h3>
+                <a 
+                  href={video.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-emerald-600 hover:text-emerald-700 transition-colors text-sm font-medium whitespace-nowrap flex-shrink-0 ml-2"
+                >
+                  Watch
+                  <ExternalLink className="w-4 h-4 ml-1" />
+                </a>
+              </div>
             </div>
-          )}
+          );
+        })}
+      </div>
+    )}
 
-          <div className="text-center mt-12">
-            <a 
-              href="https://www.youtube.com/@WhatsYourStoryAfrica" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-full hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              <Play className="w-5 h-5 mr-2" />
-              View All Episodes
-            </a>
-          </div>
-        </div>
-      </section>
+    <div className="text-center mt-16">
+      <a 
+        href="https://www.youtube.com/@WhatsYourStoryAfrica" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
+      >
+        <Play className="w-4 h-4 mr-2" />
+        View All Episodes on YouTube
+      </a>
+    </div>
+  </div>
+</section>
     </div>
   );
 
@@ -255,20 +266,20 @@ const App = () => {
         {/* Catherine's Image - Centered */}
         <div className="flex justify-center items-center mb-16">
           <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-            <div className="text-center mb-6">
-              <p className="text-lg text-gray-700 font-medium"></p>
-              <p className="text-sm text-gray-500">From the Heart of Africa – Preserved for Generations</p>
+            <div className="text-center mb-8">
+              <p className="text-lg text-black-900 font-bold"></p>
+              <p className="text-lg text-black-900 font-bold">From the Heart of Africa – Preserved for Generations</p>
             </div>
             
             {/* Image Carousel */}
-            <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4">
-              <div className="flex animate-carousel space-x-6">
+            <div className="relative  carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4">
+              <div className="flex animate-carousel carousel-track space-x-6">
                 {/* First set of images */}
                 <div className="flex space-x-6 flex-shrink-0">
                   <img 
                     src="/img/catherine/IMG_3363.jpg"
                     alt="Catherine Mwangi speaking at an event"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -277,7 +288,7 @@ const App = () => {
                    <img 
                     src="/img/catherine/_TWL0019.JPG"
                     alt="Catherine Mwangi speaking at an event"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -286,7 +297,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/DSC_0480.jpg"
                     alt="Catherine Mwangi in the studio"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -295,7 +306,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/_TWL2723.JPG"
                     alt="Catherine Mwangi interviewing a guest"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -304,7 +315,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/IMG_0013.JPG"
                     alt="Catherine Mwangi at a conference"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -313,16 +324,25 @@ const App = () => {
                   <img 
                     src="/img/catherine/sg-70.JPG"
                     alt="Catherine Mwangi with community leaders"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                     }}
                   />
+                       <img 
+                    src="/img/catherine/_TWL8636.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
                   <img 
                     src="/img/catherine/20220622_103037.jpg"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -331,7 +351,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/20220719_193352.jpg"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -340,7 +360,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/_TWL0006.JPG"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -349,7 +369,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/_TWL0019.JPG"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -358,25 +378,17 @@ const App = () => {
                   <img 
                     src="/img/catherine/_TWL2723.JPG"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                     }}
                   />
-                  <img 
-                    src="/img/catherine/_TWL8636.JPG"
-                    alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
-                    }}
-                  />
+             
                   <img 
                     src="/img/catherine/_TWM0198.JPG"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -385,7 +397,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/_TWM0760.JPG"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -394,7 +406,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/DSC_0480.jpg"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -403,7 +415,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/DSC_5436.JPG"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -412,7 +424,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/IMG_20160613_093604.jpg"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -421,7 +433,7 @@ const App = () => {
                   <img 
                     src="/img/catherine/ktn-74.JPG"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -430,7 +442,16 @@ const App = () => {
                   <img 
                     src="/img/catherine/IMG-20220716-WA0066.jpg"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+                   <img 
+                    src="/img/catherine/IMG_3442.jpg"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
@@ -439,12 +460,22 @@ const App = () => {
                   <img 
                     src="/img/catherine/IMG-20220715-WA0145.jpg"
                     alt="Catherine Mwangi behind the scenes"
-                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                     }}
                   />
+                   <img 
+                    src="/img/catherine/_TWL8636.JPG"
+                    alt="Catherine Mwangi behind the scenes"
+                    className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                    }}
+                  />
+
                 </div>
                 {/* Duplicate set for seamless loop */}
                 <div className="flex space-x-6 flex-shrink-0">
@@ -514,7 +545,7 @@ const App = () => {
         
         {/* About Section */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-12 border border-white/50 shadow-xl">
-          <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-6 leading-snug">About Catherine</h2>
+         
           <div className="prose prose-lg text-gray-600 max-w-none">
             <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
               For more than 25 years, my life has been woven into the fabric of storytelling. 
@@ -582,17 +613,17 @@ const App = () => {
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        console.log('❌ Failed to load thumbnail:', post.thumbnail_url || 'no thumbnail_url');
-                        console.log('📝 Post title:', post.title);
-                        console.log('🔄 Falling back to default thumbnail');
+                        console.log(' Failed to load thumbnail:', post.thumbnail_url || 'no thumbnail_url');
+                        console.log(' Post title:', post.title);
+                        console.log(' Falling back to default thumbnail');
                         target.src = getDefaultThumbnail(index);
                       }}
                       onLoad={() => {
                         if (post.thumbnail_url) {
-                          console.log('✅ Successfully loaded custom thumbnail:', post.thumbnail_url);
-                          console.log('📝 For post:', post.title);
+                          console.log(' Successfully loaded custom thumbnail:', post.thumbnail_url);
+                          console.log(' For post:', post.title);
                         } else {
-                          console.log('✅ Successfully loaded default thumbnail for:', post.title);
+                          console.log(' Successfully loaded default thumbnail for:', post.title);
                         }
                       }}
                     />
@@ -729,8 +760,8 @@ const App = () => {
             }}
           />
           {/* Blog Outro Section */}
-          <div className="mt-12 mb-8 p-6 bg-gradient-to-br from-emerald-50 to-white/80 rounded-2xl border border-emerald-100 shadow">
-            <p className="text-lg text-gray-700 leading-relaxed text-center mb-4">
+          <div className="mt-12 mb-5 p-6 bg-gradient-to-br ">
+            <p className="text-l text-black-700 leading-relaxed text-center mb-4">
               Catherine's experience in media and communications spans 25 years, most recently as Head of TV at Kenya Television Network. Today, she pours her heart into What's Your Story Africa - a podcast that reminds us of the power within every human story.
             </p>
            
@@ -770,156 +801,177 @@ const App = () => {
 
   const renderConnect = () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      <div className="max-w-4xl mx-auto px-6 py-20">
+      <div className="max-w-6xl mx-auto px-6 py-20">
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Let's Connect
-          </h1>
+          
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Have a story to share or want to collaborate? I'd love to hear from you.
+            Here are ways to connect with me. Together, we go further.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Column 1: Send Me Email */}
-          <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl p-8 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="bi bi-envelope-fill text-2xl"></i>
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Send Me Email</h3>
-              <p className="text-emerald-100 mb-6">
-                Have a story to share or want to collaborate? Reach out directly!
-              </p>
-              <p className="text-sm text-emerald-200 mb-6">
-                catherine@whatsyourstoryafrica.com
-              </p>
-              <a
-                href="mailto:catherine@whatsyourstoryafrica.com"
-                className="block w-full px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300"
-              >
-                Send Email
-              </a>
-            </div>
-          </div>
-
-          {/* Column 2: Newsletter */}
-          <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="bi bi-newspaper text-2xl"></i>
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Newsletter</h3>
-              <p className="text-blue-100 mb-6">
-                Get the latest African stories and podcast episodes delivered to your inbox
-              </p>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
-
-          {/* Column 3: Partnerships */}
-          <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl p-8 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="bi bi-handshake text-2xl"></i>
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Partnerships</h3>
-              <p className="text-purple-100 mb-6">
-                Partner with us to amplify your message to engaged African audiences
-              </p>
-              <ul className="text-left text-purple-100 space-y-2 mb-6">
-                <li>• Podcast sponsorships</li>
-                <li>• Content partnerships</li>
-                <li>• Brand collaborations</li>
-                <li>• Event partnerships</li>
-              </ul>
-              <a
-                href="mailto:partnerships@whatsyourstoryafrica.com"
-                className="block w-full px-6 py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300"
-              >
-                Partner With Us
-              </a>
-            </div>
-          </div>
-        </div>
+       {/* Three Green Boxes */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+  {/* Left Box - Forest Green */}
+  <div className="bg-gradient-to-br from-[#228B22] to-[#1e6e1e] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+    <div className="text-center h-full flex flex-col">
+      <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i className="bi bi-heart-fill text-xl"></i>
       </div>
-      {/* Social Media Links Row */}
-      <div className="mt-16 flex flex-col items-center">
-        <p className="text-xs text-gray-500 mb-3">Connect on Socials</p>
-        <div className="flex items-center space-x-4">
-          <a 
-            href="https://linkedin.com/in/catherinemwangitv" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Connect on LinkedIn"
-            title="LinkedIn"
-          >
-            <i className="bi bi-linkedin"></i>
-          </a>
-          <a 
-            href="https://tiktok.com/@cathmwangi" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Follow on TikTok"
-            title="TikTok"
-          >
-            <i className="bi bi-tiktok"></i>
-          </a>
-          <a 
-            href="https://facebook.com/CatherineMwangiKE" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Follow on Facebook"
-            title="Facebook"
-          >
-            <i className="bi bi-facebook"></i>
-          </a>
-          <a 
-            href="https://instagram.com/cathmwangi" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Follow on Instagram"
-            title="Instagram"
-          >
-            <i className="bi bi-instagram"></i>
-          </a>
-          <a 
-            href="https://x.com/CathMwangi" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Follow on X (Twitter)"
-            title="X (Twitter)"
-          >
-            <i className="bi bi-twitter-x"></i>
-          </a>
-          <a 
-            href="https://www.youtube.com/@WhatsYourStoryAfrica" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 bg-white/20 backdrop-blur-sm text-emerald-700 rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-            aria-label="Subscribe on YouTube"
-            title="YouTube"
-          >
-            <i className="bi bi-youtube"></i>
-          </a>
+      <h3 className="text-xl font-bold mb-4">Your Story Matters</h3>
+      <p className="text-white mb-6 flex-grow">
+        Your story is your greatest asset. Share it, or nominate someone you know.
+      </p>
+      <a
+        href="mailto:catherine@whatsyourstoryafrica.com?subject=Story Submission/Nomination"
+        className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm"
+      >
+        Inquire Here
+      </a>
+    </div>
+  </div>
+
+  {/* Middle Box - Pine Green */}
+  <div className="bg-gradient-to-br from-[#01796F] to-[#006d64] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+    <div className="text-center h-full flex flex-col">
+      <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i className="bi bi-people-fill text-xl"></i>
+      </div>
+      <h3 className="text-xl font-bold mb-4">Join Our Community</h3>
+      <p className="text-white mb-6 flex-grow">
+        Would you like to receive the latest podcasts, newsletters, and upcoming events directly to your inbox?
+      </p>
+      <button
+        onClick={() => document.getElementById('newsletter-form')?.scrollIntoView({ behavior: 'smooth' })}
+        className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm"
+      >
+        Count Me In
+      </button>
+    </div>
+  </div>
+
+  {/* Right Box - Bottle Green */}
+  <div className="bg-gradient-to-br from-[#006A4E] to-[#00563f] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+    <div className="text-center h-full flex flex-col">
+      <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i className="bi bi-handshake-fill text-xl"></i>
+      </div>
+      <h3 className="text-xl font-bold mb-4">Let's Co-Create</h3>
+      <p className="text-white mb-6 flex-grow">
+        Would you like to explore partnership, investment or sponsorship opportunities? We're in the era of collaborations. Together, we go further.
+      </p>
+      <a
+        href="mailto:partnerships@whatsyourstoryafrica.com?subject=Partnership Inquiry"
+        className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm"
+      >
+        Yes, Let's Partner!
+      </a>
+    </div>
+  </div>
+</div>
+
+
+        {/* Newsletter Form Section */}
+        <div id="newsletter-form" className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-20 border border-white/50 shadow-xl">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Stay Connected</h3>
+            <p className="text-gray-600">Join our community and never miss an update</p>
+          </div>
+          <form className="max-w-md mx-auto space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              required
+            />
+            <button
+              type="submit"
+              className="w-full px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300"
+            >
+              Subscribe to Newsletter
+            </button>
+          </form>
+        </div>
+
+        {/* Mentorship Section */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text--900 mb-4">
+              MENTORSHIP
+            </h2>
+            <p className="text-xl text-gray-600 italic">
+              Guiding Voices. Shaping Futures. Building Legacies.
+            </p>
+          </div>
+
+          <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
+            <p className="text-lg leading-relaxed">
+              Mentorship is not about copying a voice; it's about finding yours, refining it, and learning to share it powerfully with the world.
+            </p>
+
+            <p className="text-lg leading-relaxed">
+              For over two decades, I've lived at the heart of media; leading national conversations, moderating panels with Industry leaders, and interviewing people from all walks of life. Over the years, there have been people who would stir the gifts and talents within me, and most times I have had to navigate on my own. It may look glamourous from the outside, but trust me – it's hard work and it can also be very lonely, especially without a solid support system.
+            </p>
+
+            <p className="text-lg leading-relaxed">
+              As we restart our mentorship courses, I am especially interested in the young people who have just finished high school and are asking 'what next'. My interest in this demographic is because I was once there, asking the same question, with no one to guide me. Whether you're exploring possibilities or simply need a sounding board for your ideas, that's where my mentorship journey with you begins.
+            </p>
+
+            {/* Reach Out Button */}
+            <div className="text-center my-8">
+              <a
+                href="mailto:catherine@whatsyourstoryafrica.com?subject=Mentorship Inquiry"
+                className="inline-flex items-center px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
+              >
+                Reach Out
+                <ExternalLink className="w-5 h-5 ml-2" />
+              </a>
+            </div>
+
+            <p className="text-lg leading-relaxed">
+              My other interest is in those who simply want someone to talk to. I cannot tell you how many people I have met, and all they want to do is talk to someone, without bias/judgment. If you're an avid watcher of my shows/podcasts, you'll notice I have always implored my audience not to 'die inside' when they can easily reach out to me or my guests who have always generously provided their contacts. A lot of people around us just want someone to talk to. Sometimes not even provide answers… but just listen. If this is you, book a 30-min call. The first one is free of charge.
+            </p>
+
+            {/* Book A Call Button */}
+            <div className="text-center my-8">
+              <a
+                href="https://calendly.com/catherine-wysa/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-8 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:scale-105"
+              >
+                Book A Call
+                <ExternalLink className="w-5 h-5 ml-2" />
+              </a>
+            </div>
+          </div>
+
+          {/* Additional Call-to-Action */}
+          <div className="mt-12 text-center">
+            <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-8 border border-emerald-200">
+              <h4 className="text-2xl font-bold text-gray-900 mb-4">Ready to Begin Your Journey?</h4>
+              <p className="text-gray-600 mb-6">
+                Whether you're seeking guidance, collaboration, or simply a conversation, I'm here to listen and support your growth.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="mailto:catherine@whatsyourstoryafrica.com"
+                  className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300"
+                >
+                  Send Email
+                  <ExternalLink className="w-4 h-4 ml-2" />
+                </a>
+                <a
+                  href="https://calendly.com/catherine-wysa/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-semibold rounded-lg hover:bg-emerald-600 hover:text-white transition-all duration-300"
+                >
+                  Schedule Call
+                  <ExternalLink className="w-4 h-4 ml-2" />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -948,13 +1000,13 @@ const App = () => {
               <img 
                 src="/img/logo/wysa-logo.png" 
                 alt="What's Your Story Africa Logo" 
-                className="h-16 w-auto max-w-[250px] object-contain transition-opacity duration-300 hover:opacity-80 brightness-0 invert"
+                className="h-20 w-auto max-w-[300px] object-contain transition-opacity duration-300 hover:opacity-80"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
                   const textFallback = document.createElement('span');
                   textFallback.textContent = "What's Your Story Africa";
-                  textFallback.className = "text-lg font-bold text-white hover:text-emerald-100 transition-colors";
+                  textFallback.className = "text-2xl font-bold text-gray-900 hover:text-emerald-600 transition-colors";
                   target.parentNode?.appendChild(textFallback);
                 }}
               />
@@ -963,10 +1015,10 @@ const App = () => {
 
           {/* Main Content - Center */}
           <div className="text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+            <h2 className="text-2xl md:text-3xl font-bold !text-white mb-3">
               For Legacy & Posterity
             </h2>
-            <p className="text-base text-emerald-100 mb-4">
+            <p className="text-base text-white mb-4">
               Share Your Own Story
             </p>
             <button 
@@ -1054,16 +1106,30 @@ const App = () => {
   if (viewingBlogPost) {
     return (
       <div className="relative min-h-screen bg-white">
-        {/* Navigation */}
-        <nav className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center justify-between h-20">
-              <button 
-                onClick={() => setCurrentView('home')}
-                className="text-xl font-bold text-gray-900 hover:text-emerald-600 transition-colors"
-              >
-                What's Your Story Africa
-              </button>
+         {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <button 
+              onClick={() => setCurrentView('home')}
+              className="flex items-center"
+            >
+              <img 
+                src="/img/logo/wysa-logo.png" 
+                alt="What's Your Story Africa Logo" 
+                className="h-20 w-auto max-w-[300px] object-contain transition-opacity duration-300 hover:opacity-80"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const textFallback = document.createElement('span');
+                  textFallback.textContent = "What's Your Story Africa";
+                  textFallback.className = "text-2xl font-bold text-gray-900 hover:text-emerald-600 transition-colors";
+                  target.parentNode?.appendChild(textFallback);
+                }}
+              />
+            </button>
+
               <div className="flex items-center space-x-8">
                 <button 
                   onClick={() => setCurrentView('catherine')}
