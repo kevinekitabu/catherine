@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Edit, Trash2, Save, Eye, EyeOff, Upload, Image, Trash } from 'lucide-react';
+import ImageCarousel from './ImageCarousel';
 import { blogService, BlogPost } from '../lib/supabase';
 
 interface BlogManagerProps {
@@ -131,32 +132,50 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
     }
   };
 
+  // Ref to textarea for cursor position
+  const contentTextareaRef = React.useRef<HTMLTextAreaElement>(null);
+
   const handleImageUpload = async (file: File, isThumbnail: boolean) => {
     setUploadingImage(true);
     try {
       const imageUrl = await blogService.uploadBlogImage(file);
-      
       if (isThumbnail) {
-        // Set as thumbnail
         setFormData(prev => ({ ...prev, thumbnail_url: imageUrl }));
       } else {
-        // Add to blog images and insert into content
         const imageId = Date.now().toString();
         const newImage = {
           id: imageId,
           url: imageUrl,
-          alt: file.name.replace(/\.[^/.]+$/, ''), // Remove file extension for alt text
+          alt: file.name.replace(/\.[^/.]+$/, ''),
           caption: ''
         };
-        
         setBlogImages(prev => [...prev, newImage]);
-        
-        // Insert markdown image syntax into content
+        // Insert at cursor position
         const imageMarkdown = `\n\n![${newImage.alt}](${imageUrl})\n\n`;
-        setFormData(prev => ({ 
-          ...prev, 
-          content: prev.content + imageMarkdown 
-        }));
+        setFormData(prev => {
+          const textarea = contentTextareaRef.current;
+          if (textarea) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const before = prev.content.slice(0, start);
+            const after = prev.content.slice(end);
+            // Set new content and move cursor after inserted image
+            setTimeout(() => {
+              textarea.focus();
+              textarea.selectionStart = textarea.selectionEnd = start + imageMarkdown.length;
+            }, 0);
+            return {
+              ...prev,
+              content: before + imageMarkdown + after
+            };
+          } else {
+            // fallback: append to end
+            return {
+              ...prev,
+              content: prev.content + imageMarkdown
+            };
+          }
+        });
       }
     } catch (error: any) {
       console.error('Error uploading image:', error);
@@ -514,6 +533,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                     </label>
                   </div>
                   <textarea
+                    ref={contentTextareaRef}
                     value={formData.content}
                     onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
                     rows={12}
@@ -528,6 +548,10 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Uploaded Images
                     </label>
+                    <div className="mb-4">
+                      {/* Carousel for up to 3 images */}
+                      <ImageCarousel images={blogImages} />
+                    </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {blogImages.map((image) => (
                         <div key={image.id} className="relative">

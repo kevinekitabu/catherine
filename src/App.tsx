@@ -7,6 +7,7 @@ const socialIconClass = 'bi social-icon';
 
 import { Play, ExternalLink, Menu, X, ArrowRight } from 'lucide-react';
 import BlogManager from './components/BlogManager';
+import ImageCarousel from './components/ImageCarousel';
 import { blogService, BlogPost } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
 
@@ -645,6 +646,7 @@ const App = () => {
           {/* Main content */}
           <div className="lg:col-span-3">
             <article className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
+              {/* Thumbnail always at the top if present */}
               {post.thumbnail_url && (
                 <div className="w-full h-64 md:h-80 overflow-hidden rounded-2xl mb-8">
                   <img 
@@ -675,14 +677,32 @@ const App = () => {
                   </p>
                 )}
               </header>
-              <div 
-                className="prose prose-lg max-w-none"
-                dangerouslySetInnerHTML={{ 
-                  __html: post.content
-                    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-md mx-auto block rounded-lg shadow-lg my-6" />')
-                    .replace(/\n/g, '<br />')
-                }}
-              />
+
+              {/* Split content in half and insert carousel in the middle */}
+              {(() => {
+                const content = post.content
+                  .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+                    if (post.images && post.images.some(img => img.url === url)) {
+                      return '';
+                    }
+                    return match;
+                  });
+                const paragraphs = content.split(/\n{2,}/);
+                const half = Math.ceil(paragraphs.length / 2);
+                const firstHalf = paragraphs.slice(0, half).join('\n\n');
+                const secondHalf = paragraphs.slice(half).join('\n\n');
+                return (
+                  <>
+                    <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: firstHalf.replace(/\n/g, '<br />') }} />
+                    {post.images && post.images.length > 0 && (
+                      <div className="my-8 flex justify-center">
+                        <ImageCarousel images={post.images} />
+                      </div>
+                    )}
+                    <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: secondHalf.replace(/\n/g, '<br />') }} />
+                  </>
+                );
+              })()}
               
               <div className="mt-12 mb-5 p-6 bg-gradient-to-br ">
                 <p className="text-l text-black-700 leading-relaxed text-center mb-4">
