@@ -427,7 +427,7 @@ const App = () => {
             {/* Right Image */}
             <div className="relative animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
               <div className="text-center mb-4 lg:hidden">
-                <p className="text-sm text-gray-600 font-medium">Catherine</p>
+                {/* <p className="text-sm text-gray-600 font-medium">Catherine</p> */}
               </div>
               <div className="relative">
                 <img 
