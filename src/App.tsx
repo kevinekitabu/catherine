@@ -679,7 +679,7 @@ const App = () => {
                 className="prose prose-lg max-w-none"
                 dangerouslySetInnerHTML={{ 
                   __html: post.content
-                    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full rounded-lg shadow-lg my-6" />')
+                    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-md mx-auto block rounded-lg shadow-lg my-6" />')
                     .replace(/\n/g, '<br />')
                 }}
               />
