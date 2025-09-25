@@ -278,12 +278,12 @@ const App = () => {
               </div>
               
               <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
-                <span className="text-5xl block bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent animate-shimmer bg-[length:200%_100%]">
-                  What's Your Story 
-                </span>
-                <span className="ml-12 block bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent mt-2">
-                  Africa
-                </span>
+                <img
+                  src="/img/logo/story.jpeg"
+                  alt="What's Your Story Africa Logo"
+                  className="mx-auto h-20 md:h-28 w-auto object-contain drop-shadow-lg rounded-2xl"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                />
               </h1>
               
               <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
