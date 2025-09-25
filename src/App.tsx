@@ -387,7 +387,7 @@ const App = () => {
               
               <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
                 <img
-                  src="/img/logo/story.jpeg"
+                  src="/img/logo/logobig.png"
                   alt="What's Your Story Africa Logo"
                   className="mx-auto h-6 md:h-8 w-auto object-contain drop-shadow-lg rounded-2xl"
                   style={{ maxWidth: '100%', height: 'auto' }}
