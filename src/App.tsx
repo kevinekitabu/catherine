@@ -281,7 +281,7 @@ const App = () => {
                 <img
                   src="/img/logo/story.jpeg"
                   alt="What's Your Story Africa Logo"
-                  className="mx-auto h-20 md:h-28 w-auto object-contain drop-shadow-lg rounded-2xl"
+                  className="mx-auto h-6 md:h-8 w-auto object-contain drop-shadow-lg rounded-2xl"
                   style={{ maxWidth: '100%', height: 'auto' }}
                 />
               </h1>
