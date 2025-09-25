@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+ import React, { useState, useEffect } from 'react';
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
 
@@ -12,7 +12,13 @@ import { blogService, BlogPost } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
 
 // SidePanel Component
-const SidePanel = ({ blogPosts, videos }: { blogPosts: BlogPost[], videos: YouTubeVideo[] }) => {
+const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipReadMore }: { 
+  blogPosts: BlogPost[], 
+  videos: YouTubeVideo[],
+  onReadMore: () => void,
+  onPostClick: (post: BlogPost) => void,
+  onMentorshipReadMore: () => void
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [commentData, setCommentData] = useState({
     name: '',
@@ -34,6 +40,8 @@ const SidePanel = ({ blogPosts, videos }: { blogPosts: BlogPost[], videos: YouTu
     post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const displayedPosts = searchQuery ? filteredPosts : blogPosts.slice(0, 3);
+
   return (
     <div className="w-full lg:w-80 space-y-8">
       {/* Search Section */}
@@ -52,6 +60,11 @@ const SidePanel = ({ blogPosts, videos }: { blogPosts: BlogPost[], videos: YouTu
           />
           <i className="bi bi-search absolute left-3 top-3 text-gray-400"></i>
         </div>
+        {searchQuery && (
+          <div className="mt-3 text-sm text-gray-600">
+            Found {filteredPosts.length} posts matching "{searchQuery}"
+          </div>
+        )}
       </div>
 
       {/* About Me Section */}
@@ -70,41 +83,79 @@ const SidePanel = ({ blogPosts, videos }: { blogPosts: BlogPost[], videos: YouTu
           }}
         />
         <p className="text-gray-600 text-sm text-center mb-3">
-          Media professional with 25+ years experience, former Head of TV at KTN, 
-          and host of What's Your Story Africa podcast.
+          Storytelling is my magnificent obsession.
         </p>
         <button 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={onReadMore}
           className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
         >
           Read More
         </button>
       </div>
 
+      {/* Mentorship Section */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
+        <div className="flex items-center mb-4">
+          <i className="bi bi-people-fill text-emerald-600 text-lg mr-3"></i>
+          <h3 className="text-lg font-bold text-gray-900">Mentorship</h3>
+        </div>
+        <p className="text-gray-600 text-sm mb-4">
+          Guiding Voices. Shaping Futures. Building Legacies. Mentorship is not about copying a voice; it's about finding yours.
+        </p>
+        <div className="space-y-3">
+          <button
+            onClick={onMentorshipReadMore}
+            className="block w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors text-center"
+          >
+            Read more
+          </button>
+          <a
+            href="https://calendly.com/catherine-wysa/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full py-2 bg-green-700 text-white text-sm font-semibold rounded-lg hover:bg-green-800 transition-colors text-center"
+          >
+            Book A Call
+          </a>
+        </div>
+      </div>
+
       {/* Recent Posts Section */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-file-earmark-text text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">Recent Posts</h3>
+          <h3 className="text-lg font-bold text-gray-900">
+            {searchQuery ? 'Search Results' : 'Recent Posts'}
+          </h3>
         </div>
         <div className="space-y-4">
-          {filteredPosts.slice(0, 3).map((post, index) => (
-            <div key={post.id} className="flex items-center space-x-3 group cursor-pointer">
-              <img 
-                src={post.thumbnail_url || `https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=100&h=75`}
-                alt={post.title}
-                className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate group-hover:text-emerald-600 transition-colors">
-                  {post.title}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {new Date(post.published_date).toLocaleDateString()}
-                </p>
+          {displayedPosts.length > 0 ? (
+            displayedPosts.map((post, index) => (
+              <div 
+                key={post.id} 
+                className="flex items-center space-x-3 group cursor-pointer"
+                onClick={() => onPostClick(post)}
+              >
+                <img 
+                  src={post.thumbnail_url || `https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=100&h=75`}
+                  alt={post.title}
+                  className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate group-hover:text-emerald-600 transition-colors">
+                    {post.title}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {new Date(post.published_date).toLocaleDateString()}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-sm text-gray-500 text-center py-4">
+              No posts found matching your search.
+            </p>
+          )}
         </div>
       </div>
 
@@ -205,6 +256,7 @@ const App = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [videosLoading, setVideosLoading] = useState(true);
+  const [carouselPosition, setCarouselPosition] = useState(0);
 
   // Default thumbnail images for blog posts
   const getDefaultThumbnail = (index: number) => {
@@ -218,6 +270,36 @@ const App = () => {
     ];
     return defaultThumbnails[index % defaultThumbnails.length];
   };
+
+  // Carousel images array with fallbacks
+  const carouselImages = [
+    "/img/catherine/IMG_3363.jpg",
+    "/img/catherine/_TWL0019.JPG",
+    "/img/catherine/DSC_0480.jpg",
+    "/img/catherine/_TWL2723.JPG",
+    "/img/catherine/IMG_0013.JPG",
+    "/img/catherine/sg-70.JPG"
+  ];
+
+  // Carousel animation effect
+  useEffect(() => {
+    const carouselInterval = setInterval(() => {
+      setCarouselPosition(prev => {
+        const imageWidth = 192; // w-48 = 192px
+        const gap = 24; // space-x-6 = 24px
+        const totalWidth = imageWidth + gap;
+        const newPosition = prev - totalWidth;
+        
+        // Reset position when we've moved through all original images
+        if (newPosition <= -carouselImages.length * totalWidth) {
+          return 0;
+        }
+        return newPosition;
+      });
+    }, 3000); // Move every 3 seconds
+
+    return () => clearInterval(carouselInterval);
+  }, [carouselImages.length]);
 
   // Load YouTube videos on component mount
   useEffect(() => {
@@ -256,6 +338,32 @@ const App = () => {
 
   const handleBlogPostClick = (post: BlogPost) => {
     setCurrentView(`blog-${post.slug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleReadMoreClick = () => {
+    setCurrentView('catherine');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSidePanelReadMore = () => {
+    setCurrentView('catherine');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // NEW FUNCTION: Handle mentorship read more click
+  const handleMentorshipReadMore = () => {
+    setCurrentView('connect');
+    // Scroll after a short delay to allow the page to render
+    setTimeout(() => {
+      const mentorshipSection = document.getElementById('mentorship-section');
+      if (mentorshipSection) {
+        mentorshipSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100);
   };
 
   const renderHome = () => (
@@ -438,30 +546,27 @@ const App = () => {
                 </div>
                 
                 {/* Image Carousel */}
-                <div className="relative carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4">
-                  <div className="flex animate-carousel carousel-track space-x-6">
-                    {/* First set of images */}
-                    <div className="flex space-x-6 flex-shrink-0">
-                      {[
-                        "/img/catherine/IMG_3363.jpg",
-                        "/img/catherine/_TWL0019.JPG",
-                        "/img/catherine/DSC_0480.jpg",
-                        "/img/catherine/_TWL2723.JPG",
-                        "/img/catherine/IMG_0013.JPG",
-                        "/img/catherine/sg-70.JPG"
-                      ].map((src, index) => (
+                <div className="relative carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4 overflow-hidden">
+                  <div 
+                    className="flex carousel-track transition-transform duration-1000 ease-in-out"
+                    style={{ 
+                      transform: `translateX(${carouselPosition}px)`,
+                      gap: '24px'
+                    }}
+                  >
+                    {[...carouselImages, ...carouselImages].map((src, index) => (
+                      <div key={index} className="flex-shrink-0">
                         <img 
-                          key={index}
                           src={src}
                           alt="Catherine Mwangi"
-                          className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-100"
+                          className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                           }}
                         />
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
                   
                   <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-emerald-50 to-transparent pointer-events-none"></div>
@@ -630,9 +735,15 @@ const App = () => {
             </div>
           </div>
 
-          {/* Side Panel - spans 1 column on large screens */}
-          <div className="lg:col-span-1">
-            <SidePanel blogPosts={publishedBlogPosts} videos={youtubeVideos} />
+          {/* Side Panel - spans 1 column on large screens, hidden on mobile */}
+          <div className="hidden lg:block lg:col-span-1">
+            <SidePanel 
+              blogPosts={publishedBlogPosts} 
+              videos={youtubeVideos}
+              onReadMore={handleSidePanelReadMore}
+              onMentorshipReadMore={handleMentorshipReadMore}
+              onPostClick={handleBlogPostClick}
+            />
           </div>
         </div>
       </div>
@@ -743,9 +854,15 @@ const App = () => {
             </article>
           </div>
 
-          {/* Side Panel for blog posts */}
-          <div className="lg:col-span-1">
-            <SidePanel blogPosts={publishedBlogPosts} videos={youtubeVideos} />
+          {/* Side Panel for blog posts - hidden on mobile */}
+          <div className="hidden lg:block lg:col-span-1">
+            <SidePanel 
+              blogPosts={publishedBlogPosts} 
+              videos={youtubeVideos}
+              onReadMore={handleSidePanelReadMore}
+              onMentorshipReadMore={handleMentorshipReadMore}
+              onPostClick={handleBlogPostClick}
+            />
           </div>
         </div>
       </div>
@@ -846,8 +963,8 @@ const App = () => {
               </form>
             </div>
 
-            {/* Mentorship Section */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
+            {/* Mentorship Section - ADDED ID */}
+            <div id="mentorship-section" className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
               <div className="text-center mb-8">
                 <h2 className="text-3xl md:text-4xl font-bold text--900 mb-4">
                   MENTORSHIP
@@ -926,9 +1043,15 @@ const App = () => {
             </div>
           </div>
 
-          {/* Side Panel */}
-          <div className="lg:col-span-1">
-            <SidePanel blogPosts={publishedBlogPosts} videos={youtubeVideos} />
+          {/* Side Panel - hidden on mobile */}
+          <div className="hidden lg:block lg:col-span-1">
+            <SidePanel 
+              blogPosts={publishedBlogPosts} 
+              videos={youtubeVideos}
+              onReadMore={handleSidePanelReadMore}
+              onMentorshipReadMore={handleMentorshipReadMore}
+              onPostClick={handleBlogPostClick}
+            />
           </div>
         </div>
       </div>
