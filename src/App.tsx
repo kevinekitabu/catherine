@@ -760,7 +760,7 @@ const App = () => {
                 <div className="flex items-center text-gray-600 text-sm space-x-4 mb-6">
                   <span>{post.author}</span>
                   <span>•</span>
-                  <span>{new Date(post.published_date).toLocaleDateString('en-US', { 
+                 <span>{new Date(post.published_date).toLocaleDateString('en-US', { 
                     year: 'numeric', 
                     month: 'long', 
                     day: 'numeric' 
