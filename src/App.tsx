@@ -11,7 +11,7 @@ import ImageCarousel from './components/ImageCarousel';
 import { blogService, BlogPost } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
 
-// SidePanel Component
+// SidePanel Component - UPDATED: Removed YouTube label
 const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipReadMore }: { 
   blogPosts: BlogPost[], 
   videos: YouTubeVideo[],
@@ -44,17 +44,17 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
 
   return (
     <div className="w-full lg:w-80 space-y-8">
-   {/* Search Section */}
-<div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
-  <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
-    <img
-      src="/img/logo/logobig.png"
-      alt="What's Your Story Africa Logo"
-      className="mx-auto h-6 md:h-8 w-auto object-contain drop-shadow-lg rounded-2xl"
-      style={{ maxWidth: '100%', height: 'auto' }}
-    />
-  </h1>
-</div>
+      {/* Search Section */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
+        <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
+          <img
+            src="/img/logo/logobig.png"
+            alt="What's Your Story Africa Logo"
+            className="mx-auto h-6 md:h-8 w-auto object-contain drop-shadow-lg rounded-2xl"
+            style={{ maxWidth: '100%', height: 'auto' }}
+          />
+        </h1>
+      </div>
 
       {/* About Me Section */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
@@ -148,7 +148,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
         </div>
       </div>
 
-      {/* What to Watch Section */}
+      {/* What to Watch Section - UPDATED: Removed YouTube label */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-play-circle text-emerald-600 text-lg mr-3"></i>
@@ -174,7 +174,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
                   <p className="text-sm font-medium text-gray-900 truncate group-hover:text-emerald-600 transition-colors">
                     {cleanName}
                   </p>
-                  <p className="text-xs text-gray-500">YouTube</p>
+                  {/* REMOVED: YouTube label line */}
                 </div>
               </a>
             );
@@ -186,7 +186,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-chat-dots text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">Feedback</h3>
+          <h3 className="text-lg font-bold text-gray-900">Share Your Comments</h3>
         </div>
         <form onSubmit={handleCommentSubmit} className="space-y-3">
           <input
@@ -206,7 +206,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             required
           />
           <textarea
-            placeholder="Your Feedback"
+            placeholder="Your Comment"
             value={commentData.feedback}
             onChange={(e) => setCommentData({...commentData, feedback: e.target.value})}
             rows={3}
@@ -238,7 +238,7 @@ const NextButton = () => {
 };
 
 const App = () => {
-  const [currentView, setCurrentView] = useState('catherine'); // Changed default to 'catherine'
+  const [currentView, setCurrentView] = useState('catherine');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBlogManager, setShowBlogManager] = useState(false);
   const [publishedBlogPosts, setPublishedBlogPosts] = useState<BlogPost[]>([]);
@@ -331,19 +331,17 @@ const App = () => {
   };
 
   const handleReadMoreClick = () => {
-    setCurrentView('podcasts'); // Changed to 'podcasts'
+    setCurrentView('podcasts');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSidePanelReadMore = () => {
-    setCurrentView('podcasts'); // Changed to 'podcasts'
+    setCurrentView('podcasts');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // NEW FUNCTION: Handle mentorship read more click
   const handleMentorshipReadMore = () => {
     setCurrentView('connect');
-    // Scroll after a short delay to allow the page to render
     setTimeout(() => {
       const mentorshipSection = document.getElementById('mentorship-section');
       if (mentorshipSection) {
@@ -355,7 +353,7 @@ const App = () => {
     }, 100);
   };
 
-  // Render About Catherine (now the landing page)
+  // Render About Catherine (now the landing page) - UPDATED: Centered title
   const renderCatherine = () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       <div className="max-w-7xl mx-auto px-6 py-20">
@@ -366,10 +364,11 @@ const App = () => {
             {/* Catherine's Image - Centered */}
             <div className="flex justify-center items-center mb-16">
               <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-                <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
-                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
-                From the Heart of Africa - Preserved for Generations
-              </div>
+                {/* UPDATED: Centered the title */}
+                <div className="inline-flex items-center justify-center w-full px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
+                  <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+                  From the Heart of Africa. Preserved for Generations
+                </div>
                 
                 {/* Image Carousel */}
                 <div className="relative carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4 overflow-hidden">
@@ -430,100 +429,95 @@ const App = () => {
                 <p className="text-lg md:text-l leading-relaxed tracking-wide">
                   Alongside this, I have embraced life coaching as a way to walk with people through their personal journeys, 
                   especially those navigating the defining years of 25–35, as well as parents who entrust me to mentor their teenage daughters.
+                  Over the years, many have sought me out as a sounding board for life's transitions, and I now 
+                  honor that trust by offering structured coaching. Whether through one-on-one sessions, 
+                  organizational storytelling workshops, or the What's Your Story Africa community, my mission 
+                  is the same: <strong>restore dignity to storytelling, amplify unheard voices, and help people step fully
+                   into their story - for legacy, for posterity, and for impact.</strong>
                 </p>
               </div>
             </div>
 
-           {/* Blog Posts */}
-<div className="mb-12">
-  <h2 className="text-3xl font-bold text-gray-900 mb-8">Reflections</h2>
-  {publishedBlogPosts.length > 0 ? (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {publishedBlogPosts.map((post, index) => (
-        <article 
-          key={post.id}
-          className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
-          onClick={() => handleBlogPostClick(post)}
-        >
-          <div className="w-full h-48 overflow-hidden bg-gray-100">
-            <img 
-              src={post.thumbnail_url || getDefaultThumbnail(index)}
-              alt={post.title}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = getDefaultThumbnail(index);
-              }}
-            />
-          </div>
-          <div className="p-6">
-            <div className="flex items-center text-sm text-gray-500 mb-3">
-              <span>{post.read_time}</span>
+            {/* Blog Posts - UPDATED: Removed Manage Blog Posts button from main view */}
+            <div className="mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8">Reflections</h2>
+              {publishedBlogPosts.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {publishedBlogPosts.map((post, index) => (
+                    <article 
+                      key={post.id}
+                      className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+                      onClick={() => handleBlogPostClick(post)}
+                    >
+                      <div className="w-full h-48 overflow-hidden bg-gray-100">
+                        <img 
+                          src={post.thumbnail_url || getDefaultThumbnail(index)}
+                          alt={post.title}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = getDefaultThumbnail(index);
+                          }}
+                        />
+                      </div>
+                      <div className="p-6">
+                        <div className="flex items-center text-sm text-gray-500 mb-3">
+                          <span>{post.read_time}</span>
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-gray-600 mb-4">
+                          {post.excerpt}
+                        </p>
+                        <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
+                          Read More →
+                        </span>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                    <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
+                    <div className="text-sm text-blue-700 space-y-2">
+                      <p><strong>Method 1 - Storage Upload:</strong></p>
+                      <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
+                      <p>• Upload .txt, .md, or .docx files</p>
+                      <p>• Files are automatically converted to blog posts</p>
+                      
+                      <p className="mt-4"><strong>Method 2 - Direct Database:</strong></p>
+                      <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
+                      <p>• Click "Insert" → "Insert row"</p>
+                      <p>• Fill in: title, content, slug, status='published'</p>
+                      
+                      <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
+                      <p>• Use the "Create Your First Post" button below</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={loadPublishedBlogPosts}
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
+                  >
+                    Check for New Files
+                  </button>
+                  <button
+                    onClick={() => setShowBlogManager(true)}
+                    className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+                  >
+                    Create Your First Post
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </button>
+                </div>
+              )}
+              
+              {/* REMOVED: Manage Blog Posts button from main view */}
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
-              {post.title}
-            </h3>
-            <p className="text-gray-600 mb-4">
-              {post.excerpt}
-            </p>
-            <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
-              Read More →
-            </span>
-          </div>
-        </article>
-      ))}
-    </div>
-  ) : (
-    <div className="text-center py-12">
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-        <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
-        <div className="text-sm text-blue-700 space-y-2">
-          <p><strong>Method 1 - Storage Upload:</strong></p>
-          <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
-          <p>• Upload .txt, .md, or .docx files</p>
-          <p>• Files are automatically converted to blog posts</p>
-          
-          <p className="mt-4"><strong>Method 2 - Direct Database:</strong></p>
-          <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
-          <p>• Click "Insert" → "Insert row"</p>
-          <p>• Fill in: title, content, slug, status='published'</p>
-          
-          <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
-          <p>• Use the "Create Your First Post" button below</p>
-        </div>
-      </div>
-      <button
-        onClick={loadPublishedBlogPosts}
-        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
-      >
-        Check for New Files
-      </button>
-      <button
-        onClick={() => setShowBlogManager(true)}
-        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-      >
-        Create Your First Post
-        <ArrowRight className="w-5 h-5 ml-2" />
-      </button>
-    </div>
-  )}
-  
-  {publishedBlogPosts.length > 0 && (
-    <div className="mt-12 text-center">
-      <button
-        onClick={() => setShowBlogManager(true)}
-        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-      >
-        Manage Blog Posts
-        <ArrowRight className="w-5 h-5 ml-2" />
-      </button>
-    </div>
-  )}
-</div>
 
             {/* Comments Section with Next Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
-              <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
+              <h4 className="text-xl font-semibold mb-6">Share Your Comments</h4>
               <form className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
@@ -538,7 +532,7 @@ const App = () => {
                   />
                 </div>
                 <textarea
-                  placeholder="Your Feedback"
+                  placeholder="Your Comment"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   rows={4}
                 />
@@ -605,7 +599,7 @@ const App = () => {
               </p>
               
               <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
-                At its core, this is a space to connect freely, honor our shared humanity, and celebrate the power of stories. Whether through my podcast  , or th'What's Your Story Africa,' my writingse paths I've walked in media, I sincerely
+                At its core, this is a space to connect freely, honor our shared humanity, and celebrate the power of stories. Whether through my podcast 'What's Your Story Africa,' my writing, or the paths I've walked in media, I sincerely
                 hope that you feel seen, heard, inspired, and elevated as we share our experiences with clarity and heart.
               </p>
 
@@ -650,7 +644,7 @@ const App = () => {
               </div>
               <div className="hidden lg:block text-center mt-4">
                 <p className="text-sm text-gray-600 font-medium"></p>
-                <p className="text-xs text-gray-500">From the Heart of Africa – Preserved for Generations</p>
+                <p className="text-xs text-gray-500">From the Heart of Africa. Preserved for Generations</p>
               </div>
             </div>
           </div>
@@ -803,7 +797,7 @@ const App = () => {
 
               {/* Comments Section */}
               <div className="mt-8">
-                <h4 className="text-lg font-semibold mb-4">Leave a Feedback</h4>
+                <h4 className="text-lg font-semibold mb-4">Share Your Comment</h4>
                 <form className="space-y-4">
                   <input
                     type="text"
@@ -812,7 +806,7 @@ const App = () => {
                   />
                   <input
                     type="email"
-                    placeholder="Your Feedback"
+                    placeholder="Your Comment"
                     className="w-full p-3 border border-gray-300 rounded-lg"
                   />
                   <textarea
@@ -854,11 +848,13 @@ const App = () => {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content */}
-          <div className="lg:col-span-3">
-           <div className="inline-flex items-center px-8 py-5 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
-                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
-                Here are ways to connect with me. together, we go further.
-              </div>
+          <div className="lg:col-span-3 ">
+            {/* UPDATED: Centered the title */}
+            <div className="inline-flex items-center justify-center w-full px-8 py-5 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
+              <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+              Here are ways to connect with me. Together, we go further.
+            </div>
+              
 
             {/* Three Green Boxes */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
@@ -1042,14 +1038,14 @@ const App = () => {
     currentView.startsWith('blog-') && currentView === `blog-${post.slug}`
   );
 
-  // Footer component
+  // Footer component - UPDATED: Added hidden Manage Blog Posts button
   const Footer = () => (
     <footer className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 py-12">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           <div className="text-center lg:text-left">
             <button 
-              onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
+              onClick={() => setCurrentView('catherine')}
               className="flex items-center justify-center lg:justify-start"
             >
               <img 
@@ -1133,6 +1129,18 @@ const App = () => {
             </div>
           </div>
         </div>
+        
+        {/* UPDATED: Hidden Manage Blog Posts button in footer */}
+        <div className="text-center mt-8 pt-4 border-t border-white/20">
+          <button
+            onClick={() => setShowBlogManager(true)}
+            className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm text-white/70 text-xs font-medium rounded-lg hover:bg-white/20 hover:text-white transition-colors opacity-50 hover:opacity-100"
+            title="Admin Only - Manage Blog Posts"
+          >
+            <i className="bi bi-gear-fill mr-2"></i>
+            Manage Blog Posts
+          </button>
+        </div>
       </div>
     </footer>
   );
@@ -1144,7 +1152,7 @@ const App = () => {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-between h-20">
               <button 
-                onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
+                onClick={() => setCurrentView('catherine')}
                 className="flex items-center"
               >
                 <img 
@@ -1160,7 +1168,7 @@ const App = () => {
 
               <div className="flex items-center space-x-8">
                 <button 
-                  onClick={() => setCurrentView('podcasts')} // Changed to 'podcasts'
+                  onClick={() => setCurrentView('podcasts')}
                   className="font-medium text-gray-700 hover:text-emerald-600 transition-colors"
                 >
                   Podcasts
@@ -1191,7 +1199,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20">
             <button 
-              onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
+              onClick={() => setCurrentView('catherine')}
               className="flex items-center"
             >
               <img 
@@ -1217,7 +1225,7 @@ const App = () => {
                 Home
               </button>
               <button 
-                onClick={() => setCurrentView('podcasts')} // New Podcasts button
+                onClick={() => setCurrentView('podcasts')}
                 className={`font-medium transition-colors ${
                   currentView === 'podcasts' 
                     ? 'text-emerald-600' 
@@ -1265,7 +1273,7 @@ const App = () => {
               </button>
               <button 
                 onClick={() => {
-                  setCurrentView('podcasts'); // New Podcasts button
+                  setCurrentView('podcasts');
                   setMobileMenuOpen(false);
                 }}
                 className={`block w-full text-left font-medium transition-colors ${
