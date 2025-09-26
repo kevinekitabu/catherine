@@ -44,28 +44,17 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
 
   return (
     <div className="w-full lg:w-80 space-y-8">
-      {/* Search Section */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
-        <div className="flex items-center mb-4">
-          <i className="bi bi-search text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">Search</h3>
-        </div>
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
-          <i className="bi bi-search absolute left-3 top-3 text-gray-400"></i>
-        </div>
-        {searchQuery && (
-          <div className="mt-3 text-sm text-gray-600">
-            Found {filteredPosts.length} posts matching "{searchQuery}"
-          </div>
-        )}
-      </div>
+   {/* Search Section */}
+<div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
+  <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
+    <img
+      src="/img/logo/logobig.png"
+      alt="What's Your Story Africa Logo"
+      className="mx-auto h-6 md:h-8 w-auto object-contain drop-shadow-lg rounded-2xl"
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
+  </h1>
+</div>
 
       {/* About Me Section */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
@@ -444,98 +433,92 @@ const App = () => {
               </div>
             </div>
 
-            {/* Blog Posts */}
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Reflections</h2>
-              {publishedBlogPosts.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {publishedBlogPosts.map((post, index) => (
-                    <article 
-                      key={post.id}
-                      className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
-                      onClick={() => handleBlogPostClick(post)}
-                    >
-                      <div className="w-full h-48 overflow-hidden bg-gray-100">
-                        <img 
-                         src={post.thumbnail_url || getDefaultThumbnail(index)}
-                          alt={post.title}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = getDefaultThumbnail(index);
-                          }}
-                        />
-                      </div>
-                      <div className="p-6">
-                        <div className="flex items-center text-sm text-gray-500 mb-3">
-                          <span>{new Date(post.published_date).toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric' 
-                          })}</span>
-                          <span className="mx-2">•</span>
-                          <span>{post.read_time}</span>
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
-                          {post.title}
-                        </h3>
-                        <p className="text-gray-600 mb-4">
-                          {post.excerpt}
-                        </p>
-                        <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
-                          Read More →
-                        </span>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-                    <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
-                    <div className="text-sm text-blue-700 space-y-2">
-                      <p><strong>Method 1 - Storage Upload:</strong></p>
-                      <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
-                      <p>• Upload .txt, .md, or .docx files</p>
-                      <p>• Files are automatically converted to blog posts</p>
-                      
-                      <p className="mt-4"><strong>Method 2 - Direct Database:</strong></p>
-                      <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
-                      <p>• Click "Insert" → "Insert row"</p>
-                      <p>• Fill in: title, content, slug, status='published'</p>
-                      
-                      <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
-                      <p>• Use the "Create Your First Post" button below</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={loadPublishedBlogPosts}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
-                  >
-                    Check for New Files
-                  </button>
-                  <button
-                    onClick={() => setShowBlogManager(true)}
-                    className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
-                    Create Your First Post
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </button>
-                </div>
-              )}
-              
-              {publishedBlogPosts.length > 0 && (
-                <div className="mt-12 text-center">
-                  <button
-                    onClick={() => setShowBlogManager(true)}
-                    className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
-                    Manage Blog Posts
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </button>
-                </div>
-              )}
+           {/* Blog Posts */}
+<div className="mb-12">
+  <h2 className="text-3xl font-bold text-gray-900 mb-8">Reflections</h2>
+  {publishedBlogPosts.length > 0 ? (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {publishedBlogPosts.map((post, index) => (
+        <article 
+          key={post.id}
+          className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+          onClick={() => handleBlogPostClick(post)}
+        >
+          <div className="w-full h-48 overflow-hidden bg-gray-100">
+            <img 
+              src={post.thumbnail_url || getDefaultThumbnail(index)}
+              alt={post.title}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = getDefaultThumbnail(index);
+              }}
+            />
+          </div>
+          <div className="p-6">
+            <div className="flex items-center text-sm text-gray-500 mb-3">
+              <span>{post.read_time}</span>
             </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
+              {post.title}
+            </h3>
+            <p className="text-gray-600 mb-4">
+              {post.excerpt}
+            </p>
+            <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
+              Read More →
+            </span>
+          </div>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <div className="text-center py-12">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+        <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
+        <div className="text-sm text-blue-700 space-y-2">
+          <p><strong>Method 1 - Storage Upload:</strong></p>
+          <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
+          <p>• Upload .txt, .md, or .docx files</p>
+          <p>• Files are automatically converted to blog posts</p>
+          
+          <p className="mt-4"><strong>Method 2 - Direct Database:</strong></p>
+          <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
+          <p>• Click "Insert" → "Insert row"</p>
+          <p>• Fill in: title, content, slug, status='published'</p>
+          
+          <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
+          <p>• Use the "Create Your First Post" button below</p>
+        </div>
+      </div>
+      <button
+        onClick={loadPublishedBlogPosts}
+        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
+      >
+        Check for New Files
+      </button>
+      <button
+        onClick={() => setShowBlogManager(true)}
+        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+      >
+        Create Your First Post
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </button>
+    </div>
+  )}
+  
+  {publishedBlogPosts.length > 0 && (
+    <div className="mt-12 text-center">
+      <button
+        onClick={() => setShowBlogManager(true)}
+        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+      >
+        Manage Blog Posts
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </button>
+    </div>
+  )}
+</div>
 
             {/* Comments Section with Next Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
