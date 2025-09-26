@@ -366,9 +366,10 @@ const App = () => {
             {/* Catherine's Image - Centered */}
             <div className="flex justify-center items-center mb-16">
               <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-                <div className="text-center mb-8">
-                  <p className="text-lg text-black-900 font-bold">From the Heart of Africa – Preserved for Generations</p>
-                </div>
+                <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+                From the Heart of Africa - Preserved for Generations
+              </div>
                 
                 {/* Image Carousel */}
                 <div className="relative carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4 overflow-hidden">
@@ -604,7 +605,7 @@ const App = () => {
               </p>
               
               <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
-                At its core, this is a space to connect freely, honor our shared humanity, and celebrate the power of stories. Whether through my podcast What's Your Story Africa, my writings, or the paths I've walked in media, I sincerely
+                At its core, this is a space to connect freely, honor our shared humanity, and celebrate the power of stories. Whether through my podcast  , or th'What's Your Story Africa,' my writingse paths I've walked in media, I sincerely
                 hope that you feel seen, heard, inspired, and elevated as we share our experiences with clarity and heart.
               </p>
 
@@ -860,11 +861,10 @@ const App = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content */}
           <div className="lg:col-span-3">
-            <div className="text-center mb-16">
-              <p className="text-xl text-black-900 font-bold">
-                Here are ways to connect with me. Together, we go further.
-              </p>
-            </div>
+           <div className="inline-flex items-center px-8 py-5 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+                Here are ways to connect with me. together, we go further.
+              </div>
 
             {/* Three Green Boxes */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
