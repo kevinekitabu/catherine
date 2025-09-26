@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
 
@@ -23,16 +23,16 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
   const [commentData, setCommentData] = useState({
     name: '',
     email: '',
-    comment: ''
+    feedback: ''
   });
 
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle comment submission logic here
-    console.log('Comment submitted:', commentData);
+    console.log('Feedback submitted:', commentData);
     // Reset form
-    setCommentData({ name: '', email: '', comment: '' });
-    alert('Thank you for your comment!');
+    setCommentData({ name: '', email: '', feedback: '' });
+    alert('Thank you for your feedback!');
   };
 
   const filteredPosts = blogPosts.filter(post =>
@@ -71,7 +71,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-person-circle text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">About Catherine</h3>
+          <h3 className="text-lg font-bold text-gray-900">Podcasts</h3>
         </div>
         <img 
           src="/img/catherine/catherine-hero.jpg"
@@ -107,7 +107,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             onClick={onMentorshipReadMore}
             className="block w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors text-center"
           >
-            Read more
+            Read More
           </button>
           <a
             href="https://calendly.com/catherine-wysa/30min"
@@ -125,7 +125,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
         <div className="flex items-center mb-4">
           <i className="bi bi-file-earmark-text text-emerald-600 text-lg mr-3"></i>
           <h3 className="text-lg font-bold text-gray-900">
-            {searchQuery ? 'Search Results' : 'Recent Posts'}
+            {searchQuery ? 'Search Results' : 'Reflections'}
           </h3>
         </div>
         <div className="space-y-4">
@@ -197,7 +197,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-chat-dots text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">Leave a Comment</h3>
+          <h3 className="text-lg font-bold text-gray-900">Feedback</h3>
         </div>
         <form onSubmit={handleCommentSubmit} className="space-y-3">
           <input
@@ -217,9 +217,9 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             required
           />
           <textarea
-            placeholder="Your Comment"
-            value={commentData.comment}
-            onChange={(e) => setCommentData({...commentData, comment: e.target.value})}
+            placeholder="Your Feedback"
+            value={commentData.feedback}
+            onChange={(e) => setCommentData({...commentData, feedback: e.target.value})}
             rows={3}
             className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
             required
@@ -228,7 +228,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             type="submit"
             className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
           >
-            Submit Comment
+            Submit 
           </button>
         </form>
       </div>
@@ -249,7 +249,7 @@ const NextButton = () => {
 };
 
 const App = () => {
-  const [currentView, setCurrentView] = useState('home');
+  const [currentView, setCurrentView] = useState('catherine'); // Changed default to 'catherine'
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBlogManager, setShowBlogManager] = useState(false);
   const [publishedBlogPosts, setPublishedBlogPosts] = useState<BlogPost[]>([]);
@@ -342,12 +342,12 @@ const App = () => {
   };
 
   const handleReadMoreClick = () => {
-    setCurrentView('catherine');
+    setCurrentView('podcasts'); // Changed to 'podcasts'
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSidePanelReadMore = () => {
-    setCurrentView('catherine');
+    setCurrentView('podcasts'); // Changed to 'podcasts'
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -366,171 +366,7 @@ const App = () => {
     }, 100);
   };
 
-  const renderHome = () => (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-teal-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-cyan-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style={{ animationDelay: '4s' }}></div>
-        </div>
-
-        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
-            <div className="text-left">
-              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
-                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
-                The Storytelling Gateway to Africa
-              </div>
-              
-              <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
-                <img
-                  src="/img/logo/logobig.png"
-                  alt="What's Your Story Africa Logo"
-                  className="mx-auto h-6 md:h-8 w-auto object-contain drop-shadow-lg rounded-2xl"
-                  style={{ maxWidth: '100%', height: 'auto' }}
-                />
-              </h1>
-              
-              <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
-                This space holds my collection of work: stories, reflections, and the experiences that have shaped
-                my 25-year journey in media and communications, including my most recent role as Head of TV at Kenya Television Network.
-              </p>
-              
-              <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
-                At its core, this is a space to connect freely, honor our shared humanity, and celebrate the power of stories. Whether through my podcast What's Your Story Africa, my writings, or the paths I've walked in media, I sincerely
-                hope that you feel seen, heard, inspired, and elevated as we share our experiences with clarity and heart.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-6 animate-elegant-slideUp" style={{ animationDelay: '0.6s' }}>
-                <a 
-                  href="https://www.youtube.com/@WhatsYourStoryAfrica" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-full hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                >
-                  <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
-                  Watch Latest Episodes
-                </a>
-                <button 
-                  onClick={() => setCurrentView('connect')}
-                  className="group inline-flex items-center px-8 py-4 bg-white/80 backdrop-blur-sm border-2 border-emerald-200 text-emerald-700 font-semibold rounded-full hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 hover:scale-105"
-                >
-                  Share Your Story
-                  <ExternalLink className="w-5 h-5 ml-2 group-hover:scale-110 transition-transform" />
-                </button>
-              </div>
-            </div>
-
-            {/* Right Image */}
-            <div className="relative animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-              <div className="text-center mb-4 lg:hidden">
-                {/* <p className="text-sm text-gray-600 font-medium">Catherine</p> */}
-              </div>
-              <div className="relative">
-                <img 
-                  src="/img/catherine/catherine-hero.jpg"
-                  alt="Catherine Mwangi - Host of What's Your Story Africa"
-                  className="w-full max-w-md mx-auto rounded-3xl shadow-2xl hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600";
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-emerald-600/20 to-transparent rounded-3xl"></div>
-                <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-500 rounded-full opacity-20 animate-gentle-pulse"></div>
-                <div className="absolute -top-6 -left-6 w-16 h-16 bg-teal-500 rounded-full opacity-30 animate-float"></div>
-              </div>
-              <div className="hidden lg:block text-center mt-4">
-                <p className="text-sm text-gray-600 font-medium"></p>
-                <p className="text-xs text-gray-500">From the Heart of Africa – Preserved for Generations</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* YouTube Videos Section */}
-      <section className="py-24 bg-white mt-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-12"></div>
-          
-          {videosLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(9)].map((_, index) => (
-                <div key={index} className="bg-gray-200 rounded-xl h-52 animate-pulse"></div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {youtubeVideos.map((video, index) => {
-                const uniqueKey = video.id ? `${video.id}-${index}` : `video-${index}`;
-                const rawName = video.guestName || video.title || 'Guest Speaker';
-                const cleanName = rawName
-                  .replace(/What's Your Story Africa[:\-\s]*/gi, '')
-                  .replace(/Whats Your Story Africa[:\-\s]*/gi, '')
-                  .replace(/WYSA[:\-\s]*/gi, '')
-                  .replace(/Episode[:\-\s]*\d*[:\-\s]*/gi, '')
-                  .replace(/^[:\-\s]+/, '')
-                  .trim();
-
-                return (
-                  <div key={uniqueKey} className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-                    <div className="relative">
-                      <img 
-                        src={video.thumbnail} 
-                        alt={`${cleanName} - What's Your Story Africa`}
-                        className="w-full h-48 object-cover bg-gray-100 group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = "https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80";
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
-                          <Play className="w-5 h-5 text-emerald-600 ml-0.5" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="p-4 flex items-center justify-between min-h-[60px]">
-                      <h3 className="text-base font-semibold text-gray-900 flex-1 pr-3 line-clamp-2 leading-tight">
-                        {cleanName}
-                      </h3>
-                      <a 
-                        href={video.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center text-emerald-600 hover:text-emerald-700 transition-colors text-sm font-medium whitespace-nowrap flex-shrink-0 ml-2"
-                      >
-                        Watch
-                        <ExternalLink className="w-4 h-4 ml-1" />
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          <div className="text-center mt-16">
-            <a 
-              href="https://www.youtube.com/@WhatsYourStoryAfrica" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
-            >
-              <Play className="w-4 h-4 mr-2" />
-              View All Episodes on YouTube
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-
+  // Render About Catherine (now the landing page)
   const renderCatherine = () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       <div className="max-w-7xl mx-auto px-6 py-20">
@@ -703,7 +539,7 @@ const App = () => {
 
             {/* Comments Section with Next Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
-              <h4 className="text-xl font-semibold mb-6">Leave a Comment</h4>
+              <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
               <form className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
@@ -718,7 +554,7 @@ const App = () => {
                   />
                 </div>
                 <textarea
-                  placeholder="Your Comment"
+                  placeholder="Your Feedback"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   rows={4}
                 />
@@ -726,7 +562,7 @@ const App = () => {
                   type="submit"
                   className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
                 >
-                  Submit Comment
+                  Submit 
                 </button>
               </form>
               
@@ -747,6 +583,172 @@ const App = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+
+  // Render Podcasts (previously the home page)
+  const renderPodcasts = () => (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float"></div>
+          <div className="absolute top-40 right-10 w-72 h-72 bg-teal-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-cyan-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style={{ animationDelay: '4s' }}></div>
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="text-left">
+              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+                The Storytelling Gateway to Africa
+              </div>
+              
+              <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
+                <img
+                  src="/img/logo/logobig.png"
+                  alt="What's Your Story Africa Logo"
+                  className="mx-auto h-6 md:h-8 w-auto object-contain drop-shadow-lg rounded-2xl"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                />
+              </h1>
+              
+              <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
+                This space holds my collection of work: stories, reflections, and the experiences that have shaped
+                my 25-year journey in media and communications, including my most recent role as Head of TV at Kenya Television Network.
+              </p>
+              
+              <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
+                At its core, this is a space to connect freely, honor our shared humanity, and celebrate the power of stories. Whether through my podcast What's Your Story Africa, my writings, or the paths I've walked in media, I sincerely
+                hope that you feel seen, heard, inspired, and elevated as we share our experiences with clarity and heart.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-6 animate-elegant-slideUp" style={{ animationDelay: '0.6s' }}>
+                <a 
+                  href="https://www.youtube.com/@WhatsYourStoryAfrica" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-full hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                >
+                  <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
+                  Watch Latest Episodes
+                </a>
+                <button 
+                  onClick={() => setCurrentView('connect')}
+                  className="group inline-flex items-center px-8 py-4 bg-white/80 backdrop-blur-sm border-2 border-emerald-200 text-emerald-700 font-semibold rounded-full hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 hover:scale-105"
+                >
+                  Share Your Story
+                  <ExternalLink className="w-5 h-5 ml-2 group-hover:scale-110 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            {/* Right Image */}
+            <div className="relative animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
+              <div className="text-center mb-4 lg:hidden">
+                {/* <p className="text-sm text-gray-600 font-medium">Catherine</p> */}
+              </div>
+              <div className="relative">
+                <img 
+                  src="/img/catherine/catherine-hero.jpg"
+                  alt="Catherine Mwangi - Host of What's Your Story Africa"
+                  className="w-full max-w-md mx-auto rounded-3xl shadow-2xl hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-600/20 to-transparent rounded-3xl"></div>
+                <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-500 rounded-full opacity-20 animate-gentle-pulse"></div>
+                <div className="absolute -top-6 -left-6 w-16 h-16 bg-teal-500 rounded-full opacity-30 animate-float"></div>
+              </div>
+              <div className="hidden lg:block text-center mt-4">
+                <p className="text-sm text-gray-600 font-medium"></p>
+                <p className="text-xs text-gray-500">From the Heart of Africa – Preserved for Generations</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* YouTube Videos Section */}
+      <section className="py-24 bg-white mt-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-12"></div>
+          
+          {videosLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(9)].map((_, index) => (
+                <div key={index} className="bg-gray-200 rounded-xl h-52 animate-pulse"></div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {youtubeVideos.map((video, index) => {
+                const uniqueKey = video.id ? `${video.id}-${index}` : `video-${index}`;
+                const rawName = video.guestName || video.title || 'Guest Speaker';
+                const cleanName = rawName
+                  .replace(/What's Your Story Africa[:\-\s]*/gi, '')
+                  .replace(/Whats Your Story Africa[:\-\s]*/gi, '')
+                  .replace(/WYSA[:\-\s]*/gi, '')
+                  .replace(/Episode[:\-\s]*\d*[:\-\s]*/gi, '')
+                  .replace(/^[:\-\s]+/, '')
+                  .trim();
+
+                return (
+                  <div key={uniqueKey} className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+                    <div className="relative">
+                      <img 
+                        src={video.thumbnail} 
+                        alt={`${cleanName} - What's Your Story Africa`}
+                        className="w-full h-48 object-cover bg-gray-100 group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+                          <Play className="w-5 h-5 text-emerald-600 ml-0.5" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-4 flex items-center justify-between min-h-[60px]">
+                      <h3 className="text-base font-semibold text-gray-900 flex-1 pr-3 line-clamp-2 leading-tight">
+                        {cleanName}
+                      </h3>
+                      <a 
+                        href={video.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-emerald-600 hover:text-emerald-700 transition-colors text-sm font-medium whitespace-nowrap flex-shrink-0 ml-2"
+                      >
+                        Watch
+                        <ExternalLink className="w-4 h-4 ml-1" />
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="text-center mt-16">
+            <a 
+              href="https://www.youtube.com/@WhatsYourStoryAfrica" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
+            >
+              <Play className="w-4 h-4 mr-2" />
+              View All Episodes on YouTube
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 
@@ -823,7 +825,7 @@ const App = () => {
 
               {/* Comments Section */}
               <div className="mt-8">
-                <h4 className="text-lg font-semibold mb-4">Leave a Comment</h4>
+                <h4 className="text-lg font-semibold mb-4">Leave a Feedback</h4>
                 <form className="space-y-4">
                   <input
                     type="text"
@@ -832,7 +834,7 @@ const App = () => {
                   />
                   <input
                     type="email"
-                    placeholder="Your Email"
+                    placeholder="Your Feedback"
                     className="w-full p-3 border border-gray-300 rounded-lg"
                   />
                   <textarea
@@ -925,7 +927,7 @@ const App = () => {
               <div className="bg-gradient-to-br from-[#006A4E] to-[#00563f] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                 <div className="text-center h-full flex flex-col">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="bi bi-handshake-fill text-xl"></i>
+                    <i className="bi bi-infinity  text-xl"></i>
                   </div>
                   <h3 className="text-xl font-bold mb-4">Let's Co-Create</h3>
                   <p className="text-white mb-6 flex-grow">
@@ -1070,7 +1072,7 @@ const App = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           <div className="text-center lg:text-left">
             <button 
-              onClick={() => setCurrentView('home')}
+              onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
               className="flex items-center justify-center lg:justify-start"
             >
               <img 
@@ -1165,7 +1167,7 @@ const App = () => {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-between h-20">
               <button 
-                onClick={() => setCurrentView('home')}
+                onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
                 className="flex items-center"
               >
                 <img 
@@ -1181,10 +1183,10 @@ const App = () => {
 
               <div className="flex items-center space-x-8">
                 <button 
-                  onClick={() => setCurrentView('catherine')}
+                  onClick={() => setCurrentView('podcasts')} // Changed to 'podcasts'
                   className="font-medium text-gray-700 hover:text-emerald-600 transition-colors"
                 >
-                  About Catherine
+                  Podcasts
                 </button>
                 <button 
                   onClick={() => setCurrentView('connect')}
@@ -1212,7 +1214,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20">
             <button 
-              onClick={() => setCurrentView('home')}
+              onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
               className="flex items-center"
             >
               <img 
@@ -1235,7 +1237,17 @@ const App = () => {
                     : 'text-gray-700 hover:text-emerald-600'
                 }`}
               >
-                About Catherine
+                Home
+              </button>
+              <button 
+                onClick={() => setCurrentView('podcasts')} // New Podcasts button
+                className={`font-medium transition-colors ${
+                  currentView === 'podcasts' 
+                    ? 'text-emerald-600' 
+                    : 'text-gray-700 hover:text-emerald-600'
+                }`}
+              >
+                Podcasts
               </button>
               <button 
                 onClick={() => setCurrentView('connect')}
@@ -1272,7 +1284,20 @@ const App = () => {
                     : 'text-gray-700 hover:text-emerald-600'
                 }`}
               >
-                About Catherine
+                Home
+              </button>
+              <button 
+                onClick={() => {
+                  setCurrentView('podcasts'); // New Podcasts button
+                  setMobileMenuOpen(false);
+                }}
+                className={`block w-full text-left font-medium transition-colors ${
+                  currentView === 'podcasts' 
+                    ? 'text-emerald-600' 
+                    : 'text-gray-700 hover:text-emerald-600'
+                }`}
+              >
+                Podcasts
               </button>
               <button 
                 onClick={() => {
@@ -1293,8 +1318,8 @@ const App = () => {
       </nav>
 
       <main className="pt-20">
-        {currentView === 'home' && renderHome()}
         {currentView === 'catherine' && renderCatherine()}
+        {currentView === 'podcasts' && renderPodcasts()}
         {currentView === 'connect' && renderConnect()}
       </main>
       
