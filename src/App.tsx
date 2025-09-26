@@ -695,8 +695,6 @@ const App = () => {
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
-                          <Play className="w-5 h-5 text-emerald-600 ml-0.5" />
                         </div>
                       </div>
                     </div>
@@ -759,8 +757,6 @@ const App = () => {
                 </h1>
                 <div className="flex items-center text-gray-600 text-sm space-x-4 mb-6">
                   <span>{post.author}</span>
-                  <span>•</span>
-                  <span>{post.read_time}</span>
                 </div>
                 {post.excerpt && (
                   <p className="text-xl text-gray-600 leading-relaxed">

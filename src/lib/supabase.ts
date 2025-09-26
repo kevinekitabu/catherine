@@ -13,7 +13,6 @@ export interface BlogPost {
   author?: string;
   slug: string;
   published_date: string;
-  read_time?: string;
   tags?: string[];
   featured?: boolean;
   status?: 'draft' | 'published' | 'archived';
@@ -232,7 +231,6 @@ export const blogService = {
             author: 'Catherine Mwangi',
             slug: file.name.replace(/\.[^/.]+$/, "").toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             published_date: new Date().toISOString().split('T')[0],
-            read_time: `${Math.ceil(content.split(' ').length / 200)} min read`,
             tags: [],
             featured: false,
             status: 'published'

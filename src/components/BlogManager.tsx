@@ -24,7 +24,6 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
     excerpt: '',
     slug: '',
     tags: '',
-    read_time: '5 min read',
     status: 'draft' as 'draft' | 'published',
     featured: false,
     thumbnail_url: ''
@@ -92,7 +91,6 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
       excerpt: '',
       slug: '',
       tags: '',
-      read_time: '5 min read',
       status: 'draft',
       featured: false,
       thumbnail_url: ''
@@ -109,7 +107,6 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
       excerpt: post.excerpt || '',
       slug: post.slug,
       tags: post.tags?.join(', ') || '',
-      read_time: post.read_time || '5 min read',
       status: post.status as 'draft' | 'published',
       featured: post.featured || false,
       thumbnail_url: post.thumbnail_url || ''
@@ -211,7 +208,6 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
         excerpt: formData.excerpt.trim(),
         slug: formData.slug.trim(),
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
-        read_time: formData.read_time,
         status: formData.status,
         featured: formData.featured,
         thumbnail_url: formData.thumbnail_url || undefined,
@@ -382,7 +378,6 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                           <p className="text-gray-600 mb-2">{post.excerpt}</p>
                           <div className="flex items-center text-sm text-gray-500 space-x-4">
                             <span>{new Date(post.published_date).toLocaleDateString()}</span>
-                            <span>{post.read_time}</span>
                             <span>{post.tags?.length || 0} tags</span>
                           </div>
                         </div>
@@ -574,6 +569,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                 )}
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Tags
@@ -587,18 +583,6 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Read Time
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.read_time}
-                      onChange={(e) => setFormData(prev => ({ ...prev, read_time: e.target.value }))}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                      placeholder="5 min read"
-                    />
-                  </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
