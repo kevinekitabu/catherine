@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
 
@@ -23,16 +23,16 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
   const [commentData, setCommentData] = useState({
     name: '',
     email: '',
-    comment: ''
+    feedback: ''
   });
 
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle comment submission logic here
-    console.log('Comment submitted:', commentData);
+    console.log('Feedback submitted:', commentData);
     // Reset form
-    setCommentData({ name: '', email: '', comment: '' });
-    alert('Thank you for your comment!');
+    setCommentData({ name: '', email: '', feedback: '' });
+    alert('Thank you for your feedback!');
   };
 
   const filteredPosts = blogPosts.filter(post =>
@@ -44,34 +44,23 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
 
   return (
     <div className="w-full lg:w-80 space-y-8">
-      {/* Search Section */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
-        <div className="flex items-center mb-4">
-          <i className="bi bi-search text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">Search</h3>
-        </div>
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
-          <i className="bi bi-search absolute left-3 top-3 text-gray-400"></i>
-        </div>
-        {searchQuery && (
-          <div className="mt-3 text-sm text-gray-600">
-            Found {filteredPosts.length} posts matching "{searchQuery}"
-          </div>
-        )}
-      </div>
+   {/* Search Section */}
+<div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
+  <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
+    <img
+      src="/img/logo/logobig.png"
+      alt="What's Your Story Africa Logo"
+      className="mx-auto h-6 md:h-8 w-auto object-contain drop-shadow-lg rounded-2xl"
+      style={{ maxWidth: '100%', height: 'auto' }}
+    />
+  </h1>
+</div>
 
       {/* About Me Section */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-person-circle text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">About Catherine</h3>
+          <h3 className="text-lg font-bold text-gray-900">Podcasts</h3>
         </div>
         <img 
           src="/img/catherine/catherine-hero.jpg"
@@ -107,7 +96,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             onClick={onMentorshipReadMore}
             className="block w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors text-center"
           >
-            Read more
+            Read More
           </button>
           <a
             href="https://calendly.com/catherine-wysa/30min"
@@ -125,7 +114,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
         <div className="flex items-center mb-4">
           <i className="bi bi-file-earmark-text text-emerald-600 text-lg mr-3"></i>
           <h3 className="text-lg font-bold text-gray-900">
-            {searchQuery ? 'Search Results' : 'Recent Posts'}
+            {searchQuery ? 'Search Results' : 'Reflections'}
           </h3>
         </div>
         <div className="space-y-4">
@@ -197,7 +186,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-chat-dots text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">Leave a Comment</h3>
+          <h3 className="text-lg font-bold text-gray-900">Feedback</h3>
         </div>
         <form onSubmit={handleCommentSubmit} className="space-y-3">
           <input
@@ -217,9 +206,9 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             required
           />
           <textarea
-            placeholder="Your Comment"
-            value={commentData.comment}
-            onChange={(e) => setCommentData({...commentData, comment: e.target.value})}
+            placeholder="Your Feedback"
+            value={commentData.feedback}
+            onChange={(e) => setCommentData({...commentData, feedback: e.target.value})}
             rows={3}
             className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
             required
@@ -228,7 +217,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             type="submit"
             className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
           >
-            Submit Comment
+            Submit 
           </button>
         </form>
       </div>
@@ -249,7 +238,7 @@ const NextButton = () => {
 };
 
 const App = () => {
-  const [currentView, setCurrentView] = useState('home');
+  const [currentView, setCurrentView] = useState('catherine'); // Changed default to 'catherine'
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBlogManager, setShowBlogManager] = useState(false);
   const [publishedBlogPosts, setPublishedBlogPosts] = useState<BlogPost[]>([]);
@@ -342,12 +331,12 @@ const App = () => {
   };
 
   const handleReadMoreClick = () => {
-    setCurrentView('catherine');
+    setCurrentView('podcasts'); // Changed to 'podcasts'
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSidePanelReadMore = () => {
-    setCurrentView('catherine');
+    setCurrentView('podcasts'); // Changed to 'podcasts'
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -366,7 +355,222 @@ const App = () => {
     }, 100);
   };
 
-  const renderHome = () => (
+  // Render About Catherine (now the landing page)
+  const renderCatherine = () => (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        {/* Main content grid with side panel */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Main content - spans 3 columns on large screens */}
+          <div className="lg:col-span-3">
+            {/* Catherine's Image - Centered */}
+            <div className="flex justify-center items-center mb-16">
+              <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
+                <div className="text-center mb-8">
+                  <p className="text-lg text-black-900 font-bold">From the Heart of Africa – Preserved for Generations</p>
+                </div>
+                
+                {/* Image Carousel */}
+                <div className="relative carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4 overflow-hidden">
+                  <div 
+                    className="flex carousel-track transition-transform duration-1000 ease-in-out"
+                    style={{ 
+                      transform: `translateX(${carouselPosition}px)`,
+                      gap: '24px'
+                    }}
+                  >
+                    {[...carouselImages, ...carouselImages].map((src, index) => (
+                      <div key={index} className="flex-shrink-0">
+                        <img 
+                          src={src}
+                          alt="Catherine Mwangi"
+                          className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-emerald-50 to-transparent pointer-events-none"></div>
+                  <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-teal-50 to-transparent pointer-events-none"></div>
+                </div>
+              </div>
+            </div>
+            
+            {/* About Section */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-12 border border-white/50 shadow-xl">
+              <div className="prose prose-lg text-gray-600 max-w-none">
+                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                  For more than 25 years, my life has been woven into the fabric of storytelling. 
+                  My career in media began as an intern at Kenya Television Network (KTN). 
+                  Those early days laid the foundation for everything that followed: curiosity, resilience, 
+                  and a deep respect for the power of storytelling.
+                </p>
+                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                  In 2013, I experienced a full-circle moment: returning to KTN as Head of TV, 
+                  exactly where my journey had begun. Storytelling, for me, has never been just a career; 
+                  it's a calling. Leading three television channels was both a privilege and a responsibility.
+                </p>
+                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                  My work has taken me beyond Kenya to global stages across Africa, the Middle East, and Europe, 
+                  where I have moderated high-level panels, conducted thought-provoking interviews, 
+                  and facilitated cross-cultural dialogues.
+                </p>
+                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                  Today, I continue this mission through <strong>What's Your Story Africa</strong>, 
+                  a platform that began as a television show and has since evolved into a podcast and community.
+                </p>
+                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                  Beyond the cameras, lights, and mics, I have dedicated myself to mentoring the next generation of storytellers and communicators.
+                </p>
+                <p className="text-lg md:text-l leading-relaxed tracking-wide">
+                  Alongside this, I have embraced life coaching as a way to walk with people through their personal journeys, 
+                  especially those navigating the defining years of 25–35, as well as parents who entrust me to mentor their teenage daughters.
+                </p>
+              </div>
+            </div>
+
+           {/* Blog Posts */}
+<div className="mb-12">
+  <h2 className="text-3xl font-bold text-gray-900 mb-8">Reflections</h2>
+  {publishedBlogPosts.length > 0 ? (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {publishedBlogPosts.map((post, index) => (
+        <article 
+          key={post.id}
+          className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+          onClick={() => handleBlogPostClick(post)}
+        >
+          <div className="w-full h-48 overflow-hidden bg-gray-100">
+            <img 
+              src={post.thumbnail_url || getDefaultThumbnail(index)}
+              alt={post.title}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = getDefaultThumbnail(index);
+              }}
+            />
+          </div>
+          <div className="p-6">
+            <div className="flex items-center text-sm text-gray-500 mb-3">
+              <span>{post.read_time}</span>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
+              {post.title}
+            </h3>
+            <p className="text-gray-600 mb-4">
+              {post.excerpt}
+            </p>
+            <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
+              Read More →
+            </span>
+          </div>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <div className="text-center py-12">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+        <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
+        <div className="text-sm text-blue-700 space-y-2">
+          <p><strong>Method 1 - Storage Upload:</strong></p>
+          <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
+          <p>• Upload .txt, .md, or .docx files</p>
+          <p>• Files are automatically converted to blog posts</p>
+          
+          <p className="mt-4"><strong>Method 2 - Direct Database:</strong></p>
+          <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
+          <p>• Click "Insert" → "Insert row"</p>
+          <p>• Fill in: title, content, slug, status='published'</p>
+          
+          <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
+          <p>• Use the "Create Your First Post" button below</p>
+        </div>
+      </div>
+      <button
+        onClick={loadPublishedBlogPosts}
+        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
+      >
+        Check for New Files
+      </button>
+      <button
+        onClick={() => setShowBlogManager(true)}
+        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+      >
+        Create Your First Post
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </button>
+    </div>
+  )}
+  
+  {publishedBlogPosts.length > 0 && (
+    <div className="mt-12 text-center">
+      <button
+        onClick={() => setShowBlogManager(true)}
+        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+      >
+        Manage Blog Posts
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </button>
+    </div>
+  )}
+</div>
+
+            {/* Comments Section with Next Button */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
+              <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
+              <form className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+                <textarea
+                  placeholder="Your Feedback"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  rows={4}
+                />
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+                >
+                  Submit 
+                </button>
+              </form>
+              
+              {/* Next Button */}
+              <NextButton />
+            </div>
+          </div>
+
+          {/* Side Panel - spans 1 column on large screens, hidden on mobile */}
+          <div className="hidden lg:block lg:col-span-1">
+            <SidePanel 
+              blogPosts={publishedBlogPosts} 
+              videos={youtubeVideos}
+              onReadMore={handleSidePanelReadMore}
+              onMentorshipReadMore={handleMentorshipReadMore}
+              onPostClick={handleBlogPostClick}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Render Podcasts (previously the home page)
+  const renderPodcasts = () => (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50 overflow-hidden">
@@ -531,225 +735,6 @@ const App = () => {
     </div>
   );
 
-  const renderCatherine = () => (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        {/* Main content grid with side panel */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main content - spans 3 columns on large screens */}
-          <div className="lg:col-span-3">
-            {/* Catherine's Image - Centered */}
-            <div className="flex justify-center items-center mb-16">
-              <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-                <div className="text-center mb-8">
-                  <p className="text-lg text-black-900 font-bold">From the Heart of Africa – Preserved for Generations</p>
-                </div>
-                
-                {/* Image Carousel */}
-                <div className="relative carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4 overflow-hidden">
-                  <div 
-                    className="flex carousel-track transition-transform duration-1000 ease-in-out"
-                    style={{ 
-                      transform: `translateX(${carouselPosition}px)`,
-                      gap: '24px'
-                    }}
-                  >
-                    {[...carouselImages, ...carouselImages].map((src, index) => (
-                      <div key={index} className="flex-shrink-0">
-                        <img 
-                          src={src}
-                          alt="Catherine Mwangi"
-                          className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-emerald-50 to-transparent pointer-events-none"></div>
-                  <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-teal-50 to-transparent pointer-events-none"></div>
-                </div>
-              </div>
-            </div>
-            
-            {/* About Section */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-12 border border-white/50 shadow-xl">
-              <div className="prose prose-lg text-gray-600 max-w-none">
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
-                  For more than 25 years, my life has been woven into the fabric of storytelling. 
-                  My career in media began as an intern at Kenya Television Network (KTN). 
-                  Those early days laid the foundation for everything that followed: curiosity, resilience, 
-                  and a deep respect for the power of storytelling.
-                </p>
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
-                  In 2013, I experienced a full-circle moment: returning to KTN as Head of TV, 
-                  exactly where my journey had begun. Storytelling, for me, has never been just a career; 
-                  it's a calling. Leading three television channels was both a privilege and a responsibility.
-                </p>
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
-                  My work has taken me beyond Kenya to global stages across Africa, the Middle East, and Europe, 
-                  where I have moderated high-level panels, conducted thought-provoking interviews, 
-                  and facilitated cross-cultural dialogues.
-                </p>
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
-                  Today, I continue this mission through <strong>What's Your Story Africa</strong>, 
-                  a platform that began as a television show and has since evolved into a podcast and community.
-                </p>
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
-                  Beyond the cameras, lights, and mics, I have dedicated myself to mentoring the next generation of storytellers and communicators.
-                </p>
-                <p className="text-lg md:text-l leading-relaxed tracking-wide">
-                  Alongside this, I have embraced life coaching as a way to walk with people through their personal journeys, 
-                  especially those navigating the defining years of 25–35, as well as parents who entrust me to mentor their teenage daughters.
-                </p>
-              </div>
-            </div>
-
-            {/* Blog Posts */}
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Reflections</h2>
-              {publishedBlogPosts.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {publishedBlogPosts.map((post, index) => (
-                    <article 
-                      key={post.id}
-                      className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
-                      onClick={() => handleBlogPostClick(post)}
-                    >
-                      <div className="w-full h-48 overflow-hidden bg-gray-100">
-                        <img 
-                         src={post.thumbnail_url || getDefaultThumbnail(index)}
-                          alt={post.title}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = getDefaultThumbnail(index);
-                          }}
-                        />
-                      </div>
-                      <div className="p-6">
-                        <div className="flex items-center text-sm text-gray-500 mb-3">
-                          <span>{new Date(post.published_date).toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric' 
-                          })}</span>
-                          <span className="mx-2">•</span>
-                          <span>{post.read_time}</span>
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
-                          {post.title}
-                        </h3>
-                        <p className="text-gray-600 mb-4">
-                          {post.excerpt}
-                        </p>
-                        <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
-                          Read More →
-                        </span>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-                    <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
-                    <div className="text-sm text-blue-700 space-y-2">
-                      <p><strong>Method 1 - Storage Upload:</strong></p>
-                      <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
-                      <p>• Upload .txt, .md, or .docx files</p>
-                      <p>• Files are automatically converted to blog posts</p>
-                      
-                      <p className="mt-4"><strong>Method 2 - Direct Database:</strong></p>
-                      <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
-                      <p>• Click "Insert" → "Insert row"</p>
-                      <p>• Fill in: title, content, slug, status='published'</p>
-                      
-                      <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
-                      <p>• Use the "Create Your First Post" button below</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={loadPublishedBlogPosts}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
-                  >
-                    Check for New Files
-                  </button>
-                  <button
-                    onClick={() => setShowBlogManager(true)}
-                    className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
-                    Create Your First Post
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </button>
-                </div>
-              )}
-              
-              {publishedBlogPosts.length > 0 && (
-                <div className="mt-12 text-center">
-                  <button
-                    onClick={() => setShowBlogManager(true)}
-                    className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
-                    Manage Blog Posts
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Comments Section with Next Button */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
-              <h4 className="text-xl font-semibold mb-6">Leave a Comment</h4>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your Email"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  />
-                </div>
-                <textarea
-                  placeholder="Your Comment"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  rows={4}
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                >
-                  Submit Comment
-                </button>
-              </form>
-              
-              {/* Next Button */}
-              <NextButton />
-            </div>
-          </div>
-
-          {/* Side Panel - spans 1 column on large screens, hidden on mobile */}
-          <div className="hidden lg:block lg:col-span-1">
-            <SidePanel 
-              blogPosts={publishedBlogPosts} 
-              videos={youtubeVideos}
-              onReadMore={handleSidePanelReadMore}
-              onMentorshipReadMore={handleMentorshipReadMore}
-              onPostClick={handleBlogPostClick}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
   const renderBlogPost = (post: BlogPost) => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       <div className="max-w-7xl mx-auto px-6 py-20">
@@ -823,7 +808,7 @@ const App = () => {
 
               {/* Comments Section */}
               <div className="mt-8">
-                <h4 className="text-lg font-semibold mb-4">Leave a Comment</h4>
+                <h4 className="text-lg font-semibold mb-4">Leave a Feedback</h4>
                 <form className="space-y-4">
                   <input
                     type="text"
@@ -832,7 +817,7 @@ const App = () => {
                   />
                   <input
                     type="email"
-                    placeholder="Your Email"
+                    placeholder="Your Feedback"
                     className="w-full p-3 border border-gray-300 rounded-lg"
                   />
                   <textarea
@@ -925,7 +910,7 @@ const App = () => {
               <div className="bg-gradient-to-br from-[#006A4E] to-[#00563f] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                 <div className="text-center h-full flex flex-col">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="bi bi-handshake-fill text-xl"></i>
+                    <i className="bi bi-infinity  text-xl"></i>
                   </div>
                   <h3 className="text-xl font-bold mb-4">Let's Co-Create</h3>
                   <p className="text-white mb-6 flex-grow">
@@ -1070,7 +1055,7 @@ const App = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           <div className="text-center lg:text-left">
             <button 
-              onClick={() => setCurrentView('home')}
+              onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
               className="flex items-center justify-center lg:justify-start"
             >
               <img 
@@ -1165,7 +1150,7 @@ const App = () => {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-center justify-between h-20">
               <button 
-                onClick={() => setCurrentView('home')}
+                onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
                 className="flex items-center"
               >
                 <img 
@@ -1181,10 +1166,10 @@ const App = () => {
 
               <div className="flex items-center space-x-8">
                 <button 
-                  onClick={() => setCurrentView('catherine')}
+                  onClick={() => setCurrentView('podcasts')} // Changed to 'podcasts'
                   className="font-medium text-gray-700 hover:text-emerald-600 transition-colors"
                 >
-                  About Catherine
+                  Podcasts
                 </button>
                 <button 
                   onClick={() => setCurrentView('connect')}
@@ -1212,7 +1197,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20">
             <button 
-              onClick={() => setCurrentView('home')}
+              onClick={() => setCurrentView('catherine')} // Changed to 'catherine'
               className="flex items-center"
             >
               <img 
@@ -1235,7 +1220,17 @@ const App = () => {
                     : 'text-gray-700 hover:text-emerald-600'
                 }`}
               >
-                About Catherine
+                Home
+              </button>
+              <button 
+                onClick={() => setCurrentView('podcasts')} // New Podcasts button
+                className={`font-medium transition-colors ${
+                  currentView === 'podcasts' 
+                    ? 'text-emerald-600' 
+                    : 'text-gray-700 hover:text-emerald-600'
+                }`}
+              >
+                Podcasts
               </button>
               <button 
                 onClick={() => setCurrentView('connect')}
@@ -1272,7 +1267,20 @@ const App = () => {
                     : 'text-gray-700 hover:text-emerald-600'
                 }`}
               >
-                About Catherine
+                Home
+              </button>
+              <button 
+                onClick={() => {
+                  setCurrentView('podcasts'); // New Podcasts button
+                  setMobileMenuOpen(false);
+                }}
+                className={`block w-full text-left font-medium transition-colors ${
+                  currentView === 'podcasts' 
+                    ? 'text-emerald-600' 
+                    : 'text-gray-700 hover:text-emerald-600'
+                }`}
+              >
+                Podcasts
               </button>
               <button 
                 onClick={() => {
@@ -1293,8 +1301,8 @@ const App = () => {
       </nav>
 
       <main className="pt-20">
-        {currentView === 'home' && renderHome()}
         {currentView === 'catherine' && renderCatherine()}
+        {currentView === 'podcasts' && renderPodcasts()}
         {currentView === 'connect' && renderConnect()}
       </main>
       
