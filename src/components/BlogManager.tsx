@@ -611,6 +611,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                     Featured Post
                   </label>
                 </div>
+              </div>
 
                 {formError && (
                   <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
