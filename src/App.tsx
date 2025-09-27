@@ -380,15 +380,17 @@ const App = () => {
         {/* Main content grid with side panel */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content - spans 3 columns on large screens */}
-          <div className="lg:col-span-3">
-            {/* Catherine's Image - Centered */}
-            <div className="flex justify-center items-center mb-16">
-              <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-                {/* UPDATED: Centered the title with better styling */}
-                <div className="inline-flex items-center justify-center  px-8 py-4 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
-                  <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
-                  From the Heart of Africa.
-                </div>
+      <div className="lg:col-span-3">
+  {/* Catherine's Image - Centered */}
+  <div className="flex justify-center items-center mb-16">
+    <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
+      {/* UPDATED: Centered the title with better styling */}
+      <div className="flex justify-center w-full mb-8">
+        <div className="inline-flex items-center justify-center px-8 py-4 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
+          <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+          From the Heart of Africa.
+        </div>
+      </div>
                 
                 {/* Image Carousel */}
                 <div className="relative carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4 overflow-hidden">
