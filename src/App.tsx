@@ -11,7 +11,7 @@ import ImageCarousel from './components/ImageCarousel';
 import { blogService, BlogPost } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
 
-// SidePanel Component - UPDATED: Removed YouTube label
+// SidePanel Component - UPDATED: Removed YouTube label and dates
 const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipReadMore }: { 
   blogPosts: BlogPost[], 
   videos: YouTubeVideo[],
@@ -109,7 +109,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
         </div>
       </div>
 
-      {/* Recent Posts Section */}
+      {/* Recent Posts Section - UPDATED: Removed dates */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-file-earmark-text text-emerald-600 text-lg mr-3"></i>
@@ -134,9 +134,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
                   <p className="text-sm font-medium text-gray-900 truncate group-hover:text-emerald-600 transition-colors">
                     {post.title}
                   </p>
-                  <p className="text-xs text-gray-500">
-                    {new Date(post.published_date).toLocaleDateString()}
-                  </p>
+                  {/* REMOVED: Date display */}
                 </div>
               </div>
             ))
@@ -225,11 +223,23 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
   );
 };
 
-// Next Button Component
-const NextButton = () => {
+// Next Button Component - UPDATED: Added functionality
+const NextButton = ({ onNext, currentPost, allPosts }: { 
+  onNext: () => void, 
+  currentPost: BlogPost, 
+  allPosts: BlogPost[] 
+}) => {
+  const currentIndex = allPosts.findIndex(post => post.id === currentPost.id);
+  const hasNext = currentIndex < allPosts.length - 1;
+
+  if (!hasNext) return null; // Don't show button if there's no next post
+
   return (
     <div className="text-center mt-8 pt-6 border-t border-gray-200">
-      <button className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105">
+      <button 
+        onClick={onNext}
+        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
+      >
         Next Post
         <ArrowRight className="w-5 h-5 ml-2" />
       </button>
@@ -330,6 +340,16 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // UPDATED: Function to handle next post navigation
+  const handleNextPost = (currentPost: BlogPost) => {
+    const currentIndex = publishedBlogPosts.findIndex(post => post.id === currentPost.id);
+    if (currentIndex < publishedBlogPosts.length - 1) {
+      const nextPost = publishedBlogPosts[currentIndex + 1];
+      setCurrentView(`blog-${nextPost.slug}`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const handleReadMoreClick = () => {
     setCurrentView('podcasts');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -364,10 +384,10 @@ const App = () => {
             {/* Catherine's Image - Centered */}
             <div className="flex justify-center items-center mb-16">
               <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-                {/* UPDATED: Centered the title */}
-                <div className="inline-flex items-center justify-center w-full px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
+                {/* UPDATED: Centered the title with better styling */}
+                <div className="inline-flex items-center justify-center  px-8 py-4 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
                   <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
-                  From the Heart of Africa. Preserved for Generations
+                  From the Heart of Africa.
                 </div>
                 
                 {/* Image Carousel */}
@@ -438,7 +458,7 @@ const App = () => {
               </div>
             </div>
 
-            {/* Blog Posts - UPDATED: Removed Manage Blog Posts button from main view */}
+            {/* Blog Posts - UPDATED: Removed Create Post button */}
             <div className="mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-8">Reflections</h2>
               {publishedBlogPosts.length > 0 ? (
@@ -491,31 +511,19 @@ const App = () => {
                       <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
                       <p>• Click "Insert" → "Insert row"</p>
                       <p>• Fill in: title, content, slug, status='published'</p>
-                      
-                      <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
-                      <p>• Use the "Create Your First Post" button below</p>
                     </div>
                   </div>
                   <button
                     onClick={loadPublishedBlogPosts}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
+                    className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     Check for New Files
                   </button>
-                  <button
-                    onClick={() => setShowBlogManager(true)}
-                    className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
-                    Create Your First Post
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </button>
                 </div>
               )}
-              
-              {/* REMOVED: Manage Blog Posts button from main view */}
             </div>
 
-            {/* Comments Section with Next Button */}
+            {/* Comments Section */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
               <h4 className="text-xl font-semibold mb-6">Share Your Comments</h4>
               <form className="space-y-4">
@@ -543,9 +551,6 @@ const App = () => {
                   Submit 
                 </button>
               </form>
-              
-              {/* Next Button */}
-              <NextButton />
             </div>
           </div>
 
@@ -823,8 +828,12 @@ const App = () => {
                 </form>
               </div>
 
-              {/* Next Button */}
-              <NextButton />
+              {/* UPDATED: Next Button with functionality */}
+              <NextButton 
+                onNext={() => handleNextPost(post)} 
+                currentPost={post} 
+                allPosts={publishedBlogPosts} 
+              />
             </article>
           </div>
 
@@ -848,12 +857,14 @@ const App = () => {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content */}
-          <div className="lg:col-span-3 ">
-            {/* UPDATED: Centered the title */}
-            <div className="inline-flex items-center justify-center w-full px-8 py-5 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
-              Here are ways to connect with me. Together, we go further.
-            </div>
+        <div className="lg:col-span-3  ">
+  {/* UPDATED: Better styled rectangle for "Together, we go further" */}
+  <div className="flex justify-center w-full mb-8"> {/* ADDED THIS WRAPPER */}
+    <div className="inline-flex items-center justify-center px-8 py-5 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
+      <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+      Together, we go further.
+    </div>
+  </div>
               
 
             {/* Three Green Boxes */}
@@ -941,7 +952,7 @@ const App = () => {
             {/* Mentorship Section - ADDED ID */}
             <div id="mentorship-section" className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
               <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text--900 mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                   MENTORSHIP
                 </h2>
                 <p className="text-xl text-gray-600 italic">
@@ -1038,7 +1049,7 @@ const App = () => {
     currentView.startsWith('blog-') && currentView === `blog-${post.slug}`
   );
 
-  // Footer component - UPDATED: Added hidden Manage Blog Posts button
+  // Footer component - UPDATED: Completely removed Manage Blog Posts button
   const Footer = () => (
     <footer className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 py-12">
       <div className="max-w-7xl mx-auto px-6">
@@ -1130,17 +1141,7 @@ const App = () => {
           </div>
         </div>
         
-        {/* UPDATED: Hidden Manage Blog Posts button in footer */}
-        <div className="text-center mt-8 pt-4 border-t border-white/20">
-          <button
-            onClick={() => setShowBlogManager(true)}
-            className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm text-white/70 text-xs font-medium rounded-lg hover:bg-white/20 hover:text-white transition-colors opacity-50 hover:opacity-100"
-            title="Admin Only - Manage Blog Posts"
-          >
-            <i className="bi bi-gear-fill mr-2"></i>
-            Manage Blog Posts
-          </button>
-        </div>
+        {/* REMOVED: Entire Manage Blog Posts button section */}
       </div>
     </footer>
   );
