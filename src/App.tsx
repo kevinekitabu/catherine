@@ -82,7 +82,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
         </button>
       </div>
 
-      {/* Mentorship Section */}
+      {/* Mentorship Section - UPDATED: Fixed Calendly link */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <div className="flex items-center mb-4">
           <i className="bi bi-people-fill text-emerald-600 text-lg mr-3"></i>
@@ -99,7 +99,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             Read More
           </button>
           <a
-            href="https://calendly.com/catherine-wysa/30min"
+            href="https://calendly.com/catherine-whatsyourstoryafrica"
             target="_blank"
             rel="noopener noreferrer"
             className="block w-full py-2 bg-green-700 text-white text-sm font-semibold rounded-lg hover:bg-green-800 transition-colors text-center"
@@ -373,24 +373,24 @@ const App = () => {
     }, 100);
   };
 
-  // Render About Catherine (now the landing page) - UPDATED: Centered title
+  // Render About Catherine (now the landing page)
   const renderCatherine = () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       <div className="max-w-7xl mx-auto px-6 py-20">
         {/* Main content grid with side panel */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content - spans 3 columns on large screens */}
-      <div className="lg:col-span-3">
-  {/* Catherine's Image - Centered */}
-  <div className="flex justify-center items-center mb-16">
-    <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-      {/* UPDATED: Centered the title with better styling */}
-      <div className="flex justify-center w-full mb-8">
-        <div className="inline-flex items-center justify-center px-8 py-4 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
-          <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
-          From the Heart of Africa.
-        </div>
-      </div>
+          <div className="lg:col-span-3">
+            {/* Catherine's Image - Centered */}
+            <div className="flex justify-center items-center mb-16">
+              <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
+                {/* UPDATED: Centered the title with better styling */}
+                <div className="flex justify-center w-full mb-8">
+                  <div className="inline-flex items-center justify-center px-8 py-4 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
+                    <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+                    From the Heart of Africa.
+                  </div>
+                </div>
                 
                 {/* Image Carousel */}
                 <div className="relative carousel-wrapper rounded-3xl shadow-2xl bg-gradient-to-r from-emerald-50 to-teal-50 p-4 overflow-hidden">
@@ -859,15 +859,14 @@ const App = () => {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content */}
-        <div className="lg:col-span-3  ">
-  {/* UPDATED: Better styled rectangle for "Together, we go further" */}
-  <div className="flex justify-center w-full mb-8"> {/* ADDED THIS WRAPPER */}
-    <div className="inline-flex items-center justify-center px-8 py-5 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
-      <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
-      Together, we go further.
-    </div>
-  </div>
-              
+          <div className="lg:col-span-3">
+            {/* UPDATED: Better styled rectangle for "Together, we go further" */}
+            <div className="flex justify-center w-full mb-8">
+              <div className="inline-flex items-center justify-center px-8 py-5 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+                Together, we go further.
+              </div>
+            </div>
 
             {/* Three Green Boxes */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
@@ -951,7 +950,7 @@ const App = () => {
               </form>
             </div>
 
-            {/* Mentorship Section - ADDED ID */}
+            {/* Mentorship Section - UPDATED: Fixed Calendly links */}
             <div id="mentorship-section" className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
               <div className="text-center mb-8">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -991,7 +990,7 @@ const App = () => {
 
                 <div className="text-center my-8">
                   <a
-                    href="https://calendly.com/catherine-wysa/30min"
+                    href="https://calendly.com/catherine-whatsyourstoryafrica"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center px-8 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:scale-105"
@@ -1017,7 +1016,7 @@ const App = () => {
                       <ExternalLink className="w-4 h-4 ml-2" />
                     </a>
                     <a
-                      href="https://calendly.com/catherine-wysa/30min"
+                      href="https://calendly.com/catherine-whatsyourstoryafrica"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-semibold rounded-lg hover:bg-emerald-600 hover:text-white transition-all duration-300"
@@ -1082,7 +1081,7 @@ const App = () => {
             </p>
             <button 
               onClick={() => setCurrentView('connect')}
-              className="inline-flex items-center px-5 py-2.5 bg-white text-emerald-600 font-semibold rounded-full hover:bg-emerald-50 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              className="inline-flex items-center px-5 py-2.5 bg-white text-emerald-600 font-semibold rounded-lg hover:bg-emerald-50 transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               Get In Touch
               <ExternalLink className="w-5 h-5 ml-2" />
