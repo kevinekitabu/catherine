@@ -11,6 +11,76 @@ import ImageCarousel from './components/ImageCarousel';
 import { blogService, BlogPost } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
 
+// Social Share Buttons Component - UPDATED: Single icon that expands
+const SocialShareButtons = ({ post, url }: { post: BlogPost, url: string }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shareUrl = encodeURIComponent(url);
+  const title = encodeURIComponent(post.title);
+  const excerpt = encodeURIComponent(post.excerpt || '');
+
+  const shareLinks = {
+    twitter: `https://twitter.com/intent/tweet?text=${title}&url=${shareUrl}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${title}%20${shareUrl}`
+  };
+
+  const handleShare = (platform: string, link: string) => {
+    window.open(link, '_blank', 'width=600,height=400');
+    setIsExpanded(false);
+  };
+
+  return (
+    <div className="mt-8 pt-6 border-t border-gray-200">
+      <h4 className="text-lg font-semibold mb-4 text-gray-900">Share this post</h4>
+      <div className="flex items-center space-x-2">
+        {/* Share toggle button */}
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+        >
+          <i className="bi bi-share-fill mr-2"></i>
+          Share
+        </button>
+
+        {/* Expanded social buttons */}
+        {isExpanded && (
+          <div className="flex space-x-2 ml-2">
+            <button
+              onClick={() => handleShare('twitter', shareLinks.twitter)}
+              className="w-10 h-10 bg-[#1DA1F2] text-white rounded-full flex items-center justify-center hover:bg-[#1a8cd8] transition-colors"
+              title="Share on Twitter"
+            >
+              <i className="bi bi-twitter"></i>
+            </button>
+            <button
+              onClick={() => handleShare('facebook', shareLinks.facebook)}
+              className="w-10 h-10 bg-[#4267B2] text-white rounded-full flex items-center justify-center hover:bg-[#365899] transition-colors"
+              title="Share on Facebook"
+            >
+              <i className="bi bi-facebook"></i>
+            </button>
+            <button
+              onClick={() => handleShare('linkedin', shareLinks.linkedin)}
+              className="w-10 h-10 bg-[#0077b5] text-white rounded-full flex items-center justify-center hover:bg-[#00669c] transition-colors"
+              title="Share on LinkedIn"
+            >
+              <i className="bi bi-linkedin"></i>
+            </button>
+            <button
+              onClick={() => handleShare('whatsapp', shareLinks.whatsapp)}
+              className="w-10 h-10 bg-[#25D366] text-white rounded-full flex items-center justify-center hover:bg-[#20bd5a] transition-colors"
+              title="Share on WhatsApp"
+            >
+              <i className="bi bi-whatsapp"></i>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // SidePanel Component - UPDATED: Removed YouTube label and dates
 const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipReadMore }: { 
   blogPosts: BlogPost[], 
@@ -68,7 +138,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
           className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-emerald-200"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=300";
+            target.src = "https://images.pexels.com/photos-3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=300";
           }}
         />
         <p className="text-gray-600 text-sm text-center mb-3">
@@ -126,7 +196,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
                 onClick={() => onPostClick(post)}
               >
                 <img 
-                  src={post.thumbnail_url || `https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=100&h=75`}
+                  src={post.thumbnail_url || `https://images.pexels.com/photos-3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=100&h=75`}
                   alt={post.title}
                   className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                 />
@@ -260,12 +330,12 @@ const App = () => {
   // Default thumbnail images for blog posts
   const getDefaultThumbnail = (index: number) => {
     const defaultThumbnails = [
-      'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-      'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-      'https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-      'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-      'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-      'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400&h=300'
+      'https://images.pexels.com/photos-3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
+      'https://images.pexels.com/photos-1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
+      'https://images.pexels.com/photos-1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
+      'https://images.pexels.com/photos-3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
+      'https://images.pexels.com/photos-1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
+      'https://images.pexels.com/photos-3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400&h=300'
     ];
     return defaultThumbnails[index % defaultThumbnails.length];
   };
@@ -409,7 +479,7 @@ const App = () => {
                           className="w-48 h-64 object-cover rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
+                            target.src = "https://images.pexels.com/photos-3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=400";
                           }}
                         />
                       </div>
@@ -468,8 +538,7 @@ const App = () => {
                   {publishedBlogPosts.map((post, index) => (
                     <article 
                       key={post.id}
-                      className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
-                      onClick={() => handleBlogPostClick(post)}
+                      className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                     >
                       <div className="w-full h-48 overflow-hidden bg-gray-100">
                         <img 
@@ -486,15 +555,24 @@ const App = () => {
                         <div className="flex items-center text-sm text-gray-500 mb-3">
                           <span>{post.read_time}</span>
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
+                        <h3 
+                          className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors cursor-pointer"
+                          onClick={() => handleBlogPostClick(post)}
+                        >
                           {post.title}
                         </h3>
                         <p className="text-gray-600 mb-4">
                           {post.excerpt}
                         </p>
-                        <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
-                          Read More →
-                        </span>
+                        <div className="flex justify-between items-center">
+                          <span 
+                            className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors cursor-pointer"
+                            onClick={() => handleBlogPostClick(post)}
+                          >
+                            Read More →
+                          </span>
+                   
+                        </div>
                       </div>
                     </article>
                   ))}
@@ -642,7 +720,7 @@ const App = () => {
                   className="w-full max-w-md mx-auto rounded-3xl shadow-2xl hover:scale-105 transition-transform duration-500"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600";
+                    target.src = "https://images.pexels.com/photos-3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600";
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-emerald-600/20 to-transparent rounded-3xl"></div>
@@ -737,122 +815,130 @@ const App = () => {
     </div>
   );
 
-  const renderBlogPost = (post: BlogPost) => (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main content */}
-          <div className="lg:col-span-3">
-            <article className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
-              {/* Thumbnail always at the top if present */}
-              {post.thumbnail_url && (
-                <div className="w-full h-64 md:h-80 overflow-hidden rounded-2xl mb-8">
-                  <img 
-                    src={post.thumbnail_url} 
-                    alt={post.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-              <header className="mb-8">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                  {post.title}
-                </h1>
-                <div className="flex items-center text-gray-600 text-sm space-x-4 mb-6">
-                  <span>{post.author}</span>
-                  <span>•</span>
-                  <span>{post.read_time}</span>
-                </div>
-                {post.excerpt && (
-                  <p className="text-xl text-gray-600 leading-relaxed">
-                    {post.excerpt}
-                  </p>
+  const renderBlogPost = (post: BlogPost) => {
+    // Get current URL for sharing
+    const currentUrl = window.location.href;
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
+        <div className="max-w-7xl mx-auto px-6 py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Main content */}
+            <div className="lg:col-span-3">
+              <article className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
+                {/* Thumbnail always at the top if present */}
+                {post.thumbnail_url && (
+                  <div className="w-full h-64 md:h-80 overflow-hidden rounded-2xl mb-8">
+                    <img 
+                      src={post.thumbnail_url} 
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 )}
-              </header>
+                <header className="mb-8">
+                  <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                    {post.title}
+                  </h1>
+                  <div className="flex items-center text-gray-600 text-sm space-x-4 mb-6">
+                    <span>{post.author}</span>
+                    <span>•</span>
+                    <span>{post.read_time}</span>
+                  </div>
+                  {post.excerpt && (
+                    <p className="text-xl text-gray-600 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                  )}
+                </header>
 
-              {/* Split content in half and insert carousel in the middle */}
-              {(() => {
-                const content = post.content
-                  .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
-                    if (post.images && post.images.some(img => img.url === url)) {
-                      return '';
-                    }
-                    return match;
-                  });
-                const paragraphs = content.split(/\n{2,}/);
-                const half = Math.ceil(paragraphs.length / 2);
-                const firstHalf = paragraphs.slice(0, half).join('\n\n');
-                const secondHalf = paragraphs.slice(half).join('\n\n');
-                return (
-                  <>
-                    <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: firstHalf.replace(/\n/g, '<br />') }} />
-                    {post.images && post.images.length > 0 && (
-                      <div className="my-8 flex justify-center">
-                        <ImageCarousel images={post.images} />
-                      </div>
-                    )}
-                    <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: secondHalf.replace(/\n/g, '<br />') }} />
-                  </>
-                );
-              })()}
-              
-              <div className="mt-12 mb-5 p-6 bg-gradient-to-br ">
-                <p className="text-l text-black-700 leading-relaxed text-center mb-4">
-                  Catherine's experience in media and communications spans 25 years, most recently as Head of TV at Kenya Television Network. Today, she pours her heart into What's Your Story Africa - a podcast that reminds us of the power within every human story.
-                </p>
-              </div>
+                {/* Split content in half and insert carousel in the middle */}
+                {(() => {
+                  const content = post.content
+                    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+                      if (post.images && post.images.some(img => img.url === url)) {
+                        return '';
+                      }
+                      return match;
+                    });
+                  const paragraphs = content.split(/\n{2,}/);
+                  const half = Math.ceil(paragraphs.length / 2);
+                  const firstHalf = paragraphs.slice(0, half).join('\n\n');
+                  const secondHalf = paragraphs.slice(half).join('\n\n');
+                  return (
+                    <>
+                      <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: firstHalf.replace(/\n/g, '<br />') }} />
+                      {post.images && post.images.length > 0 && (
+                        <div className="my-8 flex justify-center">
+                          <ImageCarousel images={post.images} />
+                        </div>
+                      )}
+                      <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: secondHalf.replace(/\n/g, '<br />') }} />
+                    </>
+                  );
+                })()}
+                
+                <div className="mt-12 mb-5 p-6 bg-gradient-to-br ">
+                  <p className="text-l text-black-700 leading-relaxed text-center mb-4">
+                    Catherine's experience in media and communications spans 25 years, most recently as Head of TV at Kenya Television Network. Today, she pours her heart into What's Your Story Africa - a podcast that reminds us of the power within every human story.
+                  </p>
+                </div>
 
-              {/* Comments Section */}
-              <div className="mt-8">
-                <h4 className="text-lg font-semibold mb-4">Share Your Comment</h4>
-                <form className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your Comment"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                  />
-                  <textarea
-                    placeholder="Your Comment"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    rows={4}
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
+                {/* Social Sharing Buttons - UPDATED: Now uses expandable share icon */}
+                <SocialShareButtons post={post} url={currentUrl} />
 
-              {/* UPDATED: Next Button with functionality */}
-              <NextButton 
-                onNext={() => handleNextPost(post)} 
-                currentPost={post} 
-                allPosts={publishedBlogPosts} 
+                {/* Comments Section */}
+                <div className="mt-8">
+                  <h4 className="text-lg font-semibold mb-4">Share Your Comment</h4>
+                  <form className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder="Your Name"
+                      className="w-full p-3 border border-gray-300 rounded-lg"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Your Comment"
+                      className="w-full p-3 border border-gray-300 rounded-lg"
+                    />
+                    <textarea
+                      placeholder="Your Comment"
+                      className="w-full p-3 border border-gray-300 rounded-lg"
+                      rows={4}
+                    />
+                    <button
+                      type="submit"
+                      className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </div>
+
+                {/* UPDATED: Next Button with functionality */}
+                <NextButton 
+                  onNext={() => handleNextPost(post)} 
+                  currentPost={post} 
+                  allPosts={publishedBlogPosts} 
+                />
+              </article>
+            </div>
+
+            {/* Side Panel for blog posts - hidden on mobile */}
+            <div className="hidden lg:block lg:col-span-1">
+              <SidePanel 
+                blogPosts={publishedBlogPosts} 
+                videos={youtubeVideos}
+                onReadMore={handleSidePanelReadMore}
+                onMentorshipReadMore={handleMentorshipReadMore}
+                onPostClick={handleBlogPostClick}
               />
-            </article>
-          </div>
-
-          {/* Side Panel for blog posts - hidden on mobile */}
-          <div className="hidden lg:block lg:col-span-1">
-            <SidePanel 
-              blogPosts={publishedBlogPosts} 
-              videos={youtubeVideos}
-              onReadMore={handleSidePanelReadMore}
-              onMentorshipReadMore={handleMentorshipReadMore}
-              onPostClick={handleBlogPostClick}
-            />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderConnect = () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
@@ -868,26 +954,29 @@ const App = () => {
               </div>
             </div>
 
-            {/* Three Green Boxes */}
+            {/* Three Green Boxes - FIXED: Email buttons now working properly */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-              {/* Left Box - Forest Green */}
-              <div className="bg-gradient-to-br from-[#228B22] to-[#1e6e1e] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                <div className="text-center h-full flex flex-col">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="bi bi-heart-fill text-xl"></i>
-                  </div>
-                  <h3 className="text-xl font-bold mb-4">Your Story Matters</h3>
-                  <p className="text-white mb-6 flex-grow">
-                    Your story is your greatest asset. Share it, or nominate someone you know.
-                  </p>
-                  <a
-                    href="mailto:catherine@whatsyourstoryafrica.com?subject=Story Submission/Nomination"
-                    className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm"
-                  >
-                    Inquire Here
-                  </a>
-                </div>
-              </div>
+       {/* Left Box - Forest Green */}
+<div className="bg-gradient-to-br from-[#228B22] to-[#1e6e1e] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+  <div className="text-center h-full flex flex-col">
+    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i className="bi bi-heart-fill text-xl"></i>
+    </div>
+    <h3 className="text-xl font-bold mb-4">Your Story Matters</h3>
+    <p className="text-white mb-6 flex-grow">
+      Your story is your greatest asset. Share it, or nominate someone you know.
+    </p>
+    <a
+      href="https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=Story%20Submission%2FNomination&body=Hello%20Catherine,%20I'd%20like%20to%20share%20a%20story..."
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm text-center"
+    >
+      Inquire Here
+    </a>
+  </div>
+</div>
+
 
               {/* Middle Box - Pine Green */}
               <div className="bg-gradient-to-br from-[#01796F] to-[#006d64] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
@@ -908,25 +997,27 @@ const App = () => {
                 </div>
               </div>
 
-              {/* Right Box - Bottle Green */}
-              <div className="bg-gradient-to-br from-[#006A4E] to-[#00563f] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                <div className="text-center h-full flex flex-col">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="bi bi-infinity  text-xl"></i>
-                  </div>
-                  <h3 className="text-xl font-bold mb-4">Let's Co-Create</h3>
-                  <p className="text-white mb-6 flex-grow">
-                    Would you like to explore partnership, investment or sponsorship opportunities? We're in the era of collaborations.
-                  </p>
-                  <a
-                    href="mailto:partnerships@whatsyourstoryafrica.com?subject=Partnership Inquiry"
-                    className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm"
-                  >
-                    Yes, Let's Partner!
-                  </a>
-                </div>
-              </div>
-            </div>
+             {/* Right Box - Bottle Green */}
+<div className="bg-gradient-to-br from-[#006A4E] to-[#00563f] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+  <div className="text-center h-full flex flex-col">
+    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i className="bi bi-infinity text-xl"></i>
+    </div>
+    <h3 className="text-xl font-bold mb-4">Let's Co-Create</h3>
+    <p className="text-white mb-6 flex-grow">
+      Would you like to explore partnership, investment or sponsorship opportunities? We're in the era of collaborations.
+    </p>
+    <a
+      href="https://mail.google.com/mail/?view=cm&fs=1&to=partnerships@whatsyourstoryafrica.com&su=Partnership%20Inquiry&body=Hello,%20I'm%20interested%20in%20exploring%20partnership%20opportunities%20with%20What's%20Your%20Story%20Africa..."
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm text-center"
+    >
+      Yes, Let's Partner!
+    </a>
+  </div>
+</div>
+</div>
 
             {/* Newsletter Form Section */}
             <div id="newsletter-form" className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-20 border border-white/50 shadow-xl">
@@ -975,14 +1066,16 @@ const App = () => {
                 </p>
 
                 <div className="text-center my-8">
-                  <a
-                    href="mailto:catherine@whatsyourstoryafrica.com?subject=Mentorship Inquiry"
-                    className="inline-flex items-center px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
-                  >
-                    Reach Out
-                    <ExternalLink className="w-5 h-5 ml-2" />
-                  </a>
-                </div>
+             <a
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=Mentorship%20Inquiry"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
+>
+  Reach Out
+  <ExternalLink className="w-5 h-5 ml-2" />
+</a>
+</div>
 
                 <p className="text-lg leading-relaxed">
                   My other interest is in those who simply want someone to talk to. I cannot tell you how many people I have met, and all they want to do is talk to someone, without bias/judgment.
