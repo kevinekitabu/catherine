@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
+import { FaXTwitter } from "react-icons/fa6";
 
 // Add a CSS class for social icon size
 const socialIconClass = 'bi social-icon';
@@ -18,12 +19,13 @@ const SocialShareButtons = ({ post, url }: { post: BlogPost, url: string }) => {
   const title = encodeURIComponent(post.title);
   const excerpt = encodeURIComponent(post.excerpt || '');
 
-  const shareLinks = {
-    twitter: `https://twitter.com/intent/tweet?text=${title}&url=${shareUrl}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
-    whatsapp: `https://api.whatsapp.com/send?text=${title}%20${shareUrl}`
-  };
+const shareLinks = {
+  x: `https://twitter.com/intent/tweet?text=${title}&url=${shareUrl}`,
+  facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
+  whatsapp: `https://api.whatsapp.com/send?text=${title}%20${shareUrl}`
+};
+
 
   const handleShare = (platform: string, link: string) => {
     window.open(link, '_blank', 'width=600,height=400');
@@ -32,7 +34,7 @@ const SocialShareButtons = ({ post, url }: { post: BlogPost, url: string }) => {
 
   return (
     <div className="mt-8 pt-6 border-t border-gray-200">
-      <h4 className="text-lg font-semibold mb-4 text-gray-900">Share this post</h4>
+      
       <div className="flex items-center space-x-2">
         {/* Share toggle button */}
         <button
@@ -46,13 +48,13 @@ const SocialShareButtons = ({ post, url }: { post: BlogPost, url: string }) => {
         {/* Expanded social buttons */}
         {isExpanded && (
           <div className="flex space-x-2 ml-2">
-            <button
-              onClick={() => handleShare('twitter', shareLinks.twitter)}
-              className="w-10 h-10 bg-[#1DA1F2] text-white rounded-full flex items-center justify-center hover:bg-[#1a8cd8] transition-colors"
-              title="Share on Twitter"
-            >
-              <i className="bi bi-twitter"></i>
-            </button>
+           <button
+  onClick={() => handleShare('x', shareLinks.x)}
+  className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+  title="Share on X"
+>
+  <FaXTwitter className="w-5 h-5" />
+</button>
             <button
               onClick={() => handleShare('facebook', shareLinks.facebook)}
               className="w-10 h-10 bg-[#4267B2] text-white rounded-full flex items-center justify-center hover:bg-[#365899] transition-colors"
@@ -114,7 +116,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
 
   return (
     <div className="w-full lg:w-80 space-y-8">
-      {/* Search Section */}
+      {/* Search eas replaced by the logo Section */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
           <img
@@ -141,7 +143,8 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             target.src = "https://images.pexels.com/photos-3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=300";
           }}
         />
-        <p className="text-gray-600 text-sm text-center mb-3">
+        <p className="text-gray-800 text-sm text-center mb-3">
+          
           Storytelling is my magnificent obsession.
         </p>
         <button 
@@ -158,7 +161,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
           <i className="bi bi-people-fill text-emerald-600 text-lg mr-3"></i>
           <h3 className="text-lg font-bold text-gray-900">Mentorship</h3>
         </div>
-        <p className="text-gray-600 text-sm mb-4">
+        <p className="text-gray-800 text-sm mb-4">
           Guiding Voices. Shaping Futures. Building Legacies. Mentorship is not about copying a voice; it's about finding yours.
         </p>
         <div className="space-y-3">
@@ -446,16 +449,16 @@ const App = () => {
   // Render About Catherine (now the landing page)
   const renderCatherine = () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 py-12"> {/* Reduced from py-20 to py-12 */}
         {/* Main content grid with side panel */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content - spans 3 columns on large screens */}
           <div className="lg:col-span-3">
             {/* Catherine's Image - Centered */}
-            <div className="flex justify-center items-center mb-16">
+            <div className="flex justify-center items-center mb-12"> {/* Reduced from mb-16 to mb-12 */}
               <div className="w-full max-w-6xl animate-elegant-slideUp" style={{ animationDelay: '0.4s' }}>
-                {/* UPDATED: Centered the title with better styling */}
-                <div className="flex justify-center w-full mb-8">
+                {/* UPDATED: Heart of Africa with reduced gap */}
+                <div className="flex justify-center w-full mb-4"> {/* Reduced from mb-8 to mb-4 */}
                   <div className="inline-flex items-center justify-center px-8 py-4 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
                     <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
                     From the Heart of Africa.
@@ -494,31 +497,31 @@ const App = () => {
             
             {/* About Section */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-12 border border-white/50 shadow-xl">
-              <div className="prose prose-lg text-gray-600 max-w-none">
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+              <div className="prose prose-lg max-w-none">
+                <p className="text-base text-gray-800 mb-6 leading-relaxed tracking-wide"> {/* Darker, smaller text */}
                   For more than 25 years, my life has been woven into the fabric of storytelling. 
                   My career in media began as an intern at Kenya Television Network (KTN). 
                   Those early days laid the foundation for everything that followed: curiosity, resilience, 
                   and a deep respect for the power of storytelling.
                 </p>
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                <p className="text-base text-gray-800 mb-6 leading-relaxed tracking-wide"> {/* Darker, smaller text */}
                   In 2013, I experienced a full-circle moment: returning to KTN as Head of TV, 
                   exactly where my journey had begun. Storytelling, for me, has never been just a career; 
                   it's a calling. Leading three television channels was both a privilege and a responsibility.
                 </p>
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                <p className="text-base text-gray-800 mb-6 leading-relaxed tracking-wide"> {/* Darker, smaller text */}
                   My work has taken me beyond Kenya to global stages across Africa, the Middle East, and Europe, 
                   where I have moderated high-level panels, conducted thought-provoking interviews, 
                   and facilitated cross-cultural dialogues.
                 </p>
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                <p className="text-base text-gray-800 mb-6 leading-relaxed tracking-wide"> {/* Darker, smaller text */}
                   Today, I continue this mission through <strong>What's Your Story Africa</strong>, 
                   a platform that began as a television show and has since evolved into a podcast and community.
                 </p>
-                <p className="text-lg md:text-l mb-6 leading-relaxed tracking-wide">
+                <p className="text-base text-gray-800 mb-6 leading-relaxed tracking-wide"> {/* Darker, smaller text */}
                   Beyond the cameras, lights, and mics, I have dedicated myself to mentoring the next generation of storytellers and communicators.
                 </p>
-                <p className="text-lg md:text-l leading-relaxed tracking-wide">
+                <p className="text-base text-gray-800 leading-relaxed tracking-wide"> {/* Darker, smaller text */}
                   Alongside this, I have embraced life coaching as a way to walk with people through their personal journeys, 
                   especially those navigating the defining years of 25–35, as well as parents who entrust me to mentor their teenage daughters.
                   Over the years, many have sought me out as a sounding board for life's transitions, and I now 
@@ -532,9 +535,9 @@ const App = () => {
 
             {/* Blog Posts - UPDATED: Removed Create Post button */}
             <div className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Reflections</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Reflections</h2>
               {publishedBlogPosts.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> {/* Reduced gap */}
                   {publishedBlogPosts.map((post, index) => (
                     <article 
                       key={post.id}
@@ -561,12 +564,12 @@ const App = () => {
                         >
                           {post.title}
                         </h3>
-                        <p className="text-gray-600 mb-4">
+                        <p className="text-gray-700 mb-4 text-sm"> {/* Darker, smaller text */}
                           {post.excerpt}
                         </p>
                         <div className="flex justify-between items-center">
                           <span 
-                            className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors cursor-pointer"
+                            className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors cursor-pointer text-sm"
                             onClick={() => handleBlogPostClick(post)}
                           >
                             Read More →
@@ -580,8 +583,8 @@ const App = () => {
               ) : (
                 <div className="text-center py-12">
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-                    <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
-                    <div className="text-sm text-blue-700 space-y-2">
+                    <h3 className="font-semibold text-blue-900 mb-3 text-sm">📝 How to Add Blog Posts</h3>
+                    <div className="text-xs text-blue-700 space-y-2">
                       <p><strong>Method 1 - Storage Upload:</strong></p>
                       <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
                       <p>• Upload .txt, .md, or .docx files</p>
@@ -595,7 +598,7 @@ const App = () => {
                   </div>
                   <button
                     onClick={loadPublishedBlogPosts}
-                    className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors text-sm"
                   >
                     Check for New Files
                   </button>
@@ -605,28 +608,28 @@ const App = () => {
 
             {/* Comments Section */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
-              <h4 className="text-xl font-semibold mb-6">Share Your Comments</h4>
+              <h4 className="text-lg font-semibold mb-6 text-gray-900">Share Your Comments</h4>
               <form className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
                     type="text"
                     placeholder="Your Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                   />
                   <input
                     type="email"
                     placeholder="Your Email"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                   />
                 </div>
                 <textarea
                   placeholder="Your Comment"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                   rows={4}
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+                  className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors text-sm"
                 >
                   Submit 
                 </button>
@@ -664,7 +667,7 @@ const App = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="text-left">
-              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
+              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-800 font-medium mb-6 animate-elegant-fadeIn text-sm tracking-wide"> {/* Darker text */}
                 <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
                 The Storytelling Gateway to Africa
               </div>
@@ -678,12 +681,12 @@ const App = () => {
                 />
               </h1>
               
-              <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
+              <p className="hero-paragraph text-base text-gray-800 mb-8 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}> {/* Darker, smaller text */}
                 This space holds my collection of work: stories, reflections, and the experiences that have shaped
                 my 25-year journey in media and communications, including my most recent role as Head of TV at Kenya Television Network.
               </p>
               
-              <p className="hero-paragraph text-lg md:text-l text-gray-600 mb-10 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}>
+              <p className="hero-paragraph text-base text-gray-800 mb-8 leading-relaxed tracking-wide animate-elegant-slideUp" style={{ animationDelay: '0.2s' }}> {/* Darker, smaller text */}
                 At its core, this is a space to connect freely, honor our shared humanity, and celebrate the power of stories. Whether through my podcast 'What's Your Story Africa,' my writing, or the paths I've walked in media, I sincerely
                 hope that you feel seen, heard, inspired, and elevated as we share our experiences with clarity and heart.
               </p>
@@ -693,14 +696,14 @@ const App = () => {
                   href="https://www.youtube.com/@WhatsYourStoryAfrica" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-full hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                  className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-full hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm"
                 >
                   <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
                   Watch Latest Episodes
                 </a>
                 <button 
                   onClick={() => setCurrentView('connect')}
-                  className="group inline-flex items-center px-8 py-4 bg-white/80 backdrop-blur-sm border-2 border-emerald-200 text-emerald-700 font-semibold rounded-full hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 hover:scale-105"
+                  className="group inline-flex items-center px-8 py-4 bg-white/80 backdrop-blur-sm border-2 border-emerald-200 text-emerald-800 font-semibold rounded-full hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 hover:scale-105 text-sm" /* Darker text */
                 >
                   Share Your Story
                   <ExternalLink className="w-5 h-5 ml-2 group-hover:scale-110 transition-transform" />
@@ -780,14 +783,14 @@ const App = () => {
                       </div>
                     </div>
                     <div className="p-4 flex items-center justify-between min-h-[60px]">
-                      <h3 className="text-base font-semibold text-gray-900 flex-1 pr-3 line-clamp-2 leading-tight">
+                      <h3 className="text-sm font-semibold text-gray-900 flex-1 pr-3 line-clamp-2 leading-tight">
                         {cleanName}
                       </h3>
                       <a 
                         href={video.url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-emerald-600 hover:text-emerald-700 transition-colors text-sm font-medium whitespace-nowrap flex-shrink-0 ml-2"
+                        className="inline-flex items-center text-emerald-600 hover:text-emerald-700 transition-colors text-xs font-medium whitespace-nowrap flex-shrink-0 ml-2"
                       >
                         Watch
                         <ExternalLink className="w-4 h-4 ml-1" />
@@ -804,7 +807,7 @@ const App = () => {
               href="https://www.youtube.com/@WhatsYourStoryAfrica" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105 text-sm"
             >
               <Play className="w-4 h-4 mr-2" />
               View All Episodes on YouTube
@@ -821,7 +824,7 @@ const App = () => {
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-        <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="max-w-7xl mx-auto px-6 py-12"> {/* Reduced from py-20 to py-12 */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Main content */}
             <div className="lg:col-span-3">
@@ -837,7 +840,7 @@ const App = () => {
                   </div>
                 )}
                 <header className="mb-8">
-                  <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     {post.title}
                   </h1>
                   <div className="flex items-center text-gray-600 text-sm space-x-4 mb-6">
@@ -846,7 +849,7 @@ const App = () => {
                     <span>{post.read_time}</span>
                   </div>
                   {post.excerpt && (
-                    <p className="text-xl text-gray-600 leading-relaxed">
+                    <p className="text-lg text-gray-800 leading-relaxed"> {/* Darker text */}
                       {post.excerpt}
                     </p>
                   )}
@@ -867,19 +870,19 @@ const App = () => {
                   const secondHalf = paragraphs.slice(half).join('\n\n');
                   return (
                     <>
-                      <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: firstHalf.replace(/\n/g, '<br />') }} />
+                      <div className="prose prose-base max-w-none text-gray-800" dangerouslySetInnerHTML={{ __html: firstHalf.replace(/\n/g, '<br />') }} /> {/* Darker, smaller text */}
                       {post.images && post.images.length > 0 && (
                         <div className="my-8 flex justify-center">
                           <ImageCarousel images={post.images} />
                         </div>
                       )}
-                      <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: secondHalf.replace(/\n/g, '<br />') }} />
+                      <div className="prose prose-base max-w-none text-gray-800" dangerouslySetInnerHTML={{ __html: secondHalf.replace(/\n/g, '<br />') }} /> {/* Darker, smaller text */}
                     </>
                   );
                 })()}
                 
                 <div className="mt-12 mb-5 p-6 bg-gradient-to-br ">
-                  <p className="text-l text-black-700 leading-relaxed text-center mb-4">
+                  <p className="text-base text-gray-800 leading-relaxed text-center mb-4"> {/* Darker, smaller text */}
                     Catherine's experience in media and communications spans 25 years, most recently as Head of TV at Kenya Television Network. Today, she pours her heart into What's Your Story Africa - a podcast that reminds us of the power within every human story.
                   </p>
                 </div>
@@ -889,26 +892,26 @@ const App = () => {
 
                 {/* Comments Section */}
                 <div className="mt-8">
-                  <h4 className="text-lg font-semibold mb-4">Share Your Comment</h4>
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Share Your Comment</h4>
                   <form className="space-y-4">
                     <input
                       type="text"
                       placeholder="Your Name"
-                      className="w-full p-3 border border-gray-300 rounded-lg"
+                      className="w-full p-3 border border-gray-300 rounded-lg text-sm"
                     />
                     <input
                       type="email"
-                      placeholder="Your Comment"
-                      className="w-full p-3 border border-gray-300 rounded-lg"
+                      placeholder="Your Email"
+                      className="w-full p-3 border border-gray-300 rounded-lg text-sm"
                     />
                     <textarea
                       placeholder="Your Comment"
-                      className="w-full p-3 border border-gray-300 rounded-lg"
+                      className="w-full p-3 border border-gray-300 rounded-lg text-sm"
                       rows={4}
                     />
                     <button
                       type="submit"
-                      className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+                      className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors text-sm"
                     >
                       Submit
                     </button>
@@ -942,40 +945,57 @@ const App = () => {
 
   const renderConnect = () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 py-12"> {/* Reduced from py-20 to py-12 */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content */}
           <div className="lg:col-span-3">
-            {/* UPDATED: Better styled rectangle for "Together, we go further" */}
-            <div className="flex justify-center w-full mb-8">
-              <div className="inline-flex items-center justify-center px-8 py-5 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
+            {/* UPDATED: Together we go further with reduced gap */}
+            <div className="flex justify-center w-full mb-4"> {/* Reduced from mb-8 to mb-4 */}
+              <div className="inline-flex items-center justify-center px-8 py-4 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium animate-elegant-fadeIn text-sm tracking-wide">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
                 Together, we go further.
               </div>
             </div>
 
             {/* Three Green Boxes - FIXED: Email buttons now working properly */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-       {/* Left Box - Forest Green */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"> {/* Reduced gap */}
+     {/* Left Box - Forest Green */}
 <div className="bg-gradient-to-br from-[#228B22] to-[#1e6e1e] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
   <div className="text-center h-full flex flex-col">
     <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
       <i className="bi bi-heart-fill text-xl"></i>
     </div>
     <h3 className="text-xl font-bold mb-4">Your Story Matters</h3>
-    <p className="text-white mb-6 flex-grow">
+    <p className="text-white mb-6 flex-grow text-sm"> {/* Smaller text */}
       Your story is your greatest asset. Share it, or nominate someone you know.
     </p>
-    <a
-      href="https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=Story%20Submission%2FNomination&body=Hello%20Catherine,%20I'd%20like%20to%20share%20a%20story..."
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm text-center"
+
+    <button
+      onClick={() => {
+        const email = "catherine@whatsyourstoryafrica.com";
+        const subject = encodeURIComponent("Story Submission/Nomination");
+        const body = encodeURIComponent("Hello Catherine, I'd like to share a story...");
+
+        const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
+        const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile) {
+          // On phone → open default email app
+          window.location.href = mailtoLink;
+        } else {
+          // On desktop → open Gmail web
+          window.open(gmailLink, "_blank");
+        }
+      }}
+      className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-xs text-center" /* Smaller text */
     >
       Inquire Here
-    </a>
+    </button>
   </div>
 </div>
+
 
 
               {/* Middle Box - Pine Green */}
@@ -985,99 +1005,169 @@ const App = () => {
                     <i className="bi bi-people-fill text-xl"></i>
                   </div>
                   <h3 className="text-xl font-bold mb-4">Join Our Community</h3>
-                  <p className="text-white mb-6 flex-grow">
+                  <p className="text-white mb-6 flex-grow text-sm"> {/* Smaller text */}
                     Would you like to receive the latest podcasts, newsletters, and upcoming events directly to your inbox?
                   </p>
                   <button
                     onClick={() => document.getElementById('newsletter-form')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm"
+                    className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-xs" /* Smaller text */
                   >
                     Count Me In
                   </button>
                 </div>
               </div>
 
-             {/* Right Box - Bottle Green */}
+{/* Right Box - Bottle Green */}
 <div className="bg-gradient-to-br from-[#006A4E] to-[#00563f] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
   <div className="text-center h-full flex flex-col">
     <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
       <i className="bi bi-infinity text-xl"></i>
     </div>
     <h3 className="text-xl font-bold mb-4">Let's Co-Create</h3>
-    <p className="text-white mb-6 flex-grow">
+    <p className="text-white mb-6 flex-grow text-sm"> {/* Smaller text */}
       Would you like to explore partnership, investment or sponsorship opportunities? We're in the era of collaborations.
     </p>
-    <a
-      href="https://mail.google.com/mail/?view=cm&fs=1&to=partnerships@whatsyourstoryafrica.com&su=Partnership%20Inquiry&body=Hello,%20I'm%20interested%20in%20exploring%20partnership%20opportunities%20with%20What's%20Your%20Story%20Africa..."
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-sm text-center"
+
+    <button
+      onClick={() => {
+        const email = "catherine@whatsyourstoryafrica.com";
+        const subject = encodeURIComponent("Partnership Inquiry");
+        const body = encodeURIComponent(
+          "Hello, I'm interested in exploring partnership opportunities with What's Your Story Africa..."
+        );
+
+        const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
+        const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile) {
+          // On phones → open default email app (iOS Mail, Gmail App, etc.)
+          window.location.href = mailtoLink;
+        } else {
+          // On desktop → open Gmail Web
+          window.open(gmailLink, "_blank");
+        }
+      }}
+      className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 text-xs text-center" /* Smaller text */
     >
       Yes, Let's Partner!
-    </a>
+    </button>
   </div>
 </div>
 </div>
 
-            {/* Newsletter Form Section */}
-            <div id="newsletter-form" className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-20 border border-white/50 shadow-xl">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Stay Connected</h3>
-                <p className="text-gray-600">Join our community and never miss an update</p>
-              </div>
-              <form className="max-w-md mx-auto space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300"
-                >
-                  Subscribe for Free
-                </button>
-              </form>
-            </div>
+{/* Newsletter Form Section */}
+<div
+  id="newsletter-form"
+  className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-16 border border-white/50 shadow-xl" /* Reduced margin */
+>
+  <div className="text-center mb-8">
+    <h3 className="text-xl font-bold text-gray-900 mb-2">Stay Connected</h3> {/* Smaller heading */}
+    <p className="text-gray-600 text-sm">Join our community and never miss an update</p> {/* Smaller text */}
+  </div>
+
+  <div className="max-w-md mx-auto space-y-4">
+    <input
+      type="email"
+      id="subscriber-email"
+      placeholder="Enter your email address"
+      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm" /* Smaller text */
+      required
+    />
+
+    <a
+      href="#"
+      onClick={(e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById("subscriber-email") as HTMLInputElement;
+        if (!emailInput.value) {
+          alert("Please enter your email first.");
+          return;
+        }
+
+        const userEmail = emailInput.value;
+        const subject = encodeURIComponent("Newsletter Subscription");
+        const body = encodeURIComponent(
+          `Hello Catherine,\n\nPlease add me to your newsletter.\n\nSubscriber: ${userEmail}`
+        );
+
+        const mailtoLink = `mailto:catherine@whatsyourstoryafrica.com?subject=${subject}&body=${body}`;
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=${subject}&body=${body}`;
+
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile) {
+          // On phones → open native email app
+          window.location.href = mailtoLink;
+        } else {
+          // On desktop → open Gmail Web
+          window.open(gmailUrl, "_blank");
+        }
+      }}
+      className="block w-full px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 text-center text-sm" /* Smaller text */
+    >
+      Subscribe for Free
+    </a>
+  </div>
+</div>
 
             {/* Mentorship Section - UPDATED: Fixed Calendly links */}
             <div id="mentorship-section" className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-xl">
               <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4"> {/* Smaller heading */}
                   MENTORSHIP
                 </h2>
-                <p className="text-xl text-gray-600 italic">
+                <p className="text-lg text-gray-800 italic"> {/* Darker, smaller text */}
                   Guiding Voices. Shaping Futures. Building Legacies.
                 </p>
               </div>
 
-              <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
-                <p className="text-lg leading-relaxed">
+              <div className="prose prose-base max-w-none text-gray-800 space-y-6"> {/* Darker, smaller text */}
+                <p className="text-base leading-relaxed"> {/* Smaller text */}
                   Mentorship is not about copying a voice; it's about finding yours, refining it, and learning to share it powerfully with the world.
                 </p>
 
-                <p className="text-lg leading-relaxed">
+                <p className="text-base leading-relaxed"> {/* Smaller text */}
                   For over two decades, I've lived at the heart of media; leading national conversations, moderating panels with Industry leaders, and interviewing people from all walks of life.
                 </p>
 
-                <p className="text-lg leading-relaxed">
+                <p className="text-base leading-relaxed"> {/* Smaller text */}
                   As we restart our mentorship courses, I am especially interested in the young people who have just finished high school and are asking 'what next'.
                 </p>
 
                 <div className="text-center my-8">
-             <a
-  href="https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=Mentorship%20Inquiry"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="inline-flex items-center px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105"
+            <a
+  href="#"
+  onClick={(e) => {
+    e.preventDefault();
+
+    const subject = encodeURIComponent("Mentorship Inquiry");
+    const body = encodeURIComponent(
+      "Hello Catherine,\n\nI would like to learn more about your mentorship program..."
+    );
+
+    const mailtoLink = `mailto:catherine@whatsyourstoryafrica.com?subject=${subject}&body=${body}`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=${subject}&body=${body}`;
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // On phones → open native email app (Mail, Gmail app, Outlook, etc.)
+      window.location.href = mailtoLink;
+    } else {
+      // On desktop/laptop → open Gmail web in a new tab
+      window.open(gmailUrl, "_blank");
+    }
+  }}
+  className="inline-flex items-center px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 hover:scale-105 text-sm" /* Smaller text */
 >
   Reach Out
   <ExternalLink className="w-5 h-5 ml-2" />
 </a>
 </div>
 
-                <p className="text-lg leading-relaxed">
+                <p className="text-base leading-relaxed"> {/* Smaller text */}
                   My other interest is in those who simply want someone to talk to. I cannot tell you how many people I have met, and all they want to do is talk to someone, without bias/judgment.
                 </p>
 
@@ -1086,7 +1176,7 @@ const App = () => {
                     href="https://calendly.com/catherine-whatsyourstoryafrica"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-8 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:scale-105"
+                    className="inline-flex items-center px-8 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:scale-105 text-sm" /* Smaller text */
                   >
                     Book A Call
                     <ExternalLink className="w-5 h-5 ml-2" />
@@ -1096,27 +1186,11 @@ const App = () => {
 
               <div className="mt-12 text-center">
                 <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-8 border border-emerald-200">
-                  <h4 className="text-2xl font-bold text-gray-900 mb-4">Ready to Begin Your Journey?</h4>
-                  <p className="text-gray-600 mb-6">
+                  <h4 className="text-xl font-bold text-gray-900 mb-4">Ready to Begin Your Journey?</h4> {/* Smaller heading */}
+                  <p className="text-gray-700 mb-6 text-sm"> {/* Darker, smaller text */}
                     Whether you're seeking guidance, collaboration, or simply a conversation, I'm here to listen and support your growth.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a
-                      href="mailto:catherine@whatsyourstoryafrica.com"
-                      className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300"
-                    >
-                      Send Email
-                      <ExternalLink className="w-4 h-4 ml-2" />
-                    </a>
-                    <a
-                      href="https://calendly.com/catherine-whatsyourstoryafrica"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-semibold rounded-lg hover:bg-emerald-600 hover:text-white transition-all duration-300"
-                    >
-                      Schedule Call
-                      <ExternalLink className="w-4 h-4 ml-2" />
-                    </a>
                   </div>
                 </div>
               </div>
@@ -1166,20 +1240,38 @@ const App = () => {
           </div>
 
           <div className="text-center">
-            <h2 className="text-2xl md:text-3xl font-bold !text-white mb-3">
+            <h2 className="text-xl md:text-2xl font-bold !text-white mb-3"> {/* Smaller heading */}
               For Legacy & Posterity
             </h2>
-            <p className="text-base text-white mb-4">
+            <p className="text-sm text-white mb-4"> {/* Smaller text */}
               Share Your Own Story
             </p>
-            <button 
-              onClick={() => setCurrentView('connect')}
-              className="inline-flex items-center px-5 py-2.5 bg-white text-emerald-600 font-semibold rounded-lg hover:bg-emerald-50 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              Get In Touch
-              <ExternalLink className="w-5 h-5 ml-2" />
-            </button>
-          </div>
+           <button
+  onClick={(e) => {
+    e.preventDefault();
+
+    const subject = encodeURIComponent("General Inquiry");
+    const body = encodeURIComponent(
+      "Hello Catherine,\n\nI'd like to get in touch regarding..."
+    );
+
+    const mailtoLink = `mailto:catherine@whatsyourstoryafrica.com?subject=${subject}&body=${body}`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=${subject}&body=${body}`;
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.location.href = mailtoLink; // opens native email app
+    } else {
+      window.open(gmailUrl, "_blank"); // opens Gmail web
+    }
+  }}
+  className="inline-flex items-center px-5 py-2.5 bg-white text-emerald-600 font-semibold rounded-lg hover:bg-emerald-50 transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm" /* Smaller text */
+>
+  Get In Touch
+  <ExternalLink className="w-5 h-5 ml-2" />
+</button>
+</div>
 
           <div className="flex items-center justify-center lg:justify-end space-x-4">
             <div className="flex items-center space-x-3">
@@ -1264,13 +1356,13 @@ const App = () => {
               <div className="flex items-center space-x-8">
                 <button 
                   onClick={() => setCurrentView('podcasts')}
-                  className="font-medium text-gray-700 hover:text-emerald-600 transition-colors"
+                  className="font-medium text-gray-700 hover:text-emerald-600 transition-colors text-sm" /* Smaller text */
                 >
                   Podcasts
                 </button>
                 <button 
                   onClick={() => setCurrentView('connect')}
-                  className="font-medium text-gray-700 hover:text-emerald-600 transition-colors"
+                  className="font-medium text-gray-700 hover:text-emerald-600 transition-colors text-sm" /* Smaller text */
                 >
                   Let's Connect
                 </button>
@@ -1311,7 +1403,7 @@ const App = () => {
             <div className="hidden md:flex items-center space-x-8">
               <button 
                 onClick={() => setCurrentView('catherine')}
-                className={`font-medium transition-colors ${
+                className={`font-medium transition-colors text-sm ${
                   currentView === 'catherine' 
                     ? 'text-emerald-600' 
                     : 'text-gray-700 hover:text-emerald-600'
@@ -1321,7 +1413,7 @@ const App = () => {
               </button>
               <button 
                 onClick={() => setCurrentView('podcasts')}
-                className={`font-medium transition-colors ${
+                className={`font-medium transition-colors text-sm ${
                   currentView === 'podcasts' 
                     ? 'text-emerald-600' 
                     : 'text-gray-700 hover:text-emerald-600'
@@ -1331,7 +1423,7 @@ const App = () => {
               </button>
               <button 
                 onClick={() => setCurrentView('connect')}
-                className={`font-medium transition-colors ${
+                className={`font-medium transition-colors text-sm ${
                   currentView === 'connect' 
                     ? 'text-emerald-600' 
                     : 'text-gray-700 hover:text-emerald-600'
@@ -1358,7 +1450,7 @@ const App = () => {
                   setCurrentView('catherine');
                   setMobileMenuOpen(false);
                 }}
-                className={`block w-full text-left font-medium transition-colors ${
+                className={`block w-full text-left font-medium transition-colors text-sm ${
                   currentView === 'catherine' 
                     ? 'text-emerald-600' 
                     : 'text-gray-700 hover:text-emerald-600'
@@ -1371,7 +1463,7 @@ const App = () => {
                   setCurrentView('podcasts');
                   setMobileMenuOpen(false);
                 }}
-                className={`block w-full text-left font-medium transition-colors ${
+                className={`block w-full text-left font-medium transition-colors text-sm ${
                   currentView === 'podcasts' 
                     ? 'text-emerald-600' 
                     : 'text-gray-700 hover:text-emerald-600'
@@ -1384,7 +1476,7 @@ const App = () => {
                   setCurrentView('connect');
                   setMobileMenuOpen(false);
                 }}
-                className={`block w-full text-left font-medium transition-colors ${
+                className={`block w-full text-left font-medium transition-colors text-sm ${
                   currentView === 'connect' 
                     ? 'text-emerald-600' 
                     : 'text-gray-700 hover:text-emerald-600'
