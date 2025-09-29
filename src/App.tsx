@@ -1278,7 +1278,6 @@ const App = () => {
         {currentView === 'connect' && renderConnect()}
       </main>
       
-      {renderFeedbackSection()}
 
       <Footer />
       
