@@ -394,7 +394,6 @@ export const feedbackService = {
       .from('feedback')
       .select('*')
       .eq('blog_post_id', postId)
-      .eq('status', 'approved')
       .order('created_at', { ascending: false });
     
     if (error) throw error;
@@ -406,7 +405,6 @@ export const feedbackService = {
       .from('feedback')
       .select('*')
       .eq('feedback_type', 'site')
-      .eq('status', 'approved')
       .order('created_at', { ascending: false });
     
     if (error) throw error;

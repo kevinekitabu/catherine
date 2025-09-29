@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Edit, Trash2, Save, Eye, EyeOff, Upload, Image, Trash } from 'lucide-react';
+import { X, Plus, Edit, Trash2, Save, Eye, EyeOff, Upload, Image, Trash, MessageCircle, Star, Check } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
-import { blogService, BlogPost } from '../lib/supabase';
+import { blogService, BlogPost, feedbackService, Feedback } from '../lib/supabase';
+import { format } from 'date-fns';
 
 interface BlogManagerProps {
   onClose: () => void;
@@ -34,6 +35,9 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
   const [uploadingImage, setUploadingImage] = useState(false);
   const [blogImages, setBlogImages] = useState<Array<{id: string, url: string, alt: string, caption?: string}>>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedPostFeedback, setSelectedPostFeedback] = useState<Feedback[]>([]);
+  const [siteFeedback, setSiteFeedback] = useState<Feedback[]>([]);
+  const [showFeedbackFor, setShowFeedbackFor] = useState<string | null>(null);
 
   // Load blog posts when authenticated
   useEffect(() => {
@@ -65,6 +69,72 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const loadFeedbackForPost = async (postId: string) => {
+    try {
+      const feedback = await feedbackService.getFeedbackForPost(postId);
+      setSelectedPostFeedback(feedback);
+      setShowFeedbackFor(postId);
+    } catch (error) {
+      console.error('Error loading post feedback:', error);
+    }
+  };
+
+  const loadSiteFeedback = async () => {
+    try {
+      const feedback = await feedbackService.getSiteFeedback();
+      setSiteFeedback(feedback);
+      setShowFeedbackFor('site');
+    } catch (error) {
+      console.error('Error loading site feedback:', error);
+    }
+  };
+
+  const handleApproveFeedback = async (feedbackId: string) => {
+    try {
+      await feedbackService.updateFeedbackStatus(feedbackId, 'approved');
+      if (showFeedbackFor === 'site') {
+        await loadSiteFeedback();
+      } else if (showFeedbackFor) {
+        await loadFeedbackForPost(showFeedbackFor);
+      }
+    } catch (error) {
+      console.error('Error approving feedback:', error);
+    }
+  };
+
+  const handleDeleteFeedback = async (feedbackId: string) => {
+    if (!confirm('Are you sure you want to delete this feedback?')) {
+      return;
+    }
+    try {
+      await feedbackService.deleteFeedback(feedbackId);
+      if (showFeedbackFor === 'site') {
+        await loadSiteFeedback();
+      } else if (showFeedbackFor) {
+        await loadFeedbackForPost(showFeedbackFor);
+      }
+    } catch (error) {
+      console.error('Error deleting feedback:', error);
+    }
+  };
+
+  const renderStars = (rating: number) => {
+    return (
+      <div className="flex items-center">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={`w-4 h-4 ${
+              star <= rating
+                ? 'text-yellow-400 fill-current'
+                : 'text-gray-300'
+            }`}
+          />
+        ))}
+      </div>
+    );
   };
 
   const generateSlug = (title: string) => {
@@ -338,14 +408,90 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
             <div>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-semibold text-gray-900">All Blog Posts</h3>
-                <button
-                  onClick={handleCreatePost}
-                  className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                >
-                  <Plus className="w-5 h-5 mr-2" />
-                  Create New Post
-                </button>
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={loadSiteFeedback}
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Site Feedback
+                  </button>
+                  <button
+                    onClick={handleCreatePost}
+                    className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+                  >
+                    <Plus className="w-5 h-5 mr-2" />
+                    Create New Post
+                  </button>
+                </div>
               </div>
+
+              {/* Feedback Display Section */}
+              {showFeedbackFor && (
+                <div className="mb-8 bg-gray-50 rounded-lg p-6 border border-gray-200">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="text-lg font-semibold text-gray-900">
+                      {showFeedbackFor === 'site' ? 'Site Feedback' : 'Post Feedback'}
+                    </h4>
+                    <button
+                      onClick={() => setShowFeedbackFor(null)}
+                      className="text-gray-500 hover:text-gray-700"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                    {(showFeedbackFor === 'site' ? siteFeedback : selectedPostFeedback).length === 0 ? (
+                      <p className="text-gray-600 text-center py-4">No feedback yet.</p>
+                    ) : (
+                      (showFeedbackFor === 'site' ? siteFeedback : selectedPostFeedback).map((feedback) => (
+                        <div key={feedback.id} className="bg-white rounded-lg p-4 border border-gray-200">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-3 mb-2">
+                                <h5 className="font-semibold text-gray-900">{feedback.name}</h5>
+                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                                  feedback.status === 'approved' 
+                                    ? 'bg-green-100 text-green-800' 
+                                    : feedback.status === 'rejected'
+                                    ? 'bg-red-100 text-red-800'
+                                    : 'bg-yellow-100 text-yellow-800'
+                                }`}>
+                                  {feedback.status}
+                                </span>
+                                {renderStars(feedback.rating)}
+                              </div>
+                              <p className="text-gray-700 mb-2">{feedback.message}</p>
+                              <div className="text-sm text-gray-500">
+                                {feedback.email} • {format(new Date(feedback.created_at), 'MMM d, yyyy HH:mm')}
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-2 ml-4">
+                              {feedback.status !== 'approved' && (
+                                <button
+                                  onClick={() => handleApproveFeedback(feedback.id)}
+                                  className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                  title="Approve"
+                                >
+                                  <Check className="w-4 h-4" />
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleDeleteFeedback(feedback.id)}
+                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Delete"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
 
               {blogPosts.length === 0 ? (
                 <div className="text-center py-12">
@@ -387,6 +533,13 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                           </div>
                         </div>
                         <div className="flex items-center space-x-2 ml-4">
+                          <button
+                            onClick={() => loadFeedbackForPost(post.id)}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            title="View Feedback"
+                          >
+                            <MessageCircle className="w-5 h-5" />
+                          </button>
                           <button
                             onClick={() => handleEditPost(post)}
                             className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
