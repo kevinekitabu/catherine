@@ -83,8 +83,10 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
 
   const loadSiteFeedback = async () => {
     try {
-      const feedback = await feedbackService.getSiteFeedback();
-      setSiteFeedback(feedback);
+      // For admin, load ALL site feedback regardless of status
+      const allFeedback = await feedbackService.getAllFeedback();
+      const siteFeedback = allFeedback.filter(f => f.feedback_type === 'site');
+      setSiteFeedback(siteFeedback);
       setShowFeedbackFor('site');
     } catch (error) {
       console.error('Error loading site feedback:', error);

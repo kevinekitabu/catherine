@@ -474,6 +474,11 @@ export const feedbackService = {
     }
     
     console.log('✅ All feedback loaded for admin:', data?.length || 0, 'items');
+    console.log('📊 Feedback breakdown:', data?.reduce((acc, item) => {
+      acc[item.status] = (acc[item.status] || 0) + 1;
+      acc[item.feedback_type] = (acc[item.feedback_type] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>));
     return data || [];
   },
 
