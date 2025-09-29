@@ -173,7 +173,6 @@ const FeedbackManager: React.FC<FeedbackManagerProps> = ({ onClose }) => {
                         <Calendar className="w-4 h-4 mr-1" />
                         {format(new Date(item.created_at), 'MMM d, yyyy HH:mm')}
                       </div>
-                      {renderStars(item.rating)}
                     </div>
 
                     {item.blog_post && (
