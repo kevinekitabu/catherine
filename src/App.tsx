@@ -163,9 +163,11 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
         />
       
             {/* FIXED: Storytelling Gateway label - full width on mobile */}
-<div className="flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-800 font-medium mb-4 animate-elegant-fadeIn text-sm tracking-wide w-full md:w-auto whitespace-normal text-center md:text-left">
-  <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 animate-gentle-pulse shrink-0"></span>
+            <div className="flex justify-center w-full mb-4">
+            <div className="flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-800 font-medium mb-4 animate-elegant-fadeIn text-sm tracking-wide w-full md:w-auto whitespace-normal text-center md:text-left">
+  <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
   The Storytelling Gateway to Africa
+</div>
 </div>
 
         <button 
