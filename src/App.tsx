@@ -163,11 +163,9 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
         />
       
             {/* FIXED: Storytelling Gateway label - full width on mobile */}
-             <div className="story-gateway-label items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-800 font-medium mb-4 animate-elegant-fadeIn text-sm tracking-wide">
-  <span className="w-1 h-1 bg-emerald-500 rounded-full mr-2 animate-gentle-pulse"></span>
-  The Storytelling Gateway to Africa
-</div>
-
+    <p className="text-gray-600 text-sm text-center mb-3">
+          Storytelling is my magnificent obsession.
+        </p>
 
         <button 
           onClick={onReadMore}
@@ -720,7 +718,8 @@ const App = () => {
             {/* Left Content */}
             <div className="text-left">
               {/* FIXED: Storytelling Gateway label - made it consistent with others */}
-              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-800 font-medium mb-6 animate-elegant-fadeIn text-sm tracking-wide">
+            
+              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
                 The Storytelling Gateway to Africa
               </div>
