@@ -700,6 +700,7 @@ const App = () => {
                         </div>
                       </div>
                     </div>
+                    </div>
                     <div className="p-4 flex items-center justify-between min-h-[60px]">
                       <h3 className="text-base font-semibold text-gray-900 flex-1 pr-3 line-clamp-2 leading-tight">
                         {cleanName}
