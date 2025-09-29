@@ -379,40 +379,12 @@ export interface Feedback {
 
 export const feedbackService = {
   async createFeedback(feedback: Omit<Feedback, 'id' | 'created_at' | 'updated_at' | 'status'>): Promise<Feedback> {
-    console.log('🔄 feedbackService.createFeedback called with:', JSON.stringify(feedback, null, 2));
+    console.log('🚀 feedbackService.createFeedback CALLED!');
+    console.log('📥 Received data:', JSON.stringify(feedback, null, 2));
     
     try {
-      // Test database connection first
-      console.log('🔍 Testing Supabase connection...');
-      const { data: connectionTest, error: connectionError } = await supabase
-        .from('blog_posts')
-        .select('count')
-        .limit(1);
-      
-      if (connectionError) {
-        console.error('❌ Supabase connection failed:', connectionError);
-        throw new Error(`Database connection failed: ${connectionError.message}`);
-      }
-      
-      console.log('✅ Supabase connection successful');
-      
-      // Test feedback table access
-      console.log('🔍 Testing feedback table access...');
-      const { data: tableTest, error: tableError } = await supabase
-        .from('feedback')
-        .select('count')
-        .limit(1);
-      
-      if (tableError) {
-        console.error('❌ Feedback table access failed:', tableError);
-        throw new Error(`Feedback table not found: ${tableError.message}. Please run the migration first.`);
-      }
-      
-      console.log('✅ Feedback table is accessible');
-      
       // Insert the feedback
-      console.log('💾 Inserting feedback into database...');
-      console.log('💾 Data being inserted:', JSON.stringify(feedback, null, 2));
+      console.log('💾 INSERTING INTO DATABASE...');
       
       const { data, error } = await supabase
         .from('feedback')
@@ -429,7 +401,7 @@ export const feedbackService = {
         .single();
     
       if (error) {
-        console.error('❌ Database insert error:', JSON.stringify(error, null, 2));
+        console.error('❌ DATABASE INSERT ERROR:', error);
         throw new Error(`Failed to save feedback: ${error.message}`);
       }
       
@@ -438,11 +410,11 @@ export const feedbackService = {
         throw new Error('No data returned from database');
       }
       
-      console.log('✅ Feedback saved successfully:', JSON.stringify(data, null, 2));
+      console.log('🎉 DATABASE INSERT SUCCESS:', data);
       return data;
       
     } catch (error) {
-      console.error('❌ feedbackService.createFeedback error:', JSON.stringify(error, null, 2));
+      console.error('💥 FEEDBACK SERVICE ERROR:', error);
       throw error;
     }
   },

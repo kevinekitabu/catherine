@@ -29,29 +29,31 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    console.log('🚀 FORM SUBMIT TRIGGERED!');
+    console.log('📝 Current form data:', JSON.stringify(formData, null, 2));
+    console.log('📍 Blog post ID:', blogPostId);
+    
     setIsSubmitting(true);
     setError('');
 
-    console.log('🔄 Starting feedback submission...');
-    console.log('📝 Form data:', formData);
-    console.log('📍 Blog post ID:', blogPostId);
-    console.log('📍 Blog post title:', blogPostTitle);
-
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      console.log('❌ Validation failed: Missing required fields');
       setError('Please fill in all fields');
       setIsSubmitting(false);
       return;
     }
 
     if (formData.rating === 0) {
+      console.log('❌ Validation failed: No rating provided');
       setError('Please provide a rating');
       setIsSubmitting(false);
       return;
     }
 
+    console.log('✅ Form validation passed, proceeding with submission...');
+
     try {
-      console.log('💾 Attempting to save feedback to database...');
-      
       const feedbackData = {
         blog_post_id: blogPostId || null,
         name: formData.name.trim(),
@@ -61,17 +63,15 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
         feedback_type: blogPostId ? 'post' : 'site'
       };
       
-      console.log('📊 Feedback data to save:', JSON.stringify(feedbackData, null, 2));
+      console.log('💾 Calling feedbackService.createFeedback with:', JSON.stringify(feedbackData, null, 2));
       
       const result = await feedbackService.createFeedback(feedbackData);
-      console.log('✅ Feedback creation result:', result);
-
-      console.log('✅ Feedback saved successfully!');
+      console.log('🎉 SUCCESS! Feedback saved with result:', JSON.stringify(result, null, 2));
+      
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '', rating: 0 });
       
       if (onFeedbackSubmitted) {
-        console.log('🔄 Calling onFeedbackSubmitted callback...');
         onFeedbackSubmitted();
       }
     } catch (error: any) {
@@ -200,6 +200,11 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
           type="submit"
           disabled={isSubmitting}
           className="w-full inline-flex items-center justify-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={(e) => {
+            console.log('🖱️ SUBMIT BUTTON CLICKED!');
+            console.log('🔍 Form element:', e.currentTarget.form);
+            console.log('🔍 Is submitting:', isSubmitting);
+          }}
         >
           <Send className="w-5 h-5 mr-2" />
           {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
