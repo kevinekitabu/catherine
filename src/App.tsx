@@ -12,6 +12,7 @@ import { blogService, BlogPost } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
 import { feedbackService } from './lib/supabase';
 import FeedbackForm from './components/FeedbackForm';
+import FeedbackDisplay from './components/FeedbackDisplay';
 
 // SidePanel Component
 const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipReadMore }: { 
@@ -541,6 +542,10 @@ const App = () => {
   <FeedbackForm 
     onFeedbackSubmitted={() => alert('Thank you for your feedback!')} 
   />
+  <div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Feedback</h3>
+          <FeedbackDisplay limit={3} />
+        </div>
   {/* Next Button */}
   <NextButton />
 </div>
