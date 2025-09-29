@@ -161,9 +161,12 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
             target.src = "https://images.pexels.com/photos-3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300&h=300";
           }}
         />
-        <p className="text-gray-800 text-sm text-center mb-3">
-          Storytelling is my magnificent obsession.
-        </p>
+      
+             {/* FIXED: Storytelling Gateway label - proper left alignment and full text */}
+              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-800 font-medium mb-6 animate-elegant-fadeIn text-sm tracking-wide">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+                The Storytelling Gateway to Africa
+              </div>
         <button 
           onClick={onReadMore}
           className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
