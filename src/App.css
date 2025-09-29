@@ -32,6 +32,77 @@ body {
   overflow-x: hidden;
 }
 
+/* Remove gaps on mobile */
+@media (max-width: 768px) {
+  .min-h-screen {
+    min-height: 100vh !important;
+  }
+  
+  .pt-16 {
+    padding-top: 4rem !important;
+  }
+  
+  .pt-20 {
+    padding-top: 5rem !important;
+  }
+  
+  .py-12, .py-20 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .py-8 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  
+  .mb-12 {
+    margin-bottom: 2rem !important;
+  }
+  
+  .mb-16 {
+    margin-bottom: 3rem !important;
+  }
+  
+  /* Ensure no extra space at top of pages */
+  .relative.min-h-screen {
+    min-height: 100vh !important;
+  }
+
+  /* Reduce padding on mobile containers */
+  .px-6, .px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Reduce gaps in grids */
+  .gap-8, .gap-6 {
+    gap: 1rem !important;
+  }
+
+  /* Reduce card padding on mobile */
+  .p-8, .p-6 {
+    padding: 1.5rem !important;
+  }
+
+  /* Reduce hero section padding */
+  .py-24, .py-16 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove default margins */
+body {
+  margin: 0;
+  padding: 0;
+}
+
 /* Refined headings with better gradient control */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Poppins', sans-serif;
@@ -535,6 +606,39 @@ img.w-12.h-12.rounded-lg.object-cover.flex-shrink-0 {
     margin: 0 1rem;
     width: calc(100% - 2rem);
   }
+
+  /* Additional mobile gap fixes */
+  .mb-8 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .mt-8 {
+    margin-top: 1.5rem !important;
+  }
+
+  .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 0.75rem !important;
+  }
+
+  /* Reduce padding in main containers */
+  .p-8, .p-12 {
+    padding: 1.5rem !important;
+  }
+
+  /* Fix for blog post content */
+  .prose.prose-lg {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Reduce gap in grid layouts */
+  .gap-8 {
+    gap: 1rem !important;
+  }
 }
 
 .carousel-wrapper {
@@ -629,6 +733,27 @@ img.w-12.h-12.rounded-lg.object-cover.flex-shrink-0 {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
+  /* Additional mobile-specific fixes */
+  .h-20 {
+    height: 4rem !important;
+  }
+
+  .h-16 {
+    height: 3rem !important;
+  }
+
+  .text-4xl {
+    font-size: 1.875rem !important;
+  }
+
+  .text-3xl {
+    font-size: 1.5rem !important;
+  }
+
+  .text-2xl {
+    font-size: 1.25rem !important;
+  }
 }
 
 /* Ensure proper z-index stacking */
@@ -649,3 +774,56 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Poppins', sans-serif;
 }
 
+/* ============================
+   MOBILE URL BAR FIXES
+   ============================ */
+
+/* Prevent mobile browser UI from causing layout issues */
+@media (max-width: 768px) {
+  .min-h-screen {
+    min-height: calc(100vh - env(safe-area-inset-bottom)) !important;
+  }
+  
+  /* Ensure content doesn't get hidden behind mobile browser UI */
+  main {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ============================
+   PERFORMANCE OPTIMIZATIONS
+   ============================ */
+
+/* Reduce animations on mobile for better performance */
+@media (max-width: 768px) {
+  .card:hover {
+    transform: none;
+  }
+  
+  .btn-primary:hover, .btn-secondary:hover {
+    transform: none;
+  }
+  
+  .social-icon:hover {
+    transform: none;
+  }
+}
+
+/* ============================
+   ACCESSIBILITY IMPROVEMENTS
+   ============================ */
+
+/* Ensure proper focus states */
+button:focus, a:focus {
+  outline: 2px solid var(--emerald-light);
+  outline-offset: 2px;
+}
+
+/* Improve contrast for better readability */
+.text-gray-700, .text-gray-800 {
+  color: #374151 !important;
+}
+
+.text-gray-600 {
+  color: #4b5563 !important;
+}
