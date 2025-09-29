@@ -828,3 +828,14 @@ button:focus, a:focus {
   color: #4b5563 !important;
 }
 
+@media (max-width: 768px) {
+  .story-gateway-label {
+    font-size: 0.75rem !important;  /* shrink text */
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    max-width: 95%;                 /* keep inside screen */
+    white-space: nowrap !important; /* force one line */
+    overflow: hidden;
+    text-overflow: ellipsis;        /* if ever too long */
+  }
+}
