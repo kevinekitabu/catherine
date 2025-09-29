@@ -91,15 +91,13 @@ const FeedbackManager: React.FC<FeedbackManagerProps> = ({ onClose }) => {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-          <div className="animate-pulse">
-            <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
-            <div className="space-y-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-4 bg-gray-200 rounded"></div>
-              ))}
-            </div>
+      <div className="p-6">
+        <div className="animate-pulse">
+          <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-4 bg-gray-200 rounded"></div>
+            ))}
           </div>
         </div>
       </div>
@@ -107,128 +105,91 @@ const FeedbackManager: React.FC<FeedbackManagerProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900">Feedback Manager</h2>
-          <button
-            onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+    <div className="h-full overflow-hidden">
+      <div className="p-6 border-b border-gray-200">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Manage Feedback</h3>
+        
+        <div className="flex flex-wrap items-center gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value as any)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
 
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex flex-wrap items-center gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-              <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value as any)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              >
-                <option value="all">All Status</option>
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+            <select
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value as any)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            >
+              <option value="all">All Types</option>
+              <option value="site">Site Feedback</option>
+              <option value="post">Post Feedback</option>
+            </select>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-              <select
-                value={typeFilter}
-                onChange={(e) => setTypeFilter(e.target.value as any)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              >
-                <option value="all">All Types</option>
-                <option value="site">Site Feedback</option>
-                <option value="post">Post Feedback</option>
-              </select>
-            </div>
-
-            <div className="flex items-end">
-              <div className="text-sm text-gray-600">
-                Showing {filteredFeedback.length} of {feedback.length} feedback entries
-              </div>
+          <div className="flex items-end">
+            <div className="text-sm text-gray-600">
+              Showing {filteredFeedback.length} of {feedback.length} feedback entries
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-          {filteredFeedback.length === 0 ? (
-            <div className="text-center py-12">
-              <MessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No feedback found matching your filters.</p>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {filteredFeedback.map((item) => (
-                <div key={item.id} className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h4 className="text-lg font-semibold text-gray-900">{item.name}</h4>
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(item.status)}`}>
-                          {item.status}
-                        </span>
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${getTypeColor(item.feedback_type)}`}>
-                          {item.feedback_type === 'post' ? 'Post' : 'Site'}
-                        </span>
+      <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+        {filteredFeedback.length === 0 ? (
+          <div className="text-center py-12">
+            <MessageCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600">No feedback found matching your filters.</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {filteredFeedback.map((item) => (
+              <div key={item.id} className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <h4 className="text-lg font-semibold text-gray-900">{item.name}</h4>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(item.status)}`}>
+                        {item.status}
+                      </span>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${getTypeColor(item.feedback_type)}`}>
+                        {item.feedback_type === 'post' ? 'Post' : 'Site'}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                      <span>{item.email}</span>
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-1" />
+                        {format(new Date(item.created_at), 'MMM d, yyyy HH:mm')}
                       </div>
-                      
-                      <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
-                        <span>{item.email}</span>
-                        <div className="flex items-center">
-                          <Calendar className="w-4 h-4 mr-1" />
-                          {format(new Date(item.created_at), 'MMM d, yyyy HH:mm')}
-                        </div>
-                        {renderStars(item.rating)}
-                      </div>
-
-                      {item.blog_post && (
-                        <div className="mb-3">
-                          <span className="text-sm text-gray-600">
-                            Blog Post: <span className="font-medium">{(item.blog_post as any)?.title}</span>
-                          </span>
-                        </div>
-                      )}
-
-                      <p className="text-gray-700 leading-relaxed">{item.message}</p>
+                      {renderStars(item.rating)}
                     </div>
 
-                    <div className="flex items-center space-x-2 ml-4">
-                      {item.status === 'pending' && (
-                        <>
-                          <button
-                            onClick={() => handleStatusUpdate(item.id, 'approved')}
-                            className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                            title="Approve"
-                          >
-                            <Check className="w-5 h-5" />
-                          </button>
-                          <button
-                            onClick={() => handleStatusUpdate(item.id, 'rejected')}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                            title="Reject"
-                          >
-                            <X className="w-5 h-5" />
-                          </button>
-                        </>
-                      )}
-                      
-                      {item.status === 'approved' && (
-                        <button
-                          onClick={() => handleStatusUpdate(item.id, 'rejected')}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Reject"
-                        >
-                          <Eye className="w-5 h-5" />
-                        </button>
-                      )}
-                      
-                      {item.status === 'rejected' && (
+                    {item.blog_post && (
+                      <div className="mb-3">
+                        <span className="text-sm text-gray-600">
+                          Blog Post: <span className="font-medium">{(item.blog_post as any)?.title}</span>
+                        </span>
+                      </div>
+                    )}
+
+                    <p className="text-gray-700 leading-relaxed">{item.message}</p>
+                  </div>
+
+                  <div className="flex items-center space-x-2 ml-4">
+                    {item.status === 'pending' && (
+                      <>
                         <button
                           onClick={() => handleStatusUpdate(item.id, 'approved')}
                           className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
@@ -236,22 +197,49 @@ const FeedbackManager: React.FC<FeedbackManagerProps> = ({ onClose }) => {
                         >
                           <Check className="w-5 h-5" />
                         </button>
-                      )}
-
+                        <button
+                          onClick={() => handleStatusUpdate(item.id, 'rejected')}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Reject"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </>
+                    )}
+                    
+                    {item.status === 'approved' && (
                       <button
-                        onClick={() => handleDelete(item.id)}
+                        onClick={() => handleStatusUpdate(item.status === 'approved' ? 'rejected' : 'approved')}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Delete"
+                        title="Reject"
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <X className="w-5 h-5" />
                       </button>
-                    </div>
+                    )}
+                    
+                    {item.status === 'rejected' && (
+                      <button
+                        onClick={() => handleStatusUpdate(item.id, 'approved')}
+                        className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                        title="Approve"
+                      >
+                        <Check className="w-5 h-5" />
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

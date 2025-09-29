@@ -59,18 +59,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
 
         <div className="overflow-hidden">
           {activeTab === 'blog' && (
-            <div className="p-6 max-h-[calc(95vh-140px)] overflow-y-auto">
-              <BlogManager 
-                onClose={() => {}} 
-                onBlogPostsChange={handleBlogPostsChange}
-              />
-            </div>
+            <BlogManager 
+              onClose={() => {}} 
+              onBlogPostsChange={handleBlogPostsChange}
+            />
           )}
           
           {activeTab === 'feedback' && (
-            <div className="p-6 max-h-[calc(95vh-140px)] overflow-y-auto">
-              <FeedbackManager onClose={() => {}} />
-            </div>
+            <FeedbackManager onClose={() => {}} />
           )}
         </div>
       </div>
