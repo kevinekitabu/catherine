@@ -706,7 +706,8 @@ const App = () => {
   const renderPodcasts = () => (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50 overflow-hidden">
+      {/* FIXED: Added pt-20 md:pt-0 to push content down on mobile */}
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50 overflow-hidden pt-20 md:pt-0">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-teal-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style={{ animationDelay: '2s' }}></div>
@@ -717,10 +718,11 @@ const App = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
               {/* Left Content */}
                 <div className="text-left">
-             <div className="inline-flex items-center px-4 py-2 md:px-6 md:py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-6 md:mb-8 animate-elegant-fadeIn text-xs md:text-sm tracking-wide max-w-full">
-            <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 md:mr-3 animate-gentle-pulse flex-shrink-0"></span>
-          <span className="truncate">The Storytelling Gateway to Africa</span>
-        </div>
+              {/* FIXED: Added mt-4 md:mt-0 for extra spacing on mobile */}
+              <div className="inline-flex items-center px-4 py-2 md:px-6 md:py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-6 md:mb-8 mt-4 md:mt-0 animate-elegant-fadeIn text-xs md:text-sm tracking-wide max-w-full">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 md:mr-3 animate-gentle-pulse flex-shrink-0"></span>
+                <span className="truncate">The Storytelling Gateway to Africa</span>
+              </div>
 
               
               <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
