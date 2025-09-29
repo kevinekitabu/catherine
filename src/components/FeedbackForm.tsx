@@ -61,11 +61,10 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
         feedback_type: blogPostId ? 'post' : 'site'
       };
       
-      console.log('📊 Feedback data to save:', feedbackData);
+      console.log('📊 Feedback data to save:', JSON.stringify(feedbackData, null, 2));
       
-      await feedbackService.createFeedback({
-        ...feedbackData
-      });
+      const result = await feedbackService.createFeedback(feedbackData);
+      console.log('✅ Feedback creation result:', result);
 
       console.log('✅ Feedback saved successfully!');
       setSubmitted(true);
@@ -78,12 +77,12 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
     } catch (error: any) {
       console.error('❌ Error submitting feedback:', error);
       console.error('❌ Error details:', error.message);
-      console.error('❌ Full error object:', error);
+      console.error('❌ Full error object:', JSON.stringify(error, null, 2));
       
       if (error.message) {
         setError(`Failed to submit feedback: ${error.message}`);
       } else {
-        setError('Failed to submit feedback. Please check your connection and try again.');
+        setError('Failed to submit feedback. Please try again or contact support.');
       }
     } finally {
       setIsSubmitting(false);

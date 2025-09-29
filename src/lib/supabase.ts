@@ -379,63 +379,70 @@ export interface Feedback {
 
 export const feedbackService = {
   async createFeedback(feedback: Omit<Feedback, 'id' | 'created_at' | 'updated_at' | 'status'>): Promise<Feedback> {
-    console.log('🔄 feedbackService.createFeedback called with:', feedback);
+    console.log('🔄 feedbackService.createFeedback called with:', JSON.stringify(feedback, null, 2));
     
     try {
-      // First, let's test if we can access the feedback table at all
-      console.log('🔍 Testing feedback table access...');
-      const { data: tableTest, error: tableTestError } = await supabase
-        .from('feedback')
-        .select('*')
+      // Test database connection first
+      console.log('🔍 Testing Supabase connection...');
+      const { data: connectionTest, error: connectionError } = await supabase
+        .from('blog_posts')
+        .select('count')
         .limit(1);
       
-      if (tableTestError) {
-        console.error('❌ Cannot access feedback table:', tableTestError);
-        throw new Error(`Feedback table access failed: ${tableTestError.message}. Please check if the migration was applied correctly.`);
+      if (connectionError) {
+        console.error('❌ Supabase connection failed:', connectionError);
+        throw new Error(`Database connection failed: ${connectionError.message}`);
       }
       
-      console.log('✅ Feedback table is accessible, existing records:', tableTest?.length || 0);
+      console.log('✅ Supabase connection successful');
       
-      // Check if we can connect to Supabase
-      const { data: testData, error: testError } = await supabase
+      // Test feedback table access
+      console.log('🔍 Testing feedback table access...');
+      const { data: tableTest, error: tableError } = await supabase
         .from('feedback')
         .select('count')
         .limit(1);
       
-      if (testError) {
-        console.error('❌ Cannot connect to feedback table:', testError);
-        throw new Error(`Database connection failed: ${testError.message}`);
+      if (tableError) {
+        console.error('❌ Feedback table access failed:', tableError);
+        throw new Error(`Feedback table not found: ${tableError.message}. Please run the migration first.`);
       }
       
-      console.log('✅ Database connection test successful');
+      console.log('✅ Feedback table is accessible');
       
       // Insert the feedback
       console.log('💾 Inserting feedback into database...');
-      console.log('💾 Exact data being inserted:', JSON.stringify(feedback, null, 2));
+      console.log('💾 Data being inserted:', JSON.stringify(feedback, null, 2));
       
-    const { data, error } = await supabase
-      .from('feedback')
-      .insert([feedback])
-      .select()
-      .single();
+      const { data, error } = await supabase
+        .from('feedback')
+        .insert([{
+          blog_post_id: feedback.blog_post_id,
+          name: feedback.name,
+          email: feedback.email,
+          message: feedback.message,
+          rating: feedback.rating,
+          feedback_type: feedback.feedback_type,
+          status: 'pending'
+        }])
+        .select()
+        .single();
     
       if (error) {
-        console.error('❌ Database insert error:', error);
-        console.error('❌ Error code:', error.code);
-        console.error('❌ Error hint:', error.hint);
-        console.error('❌ Error details:', error.details);
+        console.error('❌ Database insert error:', JSON.stringify(error, null, 2));
         throw new Error(`Failed to save feedback: ${error.message}`);
       }
       
       if (!data) {
-        console.error('❌ No data returned from insert');
+        console.error('❌ No data returned from insert operation');
         throw new Error('No data returned from database');
       }
       
-      console.log('✅ Feedback saved successfully:', data);
-    return data;
+      console.log('✅ Feedback saved successfully:', JSON.stringify(data, null, 2));
+      return data;
+      
     } catch (error) {
-      console.error('❌ feedbackService.createFeedback error:', error);
+      console.error('❌ feedbackService.createFeedback error:', JSON.stringify(error, null, 2));
       throw error;
     }
   },

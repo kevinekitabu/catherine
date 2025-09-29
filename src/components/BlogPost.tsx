@@ -140,13 +140,19 @@ const BlogPost: React.FC<BlogPostProps> = ({ post, onFeedbackSubmitted }) => {
 
       {/* Feedback Section */}
       <div className="border-t border-gray-200 pt-12 mt-12">
+        <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Share Your Thoughts</h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Feedback Form */}
           <div>
             <FeedbackForm 
               blogPostId={post.id}
               blogPostTitle={post.title}
-              onFeedbackSubmitted={onFeedbackSubmitted}
+              onFeedbackSubmitted={() => {
+                console.log('🔄 Feedback submitted for post:', post.title);
+                if (onFeedbackSubmitted) {
+                  onFeedbackSubmitted();
+                }
+              }}
             />
           </div>
           
