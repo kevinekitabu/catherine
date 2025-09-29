@@ -827,3 +827,23 @@ button:focus, a:focus {
 .text-gray-600 {
   color: #4b5563 !important;
 }
+
+/* ============================
+   FIX: Storytelling Gateway label on mobile
+   ============================ */
+@media (max-width: 768px) {
+  .story-gateway-label {
+    display: flex !important;            /* allow full width instead of inline */
+    flex-wrap: wrap;                     /* wrap text if needed */
+    width: 100% !important;              /* take full mobile width */
+    white-space: normal !important;      /* break text instead of cutting */
+    text-align: center;                  /* center text on small screens */
+    justify-content: center;             /* keep dot + text centered */
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .story-gateway-label span {
+    flex-shrink: 0; /* prevents the green dot from shrinking */
+  }
+}
