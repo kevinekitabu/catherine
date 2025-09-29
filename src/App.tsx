@@ -10,6 +10,7 @@ import BlogManager from './components/BlogManager';
 import ImageCarousel from './components/ImageCarousel';
 import { blogService, BlogPost } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
+import { feedbackService } from './lib/supabase';
 import FeedbackForm from './components/FeedbackForm';
 
 // SidePanel Component
@@ -24,15 +25,43 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
   const [commentData, setCommentData] = useState({
     name: '',
     email: '',
-    feedback: ''
+    feedback: '',
+    rating: 5
   });
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle comment submission logic here
-    console.log('Feedback submitted:', commentData);
-    // Reset form
-    setCommentData({ name: '', email: '', feedback: '' });
+    
+    console.log('🚀 Feedback form submitted:', commentData);
+    setIsSubmittingFeedback(true);
+    
+    try {
+      await feedbackService.createFeedback({
+        name: commentData.name,
+        email: commentData.email,
+        message: commentData.feedback,
+        rating: commentData.rating,
+        feedback_type: 'site'
+      });
+      
+      console.log('✅ Feedback submitted successfully');
+      alert('Thank you for your feedback!');
+      
+      // Reset form
+      setCommentData({ name: '', email: '', feedback: '', rating: 5 });
+      setFeedbackSubmitted(true);
+      
+      // Reset success state after 3 seconds
+      setTimeout(() => setFeedbackSubmitted(false), 3000);
+      
+    } catch (error) {
+      console.error('❌ Error submitting feedback:', error);
+      alert('Failed to submit feedback. Please try again.');
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
     alert('Thank you for your feedback!');
   };
 
@@ -216,9 +245,10 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
           />
           <button
             type="submit"
-            className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+            disabled={isSubmittingFeedback}
+            className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Submit 
+            {isSubmittingFeedback ? 'Submitting...' : 'Submit Feedback'}
           </button>
         </form>
       </div>
