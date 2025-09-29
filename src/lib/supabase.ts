@@ -379,39 +379,89 @@ export interface Feedback {
 
 export const feedbackService = {
   async createFeedback(feedback: Omit<Feedback, 'id' | 'created_at' | 'updated_at' | 'status'>): Promise<Feedback> {
+    console.log('🔄 feedbackService.createFeedback called with:', feedback);
+    
+    try {
+      // Check if we can connect to Supabase
+      const { data: testData, error: testError } = await supabase
+        .from('feedback')
+        .select('count')
+        .limit(1);
+      
+      if (testError) {
+        console.error('❌ Cannot connect to feedback table:', testError);
+        throw new Error(`Database connection failed: ${testError.message}`);
+      }
+      
+      console.log('✅ Database connection test successful');
+      
+      // Insert the feedback
+      console.log('💾 Inserting feedback into database...');
     const { data, error } = await supabase
       .from('feedback')
       .insert([feedback])
       .select()
       .single();
     
-    if (error) throw error;
+      if (error) {
+        console.error('❌ Database insert error:', error);
+        throw new Error(`Failed to save feedback: ${error.message}`);
+      }
+      
+      if (!data) {
+        console.error('❌ No data returned from insert');
+        throw new Error('No data returned from database');
+      }
+      
+      console.log('✅ Feedback saved successfully:', data);
     return data;
+    } catch (error) {
+      console.error('❌ feedbackService.createFeedback error:', error);
+      throw error;
+    }
   },
 
   async getFeedbackForPost(postId: string): Promise<Feedback[]> {
+    console.log('🔍 Getting feedback for post:', postId);
+    
     const { data, error } = await supabase
       .from('feedback')
       .select('*')
       .eq('blog_post_id', postId)
+      .eq('status', 'approved')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      console.error('❌ Error getting post feedback:', error);
+      throw error;
+    }
+    
+    console.log('✅ Post feedback loaded:', data?.length || 0, 'items');
     return data || [];
   },
 
   async getSiteFeedback(): Promise<Feedback[]> {
+    console.log('🔍 Getting site feedback...');
+    
     const { data, error } = await supabase
       .from('feedback')
       .select('*')
       .eq('feedback_type', 'site')
+      .eq('status', 'approved')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      console.error('❌ Error getting site feedback:', error);
+      throw error;
+    }
+    
+    console.log('✅ Site feedback loaded:', data?.length || 0, 'items');
     return data || [];
   },
 
   async getAllFeedback(): Promise<Feedback[]> {
+    console.log('🔍 Getting all feedback for admin...');
+    
     const { data, error } = await supabase
       .from('feedback')
       .select(`
@@ -420,25 +470,44 @@ export const feedbackService = {
       `)
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      console.error('❌ Error getting all feedback:', error);
+      throw error;
+    }
+    
+    console.log('✅ All feedback loaded for admin:', data?.length || 0, 'items');
     return data || [];
   },
 
   async updateFeedbackStatus(id: string, status: 'approved' | 'rejected'): Promise<void> {
+    console.log('🔄 Updating feedback status:', id, 'to', status);
+    
     const { error } = await supabase
       .from('feedback')
       .update({ status })
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      console.error('❌ Error updating feedback status:', error);
+      throw error;
+    }
+    
+    console.log('✅ Feedback status updated successfully');
   },
 
   async deleteFeedback(id: string): Promise<void> {
+    console.log('🗑️ Deleting feedback:', id);
+    
     const { error } = await supabase
       .from('feedback')
       .delete()
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      console.error('❌ Error deleting feedback:', error);
+      throw error;
+    }
+    
+    console.log('✅ Feedback deleted successfully');
   }
 };

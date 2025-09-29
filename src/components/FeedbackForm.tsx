@@ -32,6 +32,10 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
     setIsSubmitting(true);
     setError('');
 
+    console.log('🔄 Starting feedback submission...');
+    console.log('📝 Form data:', formData);
+    console.log('📍 Blog post ID:', blogPostId);
+
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setError('Please fill in all fields');
       setIsSubmitting(false);
@@ -45,24 +49,41 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
     }
 
     try {
-      await feedbackService.createFeedback({
+      console.log('💾 Attempting to save feedback to database...');
+      
+      const feedbackData = {
         blog_post_id: blogPostId || null,
         name: formData.name.trim(),
         email: formData.email.trim(),
         message: formData.message.trim(),
         rating: formData.rating,
         feedback_type: blogPostId ? 'post' : 'site'
+      };
+      
+      console.log('📊 Feedback data to save:', feedbackData);
+      
+      await feedbackService.createFeedback({
+        ...feedbackData
       });
 
+      console.log('✅ Feedback saved successfully!');
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '', rating: 0 });
       
       if (onFeedbackSubmitted) {
+        console.log('🔄 Calling onFeedbackSubmitted callback...');
         onFeedbackSubmitted();
       }
     } catch (error: any) {
-      console.error('Error submitting feedback:', error);
-      setError('Failed to submit feedback. Please try again.');
+      console.error('❌ Error submitting feedback:', error);
+      console.error('❌ Error details:', error.message);
+      console.error('❌ Full error object:', error);
+      
+      if (error.message) {
+        setError(`Failed to submit feedback: ${error.message}`);
+      } else {
+        setError('Failed to submit feedback. Please check your connection and try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }
