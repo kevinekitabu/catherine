@@ -537,36 +537,13 @@ const App = () => {
 
             {/* Comments Section with Next Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
-              <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your Email"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  />
-                </div>
-                <textarea
-                  placeholder="Your Feedback"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  rows={4}
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                >
-                  Submit 
-                </button>
-              </form>
-              
-              {/* Next Button */}
-              <NextButton />
-            </div>
+  <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
+  <FeedbackForm 
+    onFeedbackSubmitted={() => alert('Thank you for your feedback!')} 
+  />
+  {/* Next Button */}
+  <NextButton />
+</div>
           </div>
 
           {/* Side Panel - spans 1 column on large screens, hidden on mobile */}
