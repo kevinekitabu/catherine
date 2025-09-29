@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Check, X, Trash2, Eye, Calendar, Star, MessageCircle } from 'lucide-react';
+import { Check, X, Trash2, Eye, Calendar, MessageCircle } from 'lucide-react';
 import { feedbackService, Feedback } from '../lib/supabase';
 import { format } from 'date-fns';
 
@@ -51,22 +51,6 @@ const FeedbackManager: React.FC<FeedbackManagerProps> = ({ onClose }) => {
     }
   };
 
-  const renderStars = (rating: number) => {
-    return (
-      <div className="flex items-center">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            className={`w-4 h-4 ${
-              star <= rating
-                ? 'text-yellow-400 fill-current'
-                : 'text-gray-300'
-            }`}
-          />
-        ))}
-      </div>
-    );
-  };
 
   const filteredFeedback = feedback.filter(item => {
     const statusMatch = filter === 'all' || item.status === filter;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Edit, Trash2, Save, Eye, EyeOff, Upload, Image, Trash, MessageCircle, Star, Check } from 'lucide-react';
+import { X, Plus, Edit, Trash2, Save, Eye, EyeOff, Upload, Image, Trash, MessageCircle, Check } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { blogService, BlogPost, feedbackService, Feedback } from '../lib/supabase';
 import { format } from 'date-fns';
@@ -122,22 +122,6 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
     }
   };
 
-  const renderStars = (rating: number) => {
-    return (
-      <div className="flex items-center">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            className={`w-4 h-4 ${
-              star <= rating
-                ? 'text-yellow-400 fill-current'
-                : 'text-gray-300'
-            }`}
-          />
-        ))}
-      </div>
-    );
-  };
 
   const generateSlug = (title: string) => {
     return title
@@ -462,7 +446,6 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                                 }`}>
                                   {feedback.status}
                                 </span>
-                                {renderStars(feedback.rating)}
                               </div>
                               <p className="text-gray-700 mb-2">{feedback.message}</p>
                               <div className="text-sm text-gray-500">

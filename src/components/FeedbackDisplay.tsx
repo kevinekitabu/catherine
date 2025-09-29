@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, MessageCircle, Calendar, User } from 'lucide-react';
+import { MessageCircle, Calendar, User } from 'lucide-react';
 import { feedbackService, Feedback } from '../lib/supabase';
 import { format } from 'date-fns';
 
@@ -39,22 +39,6 @@ const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ blogPostId, limit }) 
     }
   };
 
-  const renderStars = (rating: number) => {
-    return (
-      <div className="flex items-center">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            className={`w-4 h-4 ${
-              star <= rating
-                ? 'text-yellow-400 fill-current'
-                : 'text-gray-300'
-            }`}
-          />
-        ))}
-      </div>
-    );
-  };
 
   if (loading) {
     return (
@@ -102,7 +86,7 @@ const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ blogPostId, limit }) 
       <div className="space-y-6">
         {feedback.map((item) => (
           <div key={item.id} className="border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
-            <div className="flex items-start justify-between mb-3">
+            <div className="flex items-start mb-3">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
                   <User className="w-5 h-5 text-emerald-600" />
@@ -115,7 +99,6 @@ const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ blogPostId, limit }) 
                   </div>
                 </div>
               </div>
-              {renderStars(item.rating)}
             </div>
             
             <p className="text-gray-700 leading-relaxed">{item.message}</p>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, Send, MessageCircle } from 'lucide-react';
+import { Send, MessageCircle } from 'lucide-react';
 import { feedbackService } from '../lib/supabase';
 
 interface FeedbackFormProps {
@@ -17,15 +17,12 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
     name: '',
     email: '',
     message: '',
-    rating: 0
+    rating: 5
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const handleRatingClick = (rating: number) => {
-    setFormData(prev => ({ ...prev, rating }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,12 +41,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
       return;
     }
 
-    if (formData.rating === 0) {
-      console.log('❌ Validation failed: No rating provided');
-      setError('Please provide a rating');
-      setIsSubmitting(false);
-      return;
-    }
 
     console.log('✅ Form validation passed, proceeding with submission...');
 
@@ -69,7 +60,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
       console.log('🎉 SUCCESS! Feedback saved with result:', JSON.stringify(result, null, 2));
       
       setSubmitted(true);
-      setFormData({ name: '', email: '', message: '', rating: 0 });
+      setFormData({ name: '', email: '', message: '', rating: 5 });
       
       if (onFeedbackSubmitted) {
         onFeedbackSubmitted();
@@ -151,30 +142,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Rating *
-          </label>
-          <div className="flex items-center space-x-1">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                type="button"
-                onClick={() => handleRatingClick(star)}
-                className={`p-1 transition-colors ${
-                  star <= formData.rating
-                    ? 'text-yellow-400 hover:text-yellow-500'
-                    : 'text-gray-300 hover:text-yellow-300'
-                }`}
-              >
-                <Star className="w-6 h-6 fill-current" />
-              </button>
-            ))}
-            <span className="ml-2 text-sm text-gray-600">
-              {formData.rating > 0 ? `${formData.rating}/5` : 'Select rating'}
-            </span>
-          </div>
-        </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
