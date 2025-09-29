@@ -32,8 +32,8 @@ const updatePageURL = (view: string) => {
   }
 };
 
-// Social Share Buttons Component - UPDATED: Conditional rendering for mobile
-const SocialShareButtons = ({ post, url, isMobile = false }: { post: BlogPost, url: string, isMobile?: boolean }) => {
+// Social Share Buttons Component - FIXED: Share buttons now show on mobile
+const SocialShareButtons = ({ post, url }: { post: BlogPost, url: string }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const shareUrl = encodeURIComponent(url);
   const title = encodeURIComponent(post.title);
@@ -50,8 +50,6 @@ const SocialShareButtons = ({ post, url, isMobile = false }: { post: BlogPost, u
     window.open(link, '_blank', 'width=600,height=400');
     setIsExpanded(false);
   };
-
-  // On mobile for blogs, don't show share buttons at all
 
   return (
     <div className="mt-8 pt-6 border-t border-gray-200">
@@ -348,19 +346,6 @@ const App = () => {
   const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [videosLoading, setVideosLoading] = useState(true);
   const [carouselPosition, setCarouselPosition] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Check if mobile on mount and resize
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   // Handle URL changes based on current view
   useEffect(() => {
@@ -729,6 +714,7 @@ const App = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Left Content */}
             <div className="text-left">
+              {/* FIXED: Storytelling Gateway label - made it consistent with others */}
               <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-800 font-medium mb-6 animate-elegant-fadeIn text-sm tracking-wide">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
                 The Storytelling Gateway to Africa
@@ -949,8 +935,8 @@ const App = () => {
                   </p>
                 </div>
 
-                {/* Social Sharing Buttons - CONDITIONAL: Only show on desktop for blogs */}
-                {!isMobile && <SocialShareButtons post={post} url={currentUrl} isMobile={isMobile} />}
+                {/* FIXED: Social Sharing Buttons - Now show on both desktop and mobile */}
+                <SocialShareButtons post={post} url={currentUrl} />
 
                 {/* Comments Section */}
                 <div className="mt-6">
