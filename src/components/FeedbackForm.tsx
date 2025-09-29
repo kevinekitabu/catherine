@@ -35,6 +35,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
     console.log('🔄 Starting feedback submission...');
     console.log('📝 Form data:', formData);
     console.log('📍 Blog post ID:', blogPostId);
+    console.log('📍 Blog post title:', blogPostTitle);
 
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setError('Please fill in all fields');

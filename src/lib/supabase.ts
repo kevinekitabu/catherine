@@ -382,6 +382,20 @@ export const feedbackService = {
     console.log('🔄 feedbackService.createFeedback called with:', feedback);
     
     try {
+      // First, let's test if we can access the feedback table at all
+      console.log('🔍 Testing feedback table access...');
+      const { data: tableTest, error: tableTestError } = await supabase
+        .from('feedback')
+        .select('*')
+        .limit(1);
+      
+      if (tableTestError) {
+        console.error('❌ Cannot access feedback table:', tableTestError);
+        throw new Error(`Feedback table access failed: ${tableTestError.message}. Please check if the migration was applied correctly.`);
+      }
+      
+      console.log('✅ Feedback table is accessible, existing records:', tableTest?.length || 0);
+      
       // Check if we can connect to Supabase
       const { data: testData, error: testError } = await supabase
         .from('feedback')
@@ -397,6 +411,8 @@ export const feedbackService = {
       
       // Insert the feedback
       console.log('💾 Inserting feedback into database...');
+      console.log('💾 Exact data being inserted:', JSON.stringify(feedback, null, 2));
+      
     const { data, error } = await supabase
       .from('feedback')
       .insert([feedback])
@@ -405,6 +421,9 @@ export const feedbackService = {
     
       if (error) {
         console.error('❌ Database insert error:', error);
+        console.error('❌ Error code:', error.code);
+        console.error('❌ Error hint:', error.hint);
+        console.error('❌ Error details:', error.details);
         throw new Error(`Failed to save feedback: ${error.message}`);
       }
       
