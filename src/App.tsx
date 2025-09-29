@@ -213,45 +213,11 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
       </div>
 
       {/* Leave a Comment Section */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
-        <div className="flex items-center mb-4">
-          <i className="bi bi-chat-dots text-emerald-600 text-lg mr-3"></i>
-          <h3 className="text-lg font-bold text-gray-900">Feedback</h3>
-        </div>
-        <form onSubmit={handleCommentSubmit} className="space-y-3">
-          <input
-            type="text"
-            placeholder="Your Name"
-            value={commentData.name}
-            onChange={(e) => setCommentData({...commentData, name: e.target.value})}
-            className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Your Email"
-            value={commentData.email}
-            onChange={(e) => setCommentData({...commentData, email: e.target.value})}
-            className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
-            required
-          />
-          <textarea
-            placeholder="Your Feedback"
-            value={commentData.feedback}
-            onChange={(e) => setCommentData({...commentData, feedback: e.target.value})}
-            rows={3}
-            className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
-            required
-          />
-          <button
-            type="submit"
-            disabled={isSubmittingFeedback}
-            className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmittingFeedback ? 'Submitting...' : 'Submit Feedback'}
-          </button>
-        </form>
-      </div>
+      <FeedbackForm 
+        onFeedbackSubmitted={() => {
+          alert('Thank you for your feedback!');
+        }}
+      />
     </div>
   );
 };
@@ -857,30 +823,11 @@ const App = () => {
 
               {/* Comments Section */}
               <div className="mt-8">
-                <h4 className="text-lg font-semibold mb-4">Leave a Feedback</h4>
-                <form className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your Feedback"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                  />
-                  <textarea
-                    placeholder="Your Comment"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    rows={4}
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
-                    Submit
-                  </button>
-                </form>
+                <FeedbackForm 
+                  onFeedbackSubmitted={() => {
+                    alert('Thank you for your feedback!');
+                  }}
+                />
               </div>
 
               {/* Next Button */}
