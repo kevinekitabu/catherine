@@ -209,7 +209,7 @@ const FeedbackManager: React.FC<FeedbackManagerProps> = ({ onClose }) => {
                     
                     {item.status === 'approved' && (
                       <button
-                        onClick={() => handleStatusUpdate(item.status === 'approved' ? 'rejected' : 'approved')}
+                        onClick={() => handleStatusUpdate(item.id, 'rejected')}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                         title="Reject"
                       >

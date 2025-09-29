@@ -444,3 +444,85 @@ export const feedbackService = {
     if (error) throw error;
   }
 };
+
+export interface Feedback {
+  id: string;
+  blog_post_id?: string;
+  name: string;
+  email: string;
+  message: string;
+  rating: number;
+  feedback_type: 'site' | 'post';
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  updated_at: string;
+  blog_post?: BlogPost;
+}
+
+export const feedbackService = {
+  async createFeedback(feedback: Omit<Feedback, 'id' | 'created_at' | 'updated_at' | 'status'>): Promise<Feedback> {
+    const { data, error } = await supabase
+      .from('feedback')
+      .insert([feedback])
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  },
+
+  async getFeedbackForPost(postId: string): Promise<Feedback[]> {
+    const { data, error } = await supabase
+      .from('feedback')
+      .select('*')
+      .eq('blog_post_id', postId)
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
+  },
+
+  async getSiteFeedback(): Promise<Feedback[]> {
+    const { data, error } = await supabase
+      .from('feedback')
+      .select('*')
+      .eq('feedback_type', 'site')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
+  },
+
+  async getAllFeedback(): Promise<Feedback[]> {
+    const { data, error } = await supabase
+      .from('feedback')
+      .select(`
+        *,
+        blog_post:blog_posts(title, slug)
+      `)
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
+  },
+
+  async updateFeedbackStatus(id: string, status: 'approved' | 'rejected'): Promise<void> {
+    const { error } = await supabase
+      .from('feedback')
+      .update({ status })
+      .eq('id', id);
+    
+    if (error) throw error;
+  },
+
+  async deleteFeedback(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('feedback')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+  }
+};
