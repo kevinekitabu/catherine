@@ -525,13 +525,13 @@ const App = () => {
   
   {publishedBlogPosts.length > 0 && (
     <div className="mt-12 text-center">
-      <button
+      {/* <button
         onClick={() => setShowBlogManager(true)}
         className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
       >
         Manage Blog Posts
         <ArrowRight className="w-5 h-5 ml-2" />
-      </button>
+      </button> */}
     </div>
   )}
 </div>
