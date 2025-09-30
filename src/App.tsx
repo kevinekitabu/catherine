@@ -762,12 +762,11 @@ const App = () => {
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 text-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
               {/* Left Content */}
-                <div className="text-left">
-            {/* FIXED: Compact spacing on phone, normal on desktop */}
-<div className="inline-flex items-center px-3 py-1.5 md:px-6 md:py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-4 md:mb-8 mt-2 md:mt-0 animate-elegant-fadeIn text-xs md:text-sm tracking-wide max-w-full">
-  <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 md:mr-3 animate-gentle-pulse flex-shrink-0"></span>
-  <span className="truncate">The Storytelling Gateway to Africa</span>
-</div>
+   <div className="text-left">
+              <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-8 animate-elegant-fadeIn text-sm tracking-wide">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-gentle-pulse"></span>
+                The Storytelling Gateway to Africa
+              </div>
 
 
               
