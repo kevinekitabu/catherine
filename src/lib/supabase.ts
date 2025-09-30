@@ -363,3 +363,154 @@ export const blogService = {
     }
   }
 };
+export interface Feedback {
+  id: string;
+  blog_post_id?: string;
+  name: string;
+  email: string;
+  message: string;
+  rating: number;
+  feedback_type: 'site' | 'post';
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  updated_at: string;
+  blog_post?: BlogPost;
+}
+
+export const feedbackService = {
+  async createFeedback(feedback: Omit<Feedback, 'id' | 'created_at' | 'updated_at' | 'status'>): Promise<Feedback> {
+    console.log('🚀 feedbackService.createFeedback CALLED!');
+    console.log('📥 Received data:', JSON.stringify(feedback, null, 2));
+    
+    try {
+      // Insert the feedback
+      console.log('💾 INSERTING INTO DATABASE...');
+      
+      const { data, error } = await supabase
+        .from('feedback')
+        .insert([{
+          blog_post_id: feedback.blog_post_id,
+          name: feedback.name,
+          email: feedback.email,
+          message: feedback.message,
+          rating: feedback.rating,
+          feedback_type: feedback.feedback_type,
+          status: 'pending'
+        }])
+        .select()
+        .single();
+    
+      if (error) {
+        console.error('❌ DATABASE INSERT ERROR:', error);
+        throw new Error(`Failed to save feedback: ${error.message}`);
+      }
+      
+      if (!data) {
+        console.error('❌ No data returned from insert operation');
+        throw new Error('No data returned from database');
+      }
+      
+      console.log('🎉 DATABASE INSERT SUCCESS:', data);
+      return data;
+      
+    } catch (error) {
+      console.error('💥 FEEDBACK SERVICE ERROR:', error);
+      throw error;
+    }
+  },
+
+  async getFeedbackForPost(postId: string): Promise<Feedback[]> {
+    console.log('🔍 Getting feedback for post:', postId);
+    
+    const { data, error } = await supabase
+      .from('feedback')
+      .select('*')
+      .eq('blog_post_id', postId)
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('❌ Error getting post feedback:', error);
+      throw error;
+    }
+    
+    console.log('✅ Post feedback loaded:', data?.length || 0, 'items');
+    return data || [];
+  },
+
+  async getSiteFeedback(): Promise<Feedback[]> {
+    console.log('🔍 Getting site feedback...');
+    
+    const { data, error } = await supabase
+      .from('feedback')
+      .select('*')
+      .eq('feedback_type', 'site')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('❌ Error getting site feedback:', error);
+      throw error;
+    }
+    
+    console.log('✅ Site feedback loaded:', data?.length || 0, 'items');
+    return data || [];
+  },
+
+  async getAllFeedback(): Promise<Feedback[]> {
+    console.log('🔍 Getting all feedback for admin...');
+    
+    const { data, error } = await supabase
+      .from('feedback')
+      .select(`
+        *,
+        blog_post:blog_posts(title, slug)
+      `)
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('❌ Error getting all feedback:', error);
+      throw error;
+    }
+    
+    console.log('✅ All feedback loaded for admin:', data?.length || 0, 'items');
+    console.log('📊 Feedback breakdown:', data?.reduce((acc, item) => {
+      acc[item.status] = (acc[item.status] || 0) + 1;
+      acc[item.feedback_type] = (acc[item.feedback_type] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>));
+    return data || [];
+  },
+
+  async updateFeedbackStatus(id: string, status: 'approved' | 'rejected'): Promise<void> {
+    console.log('🔄 Updating feedback status:', id, 'to', status);
+    
+    const { error } = await supabase
+      .from('feedback')
+      .update({ status })
+      .eq('id', id);
+    
+    if (error) {
+      console.error('❌ Error updating feedback status:', error);
+      throw error;
+    }
+    
+    console.log('✅ Feedback status updated successfully');
+  },
+
+  async deleteFeedback(id: string): Promise<void> {
+    console.log('🗑️ Deleting feedback:', id);
+    
+    const { error } = await supabase
+      .from('feedback')
+      .delete()
+      .eq('id', id);
+    
+    if (error) {
+      console.error('❌ Error deleting feedback:', error);
+      throw error;
+    }
+    
+    console.log('✅ Feedback deleted successfully');
+  }
+};

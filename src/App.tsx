@@ -113,15 +113,43 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
   const [commentData, setCommentData] = useState({
     name: '',
     email: '',
-    feedback: ''
+    feedback: '',
+    rating: 5
   });
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
-  const handleCommentSubmit = (e: React.FormEvent) => {
+  const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle comment submission logic here
-    console.log('Feedback submitted:', commentData);
-    // Reset form
-    setCommentData({ name: '', email: '', feedback: '' });
+    
+    console.log('🚀 Feedback form submitted:', commentData);
+    setIsSubmittingFeedback(true);
+    
+    try {
+      await feedbackService.createFeedback({
+        name: commentData.name,
+        email: commentData.email,
+        message: commentData.feedback,
+        rating: commentData.rating,
+        feedback_type: 'site'
+      });
+      
+      console.log('✅ Feedback submitted successfully');
+      alert('Thank you for your feedback!');
+      
+      // Reset form
+      setCommentData({ name: '', email: '', feedback: '', rating: 5 });
+      setFeedbackSubmitted(true);
+      
+      // Reset success state after 3 seconds
+      setTimeout(() => setFeedbackSubmitted(false), 3000);
+      
+    } catch (error) {
+      console.error('❌ Error submitting feedback:', error);
+      alert('Failed to submit feedback. Please try again.');
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
     alert('Thank you for your feedback!');
   };
 
@@ -345,6 +373,7 @@ const App = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBlogManager, setShowBlogManager] = useState(false);
   const [publishedBlogPosts, setPublishedBlogPosts] = useState<BlogPost[]>([]);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [videosLoading, setVideosLoading] = useState(true);
@@ -458,6 +487,22 @@ const App = () => {
       console.error('Error loading blog posts:', error);
     }
   };
+
+  const handleFeedbackSubmitted = () => {
+    setFeedbackSubmitted(true);
+    alert('Thank you for your feedback!');
+    // Reset the alert after 3 seconds
+    setTimeout(() => setFeedbackSubmitted(false), 3000);
+  };
+
+  const renderFeedbackSection = () => (
+    <section className="py-24 bg-gray-50">
+      <div className="max-w-4xl mx-auto px-6">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">We Value Your Feedback</h2>
+        <FeedbackForm onFeedbackSubmitted={handleFeedbackSubmitted} />
+      </div>
+    </section>
+  );
 
   const handleBlogPostClick = (post: BlogPost) => {
     setCurrentView(`blog-${post.slug}`);
@@ -1547,6 +1592,7 @@ const App = () => {
         {currentView === 'connect' && renderConnect()}
       </main>
       
+
       <Footer />
       
       {showBlogManager && (
