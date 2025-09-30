@@ -163,7 +163,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
         />
       
             {/* FIXED: Storytelling Gateway label - full width on mobile */}
-    <p className="text-gray-600 text-sm text-center mb-3">
+    <p className="text-gray-800 text-sm text-center mb-3">
           Storytelling is my magnificent obsession.
         </p>
 
