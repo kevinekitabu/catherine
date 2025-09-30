@@ -525,6 +525,8 @@ const App = () => {
   
   {publishedBlogPosts.length > 0 && (
     <div className="mt-12 text-center">
+      {/* this is what has changed */}
+      {/* this is what has changed */}
       {/* <button
         onClick={() => setShowBlogManager(true)}
         className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
