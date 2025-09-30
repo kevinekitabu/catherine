@@ -718,11 +718,12 @@ const App = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
               {/* Left Content */}
                 <div className="text-left">
-              {/* FIXED: Added mt-4 md:mt-0 for extra spacing on mobile */}
-              <div className="inline-flex items-center px-4 py-2 md:px-6 md:py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-6 md:mb-8 mt-4 md:mt-0 animate-elegant-fadeIn text-xs md:text-sm tracking-wide max-w-full">
-                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 md:mr-3 animate-gentle-pulse flex-shrink-0"></span>
-                <span className="truncate">The Storytelling Gateway to Africa</span>
-              </div>
+            {/* FIXED: Compact spacing on phone, normal on desktop */}
+<div className="inline-flex items-center px-3 py-1.5 md:px-6 md:py-3 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-full text-emerald-700 font-medium mb-4 md:mb-8 mt-2 md:mt-0 animate-elegant-fadeIn text-xs md:text-sm tracking-wide max-w-full">
+  <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 md:mr-3 animate-gentle-pulse flex-shrink-0"></span>
+  <span className="truncate">The Storytelling Gateway to Africa</span>
+</div>
+
 
               
               <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
