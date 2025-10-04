@@ -15,8 +15,8 @@ app.post('/send-feedback-email', async (req, res) => {
   }
 
   const adminEmail = process.env.ADMIN_EMAIL || 'feedback@example.com';
-  // Use the user's entered email as the sender
-  const fromEmail = email || process.env.ADMIN_EMAIL || 'mainairungu99@gmail.com';
+  // Use the verified domain as the sender
+  const fromEmail = process.env.FROM_EMAIL || process.env.ADMIN_EMAIL || 'mainairungu99@gmail.com';
   const subject = blogPostId
     ? `New feedback for post: ${blogPostTitle || blogPostId}`
     : 'New site feedback';
