@@ -9,7 +9,9 @@ const socialIconClass = 'bi social-icon';
 import { Play, ExternalLink, Menu, X, ArrowRight } from 'lucide-react';
 import BlogManager from './components/BlogManager';
 import ImageCarousel from './components/ImageCarousel';
-import { blogService, BlogPost } from './lib/supabase';
+import FeedbackForm from './components/FeedbackForm';
+import FeedbackDisplay from './components/FeedbackDisplay';
+import { blogService, BlogPost, feedbackService } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
 
 // Update URL when navigating between pages - Clean path-based URLs
@@ -702,100 +704,16 @@ const App = () => {
             </div>
 
             {/* Comments Section */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-white/50 shadow-xl mb-6">
-              <h4 className="text-lg font-semibold mb-6 text-gray-900">Share Your Comments</h4>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your Email"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <textarea
-                  placeholder="Your Comment"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-                  rows={4}
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors text-sm"
-                >
-                  Submit 
-                </button>
-              </form>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
-              {post.title}
-            </h3>
-            <p className="text-gray-600 mb-4">
-              {post.excerpt}
-            </p>
-            <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
-              Read More →
-            </span>
-          </div>
-        </article>
-      ))}
-    </div>
-  ) : (
-    <div className="text-center py-12">
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-        <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
-        <div className="text-sm text-blue-700 space-y-2">
-          <p><strong>Method 1 - Storage Upload:</strong></p>
-          <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
-          <p>• Upload .txt, .md, or .docx files</p>
-          <p>• Files are automatically converted to blog posts</p>
-          
-          <p className="mt-4"><strong>Method 2 - Direct Database:</strong></p>
-          <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
-          <p>• Click "Insert" → "Insert row"</p>
-          <p>• Fill in: title, content, slug, status='published'</p>
-          
-          <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
-          <p>• Use the "Create Your First Post" button below</p>
-        </div>
-      </div>
-      <button
-        onClick={loadPublishedBlogPosts}
-        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
-      >
-        Check for New Files
-      </button>
-      <button
-        onClick={() => setShowBlogManager(true)}
-        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
-      >
-        Create Your First Post
-        <ArrowRight className="w-5 h-5 ml-2" />
-      </button>
-    </div>
-  )}
-  
-  {/* Manage Blog Posts button removed as requested */}
-</div>
-
-            {/* Comments Section with Next Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
-  <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
-  <FeedbackForm 
-    onFeedbackSubmitted={() => alert('Thank you for your feedback!')} 
-  />
-  {/*
-  <div>
-    <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Feedback</h3>
-    <FeedbackDisplay limit={3} />
-  </div>
-  */}
-  {/* Next Button */}
-  <NextButton />
-</div>
+              <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
+              <FeedbackForm 
+                onFeedbackSubmitted={() => alert('Thank you for your feedback!')} 
+              />
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Feedback</h3>
+                <FeedbackDisplay limit={3} />
+              </div>
+            </div>
           </div>
 
           {/* Side Panel - spans 1 column on large screens, hidden on mobile */}
