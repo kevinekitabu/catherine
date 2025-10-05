@@ -44,40 +44,63 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
 
     console.log('✅ Form validation passed, proceeding with submission...');
 
-    try {
-      const feedbackData = {
-        blog_post_id: blogPostId || null,
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        message: formData.message.trim(),
-        rating: formData.rating,
-        feedback_type: blogPostId ? 'post' : 'site'
-      };
-      
-      console.log('💾 Calling feedbackService.createFeedback with:', JSON.stringify(feedbackData, null, 2));
-      
-      const result = await feedbackService.createFeedback(feedbackData);
-      console.log('🎉 SUCCESS! Feedback saved with result:', JSON.stringify(result, null, 2));
-      
+    const feedbackData = {
+      blog_post_id: blogPostId ?? undefined,
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      message: formData.message.trim(),
+      rating: formData.rating,
+      feedback_type: (blogPostId ? 'post' : 'site') as 'post' | 'site'
+    };
+
+    // Start both actions concurrently
+    const dbPromise = feedbackService.createFeedback(feedbackData);
+    const emailPromise = fetch('/send-feedback-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: feedbackData.name,
+        email: feedbackData.email,
+        message: feedbackData.message,
+        rating: feedbackData.rating,
+        blogPostId: feedbackData.blog_post_id,
+        blogPostTitle: blogPostTitle || undefined,
+      }),
+    }).then(async (r) => {
+      if (!r.ok) {
+        const text = await r.text();
+        throw new Error(text || r.statusText || 'Unknown email send error');
+      }
+      return true;
+    });
+
+    // Wait for both to settle
+    const [dbResult, emailResult] = await Promise.allSettled([dbPromise, emailPromise]);
+
+  const dbSuccess = dbResult.status === 'fulfilled';
+  const emailSuccess = emailResult.status === 'fulfilled';
+    let combinedError = '';
+
+    if (!dbSuccess) {
+      combinedError += 'Saving feedback failed. ';
+      console.warn('DB save failed:', dbResult);
+    }
+    if (!emailSuccess) {
+      combinedError += 'Sending admin email failed.';
+      console.warn('Email send failed:', emailResult);
+    }
+
+    // Show success if either succeeded
+    if (dbSuccess || emailSuccess) {
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '', rating: 5 });
-      
-      if (onFeedbackSubmitted) {
+      if (dbSuccess && onFeedbackSubmitted) {
         onFeedbackSubmitted();
       }
-    } catch (error: any) {
-      console.error('❌ Error submitting feedback:', error);
-      console.error('❌ Error details:', error.message);
-      console.error('❌ Full error object:', JSON.stringify(error, null, 2));
-      
-      if (error.message) {
-        setError(`Failed to submit feedback: ${error.message}`);
-      } else {
-        setError('Failed to submit feedback. Please try again or contact support.');
-      }
-    } finally {
-      setIsSubmitting(false);
     }
+    // Show errors for whichever failed
+    setError(combinedError.trim());
+    setIsSubmitting(false);
   };
 
   if (submitted) {

@@ -730,6 +730,72 @@ const App = () => {
                 </button>
               </form>
             </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-emerald-600 transition-colors">
+              {post.title}
+            </h3>
+            <p className="text-gray-600 mb-4">
+              {post.excerpt}
+            </p>
+            <span className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
+              Read More →
+            </span>
+          </div>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <div className="text-center py-12">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+        <h3 className="font-semibold text-blue-900 mb-3">📝 How to Add Blog Posts</h3>
+        <div className="text-sm text-blue-700 space-y-2">
+          <p><strong>Method 1 - Storage Upload:</strong></p>
+          <p>• Go to Supabase Dashboard → Storage → blog-files bucket</p>
+          <p>• Upload .txt, .md, or .docx files</p>
+          <p>• Files are automatically converted to blog posts</p>
+          
+          <p className="mt-4"><strong>Method 2 - Direct Database:</strong></p>
+          <p>• Go to Supabase Dashboard → Database → blog_posts table</p>
+          <p>• Click "Insert" → "Insert row"</p>
+          <p>• Fill in: title, content, slug, status='published'</p>
+          
+          <p className="mt-4"><strong>Method 3 - Blog Manager:</strong></p>
+          <p>• Use the "Create Your First Post" button below</p>
+        </div>
+      </div>
+      <button
+        onClick={loadPublishedBlogPosts}
+        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors mr-4"
+      >
+        Check for New Files
+      </button>
+      <button
+        onClick={() => setShowBlogManager(true)}
+        className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+      >
+        Create Your First Post
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </button>
+    </div>
+  )}
+  
+  {/* Manage Blog Posts button removed as requested */}
+</div>
+
+            {/* Comments Section with Next Button */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
+  <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
+  <FeedbackForm 
+    onFeedbackSubmitted={() => alert('Thank you for your feedback!')} 
+  />
+  {/*
+  <div>
+    <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Feedback</h3>
+    <FeedbackDisplay limit={3} />
+  </div>
+  */}
+  {/* Next Button */}
+  <NextButton />
+</div>
           </div>
 
           {/* Side Panel - spans 1 column on large screens, hidden on mobile */}
