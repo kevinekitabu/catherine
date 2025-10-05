@@ -25,7 +25,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
     excerpt: '',
     slug: '',
     tags: '',
-    //read_time: '5 min read',
+    read_time: '',
     status: 'draft' as 'draft' | 'published',
     featured: false,
     thumbnail_url: ''
@@ -148,7 +148,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
       excerpt: '',
       slug: '',
       tags: '',
-     // read_time: '5 min read',
+      read_time: '',
       status: 'draft',
       featured: false,
       thumbnail_url: ''
@@ -165,7 +165,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
       excerpt: post.excerpt || '',
       slug: post.slug,
       tags: post.tags?.join(', ') || '',
-     // read_time: post.read_time || '5 min read',
+      read_time: post.read_time || '',
       status: post.status as 'draft' | 'published',
       featured: post.featured || false,
       thumbnail_url: post.thumbnail_url || ''
@@ -734,7 +734,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ onClose, onBlogPostsChange })
                      // value={formData.read_time}
                       onChange={(e) => setFormData(prev => ({ ...prev, read_time: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                      placeholder="5 min read"
+                      placeholder=""
                     />
                   </div>
 
