@@ -43,6 +43,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
 
 
     console.log('✅ Form validation passed, proceeding with submission...');
+    console.log('🔍 Environment NODE_ENV:', process.env.NODE_ENV);
 
     const feedbackData = {
       blog_post_id: blogPostId ?? undefined,
@@ -55,7 +56,15 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
 
     // Start both actions concurrently
     const dbPromise = feedbackService.createFeedback(feedbackData);
-    const emailPromise = fetch('/send-feedback-email', {
+    
+    // Check if we're in development and try to use the email server
+    const emailServerUrl = process.env.NODE_ENV === 'development' 
+      ? 'http://localhost:3001/send-feedback-email'
+      : '/send-feedback-email'; // In production, this would be handled by your server
+    
+    console.log('📧 Attempting to send email to:', emailServerUrl);
+    
+    const emailPromise = fetch(emailServerUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -67,11 +76,45 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
         blogPostTitle: blogPostTitle || undefined,
       }),
     }).then(async (r) => {
-      if (!r.ok) {
-        const text = await r.text();
-        throw new Error(text || r.statusText || 'Unknown email send error');
+      console.log('📧 Email response status:', r.status);
+      
+      let responseData;
+      try {
+        responseData = await r.json();
+        console.log('📧 Email response data:', responseData);
+      } catch (jsonError) {
+        console.error('❌ Failed to parse email response as JSON:', jsonError);
+        throw new Error('Invalid response format from email server');
       }
-      return true;
+      
+      if (!r.ok) {
+        console.error('❌ Email request failed with status:', r.status);
+        throw new Error(responseData.error || r.statusText || 'Email server error');
+      }
+      
+      if (!responseData.success) {
+        console.error('❌ Email sending failed:', responseData.error);
+        throw new Error(responseData.error || 'Email sending failed');
+      }
+      
+      console.log('✅ Email sent successfully:', responseData.emailId);
+      return responseData;
+    }).catch((error) => {
+      console.error('❌ Email promise failed:', error);
+      
+      // Handle specific browser/extension errors
+      if (error.message && error.message.includes('tab with id')) {
+        console.warn('⚠️ Browser extension error detected, email may still work');
+        return null;
+      }
+      
+      // If it's a network error (server not running), log it but don't throw
+      if (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('ECONNREFUSED') || error.name === 'TypeError') {
+        console.warn('⚠️ Email server appears to be offline, continuing with database save only');
+        return null; // Don't throw, just return null to indicate email failed
+      }
+      
+      throw error; // Re-throw other errors
     });
 
     // Wait for both to settle
