@@ -992,16 +992,10 @@ const renderCoaching = () => {
     }
   };
 
-  // Function to handle Read More - Catherine - NOW GOES TO HOME PAGE
+  // Function to handle Read More - Catherine
   const handleReadMore = () => {
     // Redirect to Home page
     window.location.href = '/';
-  };
-
-  // Function to handle Join Waitlist - NOW WORKING
-  const handleJoinWaitlist = () => {
-    // Open email client with pre-filled email
-    window.location.href = 'mailto:catherinea@whatsyourstoryafrica.com?subject=Join Waitlist - Transformative Storytelling Course&body=Hello Catherine, I would like to join the waitlist for the Transformative Storytelling Course.';
   };
 
   return (
@@ -1145,7 +1139,7 @@ const renderCoaching = () => {
                   <p className="text-emerald-600 italic mb-3 md:mb-4 text-sm md:text-base">
                     "The future of our continent lies in the authentic voices of our youth."
                   </p>
-                  {/* Read More Button - NOW GOES TO HOME PAGE */}
+                  {/* Read More Button - WORKING */}
                   <button 
                     onClick={handleReadMore}
                     className="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center justify-center md:justify-start space-x-1 group mx-auto md:mx-0 cursor-pointer"
@@ -1220,7 +1214,7 @@ const renderCoaching = () => {
           </div>
         </div>
 
-        {/* Waitlist Section - WITH WORKING JOIN WAITLIST BUTTON */}
+        {/* Waitlist Section - WITH WORKING GMAIL BUTTON */}
         <div id="waitlist-section" className="mt-12 md:mt-20">
           <div className="bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl md:rounded-2xl p-6 md:p-12 border border-emerald-400 shadow-xl md:shadow-2xl text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-white/10"></div>
@@ -1244,8 +1238,26 @@ const renderCoaching = () => {
                   placeholder="Enter your email address"
                   className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg placeholder-white/70 text-white focus:outline-none focus:border-white/50 backdrop-blur-sm text-sm md:text-base"
                 />
-                <button 
-                  onClick={handleJoinWaitlist}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+
+                    const subject = encodeURIComponent("Join Waitlist - Transformative Storytelling Course");
+                    const body = encodeURIComponent(
+                      `Hello Catherine,\n\nI would like to join the waitlist for the Transformative Storytelling Course.\n\nPlease add me to the waitlist and let me know when enrollment opens.\n\nThank you!`
+                    );
+
+                    const mailtoLink = `mailto:catherinea@whatsyourstoryafrica.com?subject=${subject}&body=${body}`;
+                    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=${subject}&body=${body}`;
+
+                    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                    if (isMobile) {
+                      window.location.href = mailtoLink; // opens native email app
+                    } else {
+                      window.open(gmailUrl, "_blank"); // opens Gmail web
+                    }
+                  }}
                   className="w-full px-6 py-3 bg-white text-emerald-600 font-semibold rounded-lg hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl text-sm md:text-base cursor-pointer"
                 >
                   Join Waitlist
@@ -1253,7 +1265,6 @@ const renderCoaching = () => {
               </div>
               
              
-              
             </div>
           </div>
         </div>
