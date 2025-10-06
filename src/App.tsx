@@ -985,28 +985,23 @@ const App = () => {
 const renderCoaching = () => {
   // Function to handle enrollment
   const handleEnrollNow = () => {
-    // Scroll to waitlist section or open enrollment modal
+    // Scroll to waitlist section
     const waitlistSection = document.getElementById('waitlist-section');
     if (waitlistSection) {
       waitlistSection.scrollIntoView({ behavior: 'smooth' });
     }
-    // Alternatively, you can redirect to enrollment page:
-    // window.location.href = '/enroll';
   };
 
-  // Function to handle Read More - Catherine
+  // Function to handle Read More - Catherine - NOW GOES TO HOME PAGE
   const handleReadMore = () => {
-    // Redirect to Catherine's page
-    window.location.href = '/Home';
-    // Or if you have a different route:
-    // window.location.href = '/about-catherine';
-    // Or open a modal:
-    // openCatherineModal();
+    // Redirect to Home page
+    window.location.href = '/';
   };
 
-  // Function to handle Join Waitlist
+  // Function to handle Join Waitlist - NOW WORKING
   const handleJoinWaitlist = () => {
-    window.location.href = 'mailto:catherinea@whatsyourstoryafrica.com?subject=Join Waitlist - Transformative Storytelling Course&body=Hello, I would like to join the waitlist for the Transformative Storytelling Course.';
+    // Open email client with pre-filled email
+    window.location.href = 'mailto:catherinea@whatsyourstoryafrica.com?subject=Join Waitlist - Transformative Storytelling Course&body=Hello Catherine, I would like to join the waitlist for the Transformative Storytelling Course.';
   };
 
   return (
@@ -1043,7 +1038,7 @@ const renderCoaching = () => {
             Transform your ideas into legacy.
           </p>
 
-          {/* CTA Button - NOW WORKING */}
+          {/* CTA Button - WORKING */}
           <div className="flex justify-center items-center mb-8 md:mb-12 px-4">
             <button 
               onClick={handleEnrollNow}
@@ -1150,7 +1145,7 @@ const renderCoaching = () => {
                   <p className="text-emerald-600 italic mb-3 md:mb-4 text-sm md:text-base">
                     "The future of our continent lies in the authentic voices of our youth."
                   </p>
-                  {/* Read More Button - NOW WORKING */}
+                  {/* Read More Button - NOW GOES TO HOME PAGE */}
                   <button 
                     onClick={handleReadMore}
                     className="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center justify-center md:justify-start space-x-1 group mx-auto md:mx-0 cursor-pointer"
@@ -1225,7 +1220,7 @@ const renderCoaching = () => {
           </div>
         </div>
 
-        {/* Waitlist Section - NOW WORKING */}
+        {/* Waitlist Section - WITH WORKING JOIN WAITLIST BUTTON */}
         <div id="waitlist-section" className="mt-12 md:mt-20">
           <div className="bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl md:rounded-2xl p-6 md:p-12 border border-emerald-400 shadow-xl md:shadow-2xl text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-white/10"></div>
@@ -1257,9 +1252,8 @@ const renderCoaching = () => {
                 </button>
               </div>
               
-              <p className="mt-4 md:mt-6 text-white/80 text-xs md:text-sm">
-                Email: catherinea@whatsyourstoryafrica.com
-              </p>
+             
+              
             </div>
           </div>
         </div>
