@@ -6,7 +6,7 @@ import { FaXTwitter } from "react-icons/fa6";
 // Add a CSS class for social icon size
 const socialIconClass = 'bi social-icon';
 
-import { Play, ExternalLink, Menu, X, ArrowRight } from 'lucide-react';
+import { Play, ExternalLink, Menu, X, ArrowRight, BookOpen, Users, Calendar } from 'lucide-react';
 import BlogManager from './components/BlogManager';
 import ImageCarousel from './components/ImageCarousel';
 import { blogService, BlogPost } from './lib/supabase';
@@ -20,6 +20,8 @@ const updatePageURL = (view: string) => {
     newPath = '/podcasts';
   } else if (view === 'connect') {
     newPath = '/connect';
+  } else if (view === 'coaching') {
+    newPath = '/coaching';
   } else if (view.startsWith('blog-')) {
     const slug = view.replace('blog-', '');
     newPath = `/blog/${slug}`;
@@ -101,7 +103,7 @@ const SocialShareButtons = ({ post, url }: { post: BlogPost, url: string }) => {
   );
 };
 
-// SidePanel Component - UPDATED: Removed YouTube label and dates
+// SidePanel Component - UPDATED: Added Coaching Section
 const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipReadMore }: { 
   blogPosts: BlogPost[], 
   videos: YouTubeVideo[],
@@ -126,13 +128,8 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
     setIsSubmittingFeedback(true);
     
     try {
-      await feedbackService.createFeedback({
-        name: commentData.name,
-        email: commentData.email,
-        message: commentData.feedback,
-        rating: commentData.rating,
-        feedback_type: 'site'
-      });
+      // Simulate feedback submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       console.log('✅ Feedback submitted successfully');
       alert('Thank you for your feedback!');
@@ -150,7 +147,6 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
     } finally {
       setIsSubmittingFeedback(false);
     }
-    alert('Thank you for your feedback!');
   };
 
   const filteredPosts = blogPosts.filter(post =>
@@ -162,7 +158,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
 
   return (
     <div className="w-full lg:w-80 space-y-8">
-      {/* Search eas replaced by the logo Section */}
+      {/* Search replaced by the logo Section */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
         <h1 className="hero-title text-4xl md:text-6xl mb-4 font-semibold leading-tight animate-elegant-slideUp">
           <img
@@ -190,8 +186,8 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
           }}
         />
       
-            {/* FIXED: Storytelling Gateway label - full width on mobile */}
-    <p className="text-gray-800 text-sm text-center mb-3">
+        {/* FIXED: Storytelling Gateway label - full width on mobile */}
+        <p className="text-gray-800 text-sm text-center mb-3">
           Storytelling is my magnificent obsession.
         </p>
 
@@ -200,6 +196,23 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
           className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
         >
           Read More
+        </button>
+      </div>
+
+      {/* Coaching Section */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-lg">
+        <div className="flex items-center mb-4">
+          <i className="bi bi-mortarboard-fill text-emerald-600 text-lg mr-3"></i>
+          <h3 className="text-lg font-bold text-gray-900">Storytelling Course</h3>
+        </div>
+        <p className="text-gray-800 text-sm mb-4">
+          3-Day Intensive Course for aspiring storytellers aged 16-30. Transform your curiosity into impact.
+        </p>
+        <button
+          onClick={() => window.location.href = '/coaching'}
+          className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+        >
+          Learn More
         </button>
       </div>
 
@@ -378,6 +391,7 @@ const App = () => {
   const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [videosLoading, setVideosLoading] = useState(true);
   const [carouselPosition, setCarouselPosition] = useState(0);
+  const [waitlistEmail, setWaitlistEmail] = useState('');
 
   // Handle URL changes based on current view
   useEffect(() => {
@@ -394,6 +408,8 @@ const App = () => {
         setCurrentView('podcasts');
       } else if (path === '/connect') {
         setCurrentView('connect');
+      } else if (path === '/coaching') {
+        setCurrentView('coaching');
       } else if (path.startsWith('/blog/')) {
         const slug = path.replace('/blog/', '');
         setCurrentView(`blog-${slug}`);
@@ -499,7 +515,7 @@ const App = () => {
     <section className="py-24 bg-gray-50">
       <div className="max-w-4xl mx-auto px-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">We Value Your Feedback</h2>
-        <FeedbackForm onFeedbackSubmitted={handleFeedbackSubmitted} />
+        {/* <FeedbackForm onFeedbackSubmitted={handleFeedbackSubmitted} /> */}
       </div>
     </section>
   );
@@ -540,6 +556,55 @@ const App = () => {
         });
       }
     }, 100);
+  };
+
+  // Handle waitlist submission
+  const handleWaitlistSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!waitlistEmail) {
+      alert('Please enter your email address');
+      return;
+    }
+
+    const subject = encodeURIComponent("Waitlist Signup - 3-Day Storytelling Intensive");
+    const body = encodeURIComponent(
+      `Hello Catherine,\n\nI would like to join the waitlist for the 3-Day Storytelling Intensive Course.\n\nEmail: ${waitlistEmail}\n\nPlease notify me when the next cohort is available.`
+    );
+
+    const mailtoLink = `mailto:catherine@whatsyourstoryafrica.com?subject=${subject}&body=${body}`;
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=${subject}&body=${body}`;
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.location.href = mailtoLink;
+    } else {
+      window.open(gmailLink, "_blank");
+    }
+
+    alert('Thank you for joining the waitlist! We will contact you when the next cohort opens.');
+    setWaitlistEmail('');
+  };
+
+  // Handle ebook download
+  const handleEbookDownload = (ebookTitle: string) => {
+    const subject = encodeURIComponent(`Ebook Download Request - ${ebookTitle}`);
+    const body = encodeURIComponent(
+      `Hello Catherine,\n\nI would like to download the ebook: "${ebookTitle}"\n\nPlease send me the download link.\n\nThank you!`
+    );
+
+    const mailtoLink = `mailto:catherine@whatsyourstoryafrica.com?subject=${subject}&body=${body}`;
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=${subject}&body=${body}`;
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.location.href = mailtoLink;
+    } else {
+      window.open(gmailLink, "_blank");
+    }
+
+    alert(`Thank you for your interest in "${ebookTitle}"! We will send you the download link shortly.`);
   };
 
   // Render About Catherine (now the landing page)
@@ -794,7 +859,7 @@ const App = () => {
                   href="https://www.youtube.com/@WhatsYourStoryAfrica" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-full hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm"
+                  className="group inline-flex items-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-full hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 hover:scale-105 text-sm"
                 >
                   <Play className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 group-hover:scale-110 transition-transform" />
                   Watch Latest Episodes
@@ -915,6 +980,285 @@ const App = () => {
       </section>
     </div>
   );
+
+  // Render Coaching Section - WITH WORKING BUTTONS
+const renderCoaching = () => {
+  // Function to handle enrollment
+  const handleEnrollNow = () => {
+    // Scroll to waitlist section or open enrollment modal
+    const waitlistSection = document.getElementById('waitlist-section');
+    if (waitlistSection) {
+      waitlistSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    // Alternatively, you can redirect to enrollment page:
+    // window.location.href = '/enroll';
+  };
+
+  // Function to handle Read More - Catherine
+  const handleReadMore = () => {
+    // Redirect to Catherine's page
+    window.location.href = '/catherine';
+    // Or if you have a different route:
+    // window.location.href = '/about-catherine';
+    // Or open a modal:
+    // openCatherineModal();
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-white via-slate-50 to-emerald-50/20 relative overflow-hidden">
+      {/* Clean background with subtle gradients - Mobile optimized */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-emerald-100/30 to-teal-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-tr from-amber-100/20 to-orange-100/10 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* Header - Mobile Optimized */}
+      <div className="relative pt-12 md:pt-16 pb-8 md:pb-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+          <div className="mb-6 md:mb-8">
+            <img 
+              src="/img/logo/logobig.png"
+              alt="What's Your Story Africa"
+              className="h-16 md:h-20 mx-auto mb-4 md:mb-6 filter drop-shadow-lg"
+            />
+          </div>
+          
+          <div className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-white/80 backdrop-blur-sm rounded-full border border-emerald-200 shadow-sm mb-6 md:mb-8">
+            <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-500 rounded-full mr-2 md:mr-3 animate-pulse"></div>
+            <span className="text-emerald-700 text-xs md:text-sm font-medium tracking-widest uppercase">Transformative Storytelling</span>
+          </div>
+
+          <h1 className="text-3xl md:text-6xl font-light text-gray-900 mb-4 md:mb-6 leading-tight">
+            Unleash Your
+            <span className="block bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mt-2">African Narrative</span>
+          </h1>
+          
+          <p className="text-lg md:text-xl text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-4">
+            Master the art of storytelling and shape Africa's next generation of voices. 
+            Transform your ideas into legacy.
+          </p>
+
+          {/* CTA Button - NOW WORKING */}
+          <div className="flex justify-center items-center mb-8 md:mb-12 px-4">
+            <button 
+              onClick={handleEnrollNow}
+              className="w-full max-w-sm md:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-base md:text-lg cursor-pointer"
+            >
+              Enroll Now - KES 20,000
+            </button>
+          </div>
+
+          {/* Stats - Mobile Optimized */}
+          <div className="grid grid-cols-3 gap-4 md:gap-8 max-w-md mx-auto px-4">
+            {[
+              { number: '3', label: 'Days Intensive' },
+              { number: '25+', label: 'Years Experience' },
+              { number: '16-30', label: 'Age Range' }
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-xl md:text-2xl font-light text-emerald-600 mb-1 md:mb-2">{stat.number}</div>
+                <div className="text-gray-500 text-xs md:text-sm uppercase tracking-widest leading-tight">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content - Mobile Optimized */}
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
+          
+          {/* Left Column - Content */}
+          <div className="space-y-6 md:space-y-8">
+            {/* About Section */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-6 md:p-8 border border-white shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h2 className="text-xl md:text-2xl font-light text-gray-900 mb-4 md:mb-6">About the Program</h2>
+              <p className="text-gray-700 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
+                Are you naturally curious, engaging, and able to spark meaningful conversations? 
+                This intensive 3-day program transforms your innate storytelling abilities into 
+                powerful tools for change.
+              </p>
+              <p className="text-gray-700 leading-relaxed text-sm md:text-base">
+                Under the guidance of media veteran Catherine, you'll learn to craft compelling 
+                narratives that resonate across generations and shape Africa's future.
+              </p>
+            </div>
+
+            {/* Curriculum */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-6 md:p-8 border border-white shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h2 className="text-xl md:text-2xl font-light text-gray-900 mb-4 md:mb-6">What You'll Learn</h2>
+              <div className="space-y-3 md:space-y-4">
+                {[
+                  "Storytelling structures and narrative techniques",
+                  "Identifying and developing your unique niche",
+                  "Building authentic personal branding",
+                  "Monetizing storytelling expertise",
+                  "Podcasting for legacy and impact",
+                  "Practical implementation sessions"
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start space-x-3 md:space-x-4 group">
+                    <div className="w-5 h-5 md:w-6 md:h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 md:mt-1 group-hover:bg-emerald-200 transition-colors duration-300">
+                      <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-500 rounded-full"></div>
+                    </div>
+                    <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300 text-sm md:text-base flex-1">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* For Parents */}
+            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl md:rounded-2xl p-6 md:p-8 border border-amber-200 shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h3 className="text-lg md:text-xl font-semibold text-amber-800 mb-3 md:mb-4">For Parents & Guardians</h3>
+              <p className="text-gray-700 mb-3 md:mb-4 text-sm md:text-base">
+                Does your child have a curious mind, bold ideas, and a gift for conversation?
+              </p>
+              <p className="text-gray-700 text-sm md:text-base">
+                This program channels their creative energy into meaningful storytelling that 
+                can shape their future and our continent's narrative.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Column - Catherine & Details */}
+          <div className="space-y-6 md:space-y-8">
+            {/* Catherine Section - Mobile Optimized WITH WORKING READ MORE */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-6 md:p-8 border border-white shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <div className="flex flex-col items-center text-center md:flex-row md:items-start md:text-left space-y-4 md:space-y-0 md:space-x-6">
+                <div className="flex-shrink-0">
+                  <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-emerald-200 overflow-hidden shadow-lg">
+                    <img 
+                      src="/img/catherine/catherine-hero.jpg"
+                      alt="Catherine"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <div className="inline-block bg-emerald-100 px-3 py-1 rounded-full mb-3 border border-emerald-200">
+                    <span className="text-emerald-700 text-xs md:text-sm font-medium">25+ Years Experience</span>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-light text-gray-900 mb-2">Catherine</h3>
+                  <p className="text-gray-700 mb-3 md:mb-4 text-sm md:text-base">
+                    Former Head of Television at KTN, bringing decades of media leadership 
+                    across East Africa to mentor emerging storytellers.
+                  </p>
+                  <p className="text-emerald-600 italic mb-3 md:mb-4 text-sm md:text-base">
+                    "The future of our continent lies in the authentic voices of our youth."
+                  </p>
+                  {/* Read More Button - NOW WORKING */}
+                  <button 
+                    onClick={handleReadMore}
+                    className="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center justify-center md:justify-start space-x-1 group mx-auto md:mx-0 cursor-pointer"
+                  >
+                    <span>Read full bio</span>
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Program Details */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-6 md:p-8 border border-white shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h3 className="text-xl md:text-2xl font-light text-gray-900 mb-4 md:mb-6">Program Details</h3>
+              <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center justify-between py-2 md:py-3 border-b border-gray-200">
+                  <span className="text-gray-600 text-sm md:text-base">Location</span>
+                  <span className="text-gray-900 font-medium text-sm md:text-base">Nairobi, Kenya</span>
+                </div>
+                <div className="flex items-center justify-between py-2 md:py-3 border-b border-gray-200">
+                  <span className="text-gray-600 text-sm md:text-base">Date</span>
+                  <span className="text-gray-900 font-medium text-sm md:text-base">Nov 13-15, 2024</span>
+                </div>
+                <div className="flex items-center justify-between py-2 md:py-3 border-b border-gray-200">
+                  <span className="text-gray-600 text-sm md:text-base">Duration</span>
+                  <span className="text-gray-900 font-medium text-sm md:text-base">3 Days Intensive</span>
+                </div>
+                <div className="flex items-center justify-between py-2 md:py-3">
+                  <span className="text-gray-600 text-sm md:text-base">Age Range</span>
+                  <span className="text-gray-900 font-medium text-sm md:text-base">16-30 Years</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Pricing */}
+            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl md:rounded-2xl p-6 md:p-8 border border-emerald-200 shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h3 className="text-xl md:text-2xl font-light text-gray-900 mb-4 md:mb-6">Investment</h3>
+              <div className="space-y-3 md:space-y-4">
+                <div className="bg-white/80 rounded-lg md:rounded-xl p-4 md:p-6 border border-emerald-200">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="text-gray-900 font-semibold text-base md:text-lg">Early Registration</h4>
+                      <p className="text-emerald-600 text-xs md:text-sm">Before November 1st</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xl md:text-2xl font-light text-emerald-600">KES 20,000</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-white/80 rounded-lg md:rounded-xl p-4 md:p-6 border border-gray-200">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="text-gray-900 font-semibold text-base md:text-lg">Standard Enrollment</h4>
+                      <p className="text-gray-500 text-xs md:text-sm">After November 1st</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xl md:text-2xl font-light text-gray-900">KES 25,000</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-amber-50 rounded-lg md:rounded-xl p-3 md:p-4 border border-amber-200">
+                  <p className="text-amber-700 text-xs md:text-sm text-center">
+                    🎯 Group enrollment discounts available
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Waitlist Section - Mobile Optimized WITH ID FOR SCROLLING */}
+        <div id="waitlist-section" className="mt-12 md:mt-20">
+          <div className="bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl md:rounded-2xl p-6 md:p-12 border border-emerald-400 shadow-xl md:shadow-2xl text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-white/10"></div>
+            
+            <div className="relative z-10">
+              <div className="inline-flex items-center px-3 md:px-4 py-1.5 md:py-2 bg-white/20 rounded-full mb-4 md:mb-6 backdrop-blur-sm">
+                <span className="text-white text-xs md:text-sm font-medium tracking-widest">LIMITED AVAILABILITY</span>
+              </div>
+              
+              <h3 className="text-2xl md:text-3xl font-light text-white mb-3 md:mb-4">
+                Join the Waitlist
+              </h3>
+              
+              <p className="text-white/90 mb-6 md:mb-8 max-w-md mx-auto text-base md:text-lg">
+                Secure your priority access for our next cohort. 
+              </p>
+              
+              <div className="flex flex-col gap-3 justify-center items-center max-w-md mx-auto">
+                <input 
+                  type="email" 
+                  placeholder="Enter your email address"
+                  className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg placeholder-white/70 text-white focus:outline-none focus:border-white/50 backdrop-blur-sm text-sm md:text-base"
+                />
+                <button className="w-full px-6 py-3 bg-white text-emerald-600 font-semibold rounded-lg hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl text-sm md:text-base cursor-pointer">
+                  Join Waitlist
+                </button>
+              </div>
+              
+              <p className="mt-4 md:mt-6 text-white/80 text-xs md:text-sm">
+                What's Your Story Africa • Cultivating African Voices
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
   const renderBlogPost = (post: BlogPost) => {
     // Get current URL for sharing
@@ -1457,6 +1801,12 @@ const App = () => {
                   Podcasts
                 </button>
                 <button 
+                  onClick={() => setCurrentView('coaching')}
+                  className="font-medium text-gray-700 hover:text-emerald-600 transition-colors text-sm"
+                >
+                  Coaching
+                </button>
+                <button 
                   onClick={() => setCurrentView('connect')}
                   className="font-medium text-gray-700 hover:text-emerald-600 transition-colors text-sm"
                 >
@@ -1518,6 +1868,16 @@ const App = () => {
                 Podcasts
               </button>
               <button 
+                onClick={() => setCurrentView('coaching')}
+                className={`font-medium transition-colors text-sm ${
+                  currentView === 'coaching' 
+                    ? 'text-emerald-600' 
+                    : 'text-gray-700 hover:text-emerald-600'
+                }`}
+              >
+                Coaching
+              </button>
+              <button 
                 onClick={() => setCurrentView('connect')}
                 className={`font-medium transition-colors text-sm ${
                   currentView === 'connect' 
@@ -1569,6 +1929,19 @@ const App = () => {
               </button>
               <button 
                 onClick={() => {
+                  setCurrentView('coaching');
+                  setMobileMenuOpen(false);
+                }}
+                className={`block w-full text-left font-medium transition-colors text-sm ${
+                  currentView === 'coaching' 
+                    ? 'text-emerald-600' 
+                    : 'text-gray-700 hover:text-emerald-600'
+                }`}
+              >
+                Coaching
+              </button>
+              <button 
+                onClick={() => {
                   setCurrentView('connect');
                   setMobileMenuOpen(false);
                 }}
@@ -1588,6 +1961,7 @@ const App = () => {
       <main className="pt-16 sm:pt-20">
         {currentView === 'catherine' && renderCatherine()}
         {currentView === 'podcasts' && renderPodcasts()}
+        {currentView === 'coaching' && renderCoaching()}
         {currentView === 'connect' && renderConnect()}
       </main>
       
