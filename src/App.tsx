@@ -20,8 +20,10 @@ const updatePageURL = (view: string) => {
     newPath = '/podcasts';
   } else if (view === 'connect') {
     newPath = '/connect';
+  } else if (view === 'catherine') {
+    newPath = '/home';
   } else if (view === 'coaching') {
-    newPath = '/coaching';
+    newPath = '/';
   } else if (view.startsWith('blog-')) {
     const slug = view.replace('blog-', '');
     newPath = `/blog/${slug}`;
@@ -209,7 +211,7 @@ const SidePanel = ({ blogPosts, videos, onReadMore, onPostClick, onMentorshipRea
           3-Day Intensive Course for aspiring storytellers aged 16-30. Transform your curiosity into impact.
         </p>
         <button
-          onClick={() => window.location.href = '/coaching'}
+          onClick={() => window.location.href = '/'}
           className="w-full py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
         >
           Learn More
@@ -382,7 +384,7 @@ const NextButton = ({ onNext, currentPost, allPosts }: {
 };
 
 const App = () => {
-  const [currentView, setCurrentView] = useState('catherine');
+  const [currentView, setCurrentView] = useState('coaching'); // Coaching page loads first
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBlogManager, setShowBlogManager] = useState(false);
   const [publishedBlogPosts, setPublishedBlogPosts] = useState<BlogPost[]>([]);
@@ -408,13 +410,15 @@ const App = () => {
         setCurrentView('podcasts');
       } else if (path === '/connect') {
         setCurrentView('connect');
+      } else if (path === '/home') {
+        setCurrentView('catherine');
       } else if (path === '/coaching') {
         setCurrentView('coaching');
       } else if (path.startsWith('/blog/')) {
         const slug = path.replace('/blog/', '');
         setCurrentView(`blog-${slug}`);
       } else {
-        setCurrentView('catherine');
+        setCurrentView('coaching'); // Default to coaching page
       }
     };
 
@@ -607,7 +611,7 @@ const App = () => {
     alert(`Thank you for your interest in "${ebookTitle}"! We will send you the download link shortly.`);
   };
 
-  // Render About Catherine (now the landing page)
+  // Render About Catherine (Home page)
   const renderCatherine = () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -812,7 +816,7 @@ const App = () => {
     </div>
   );
 
-  // Render Podcasts (previously the home page)
+  // Render Podcasts
   const renderPodcasts = () => (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -982,8 +986,344 @@ const App = () => {
   );
 
   // Render Coaching Section - WITH WORKING BUTTONS
+const renderCoaching = () => {
+  // Function to handle enrollment - now scrolls to payment section
+  const handleEnrollNow = () => {
+    // Scroll to payment section
+    const paymentSection = document.getElementById('payment-section');
+    if (paymentSection) {
+      paymentSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
+  // Function to handle Read More - Catherine
+  const handleReadMore = () => {
+    setCurrentView('catherine');
+  };
 
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-white via-slate-50 to-emerald-50/20 relative overflow-hidden">
+      {/* Clean background with subtle gradients */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 right-0 w-48 h-48 md:w-96 md:h-96 bg-gradient-to-br from-emerald-100/30 to-teal-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 md:w-96 md:h-96 bg-gradient-to-tr from-amber-100/20 to-orange-100/10 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* Header */}
+      <section className="relative pt-8 md:pt-16 pb-6 md:pb-12" aria-labelledby="coaching-hero">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+          {/* Logo */}
+          <div className="mb-4 md:mb-8">
+            <img 
+              src="/img/logo/logobig.png"
+              alt="What's Your Story Africa"
+              className="h-24 sm:h-32 md:h-40 lg:h-48 mx-auto mb-3 md:mb-6 filter drop-shadow-lg"
+            />
+          </div>
+          
+          {/* Tagline */}
+          <div className="inline-flex items-center px-3 sm:px-4 md:px-6 py-2 md:py-3 bg-white/80 backdrop-blur-sm rounded-full border border-emerald-200 shadow-sm mb-4 md:mb-8">
+            <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-500 rounded-full mr-2 md:mr-3 animate-pulse"></div>
+            <span className="text-emerald-700 text-xs sm:text-sm font-medium tracking-widest uppercase">Equipping the Next Generation</span>
+          </div>
+          
+          <h1
+            id="coaching-hero"
+            className="text-center px-2 font-bold text-gray-900 mb-4 md:mb-6"
+          >
+            <span className="block text-lg md:text-xl text-gray-600">
+              A 3-Day Intensive
+            </span>
+            <span
+              className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent"
+              style={{
+                lineHeight: '1.25',
+                paddingBottom: '0.1em',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Storytelling Course
+            </span>
+          </h1>
+
+          <div className="max-w-3xl mx-auto px-4 mb-4 sm:mb-6 md:mb-8">
+            <p className="text-sm sm:text-base md:text-lg text-gray-900 mb-4 leading-relaxed">
+              Are you naturally curious, engaging, and able to spark meaningful conversations? 
+            </p>
+            <p className="text-sm sm:text-base md:text-lg text-gray-900 mb-4 leading-relaxed">
+              Are you the one who's always asking questions, sharing ideas, and seeking to make a difference through Media? 
+            </p>
+            <p className="text-sm sm:text-base md:text-lg text-gray-900 leading-relaxed">
+              <span className="font-semibold">Parents</span> — does your child have a curious mind, ideas, and a gift for conversation; 
+              that all they need is someone to sharpen their gift and truly bring their voice to life? 
+              Here's your chance to turn their curiosity into something truly inspirational.
+            </p>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 max-w-xs sm:max-w-md mx-auto px-4">
+            {[
+              { number: '3', label: 'Days ' },
+              { number: 'Nov 13–15', label: '9am – 4pm' },
+              { number: '16+', label: 'Age' },
+            ].map((stat, index) => (
+              <div key={index} className="text-center whitespace-nowrap">
+                <div className="text-lg sm:text-xl md:text-2xl font-bold text-emerald-700 mb-1">
+                  {stat.number}
+                </div>
+                <div className="text-gray-900 text-xs sm:text-sm  tracking-wide leading-tight">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-12" aria-labelledby="course-content">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-start">
+          
+          {/* Left Column - Content */}
+          <div className="space-y-4 sm:space-y-6 md:space-y-8">
+            {/* About Section */}
+            <article className="bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 border border-white shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h2 id="course-content" className="text-lg sm:text-xl md:text-2xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">About the Program</h2>
+              <p className="text-gray-900 mb-3 sm:mb-4 md:mb-6 leading-relaxed text-sm sm:text-base">
+                We equip the next generation of African storytellers—intelligent young people whose voices deserve to be heard.
+              </p>
+              <p className="text-gray-900 leading-relaxed text-sm sm:text-base">
+                Transform your passion and brilliance into meaningful, influential storytelling that creates impact.
+              </p>
+            </article>
+            
+            {/* CTA Button */}
+            <div className="flex justify-center items-center mb-6 sm:mb-8 md:mb-12 px-4">
+              <button 
+                onClick={handleEnrollNow}
+                className="w-full max-w-xs sm:max-w-sm md:w-auto px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-sm sm:text-base md:text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                aria-label="Enroll in the 3-day storytelling course for KES 20,000"
+              >
+                Enroll Now - KES 25,000
+              </button>
+            </div>
+
+            {/* Curriculum */}
+            <article className="bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 border border-white shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">What You'll Learn</h2>
+              <ul className="space-y-2 sm:space-y-3 md:space-y-4" role="list">
+                {[
+                  "Storytelling structures & techniques",
+                  "Identify your unique niche",
+                  "Embody your storytelling gift",
+                  "Build an authentic personal brand",
+                  "Monetize your storytelling",
+                  "Podcasting for impact & legacy",
+                  "Practical mock sessions"
+                ].map((item, index) => (
+                  <li key={index} className="flex items-start space-x-2 sm:space-x-3 md:space-x-4 group">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 md:mt-1 group-hover:bg-emerald-200 transition-colors duration-300">
+                      <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-500 rounded-full"></div>
+                    </div>
+                    <span className="text-gray-900 group-hover:text-gray-900 transition-colors duration-300 text-sm sm:text-base flex-1">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+            
+            {/* CTA Button */}
+            <div className="flex justify-center items-center mb-6 sm:mb-8 md:mb-12 px-4">
+              <button 
+                onClick={handleEnrollNow}
+                className="w-full max-w-xs sm:max-w-sm md:w-auto px-4 sm:px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-sm sm:text-base md:text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                aria-label="Enroll in the 3-day storytelling course for KES 20,000"
+              >
+                Enroll Now - KES 25,000
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column - Catherine & Details */}
+          <div className="space-y-4 sm:space-y-6 md:space-y-8">
+            {/* Catherine Section */}
+            <article className="bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 border border-white shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left space-y-3 sm:space-y-0 sm:space-x-4 md:space-x-6">
+                <div className="flex-shrink-0">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full border-2 sm:border-3 md:border-4 border-emerald-200 overflow-hidden shadow-lg">
+                    <img 
+                      src="/img/catherine/catherine-hero.jpg"
+                      alt="Catherine, media veteran and storytelling coach"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <div className="inline-block bg-emerald-100 px-2 sm:px-3 py-1 rounded-full mb-2 sm:mb-3 border border-emerald-200">
+                    <span className="text-emerald-700 text-xs sm:text-sm font-medium">25+ Years Experience</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-light text-gray-900 mb-2">Catherine</h3>
+                  <p className="text-gray-900 mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">
+                    Former Head of TV at KTN with 25 years of media leadership across East Africa. 
+                    Now nurturing the next generation of storytellers.
+                  </p>
+                  <blockquote className="text-emerald-600 italic mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">
+                    "The future of Africa lies in meaningful conversations led by brilliant youth."
+                  </blockquote>
+                  {/* Read More Button */}
+                  <button 
+                    onClick={handleReadMore}
+                    className="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center justify-center sm:justify-start space-x-1 group mx-auto sm:mx-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 rounded-md px-2 py-1"
+                    aria-label="Read Catherine's full biography"
+                  >
+                    <span>Read full bio</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            {/* Program Details */}
+            <article className="bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 border border-white shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">Program Details</h3>
+              <dl className="space-y-2 sm:space-y-3 md:space-y-4">
+                <div className="flex items-center justify-between py-2 md:py-3 border-b border-gray-200">
+                  <dt className="text-gray-600 text-sm sm:text-base">Location</dt>
+                  <dd className="text-gray-900 font-medium text-sm sm:text-base">Nairobi, Kenya</dd>
+                </div>
+                <div className="flex items-center justify-between py-2 md:py-3 border-b border-gray-200">
+                  <dt className="text-gray-900 text-sm sm:text-base">Date</dt>
+                  <dd className="text-gray-900 font-medium text-sm sm:text-base">November 13-15, 2025</dd>
+                </div>
+                <div className="flex items-center justify-between py-2 md:py-3 border-b border-gray-200">
+                  <dt className="text-gray-900 text-sm sm:text-base">Duration</dt>
+                  <dd className="text-gray-900 font-medium text-sm sm:text-base">3 Days Intensive</dd>
+                </div>
+                <div className="flex items-center justify-between py-2 md:py-3">
+                  <dt className="text-gray-900 text-sm sm:text-base">Age </dt>
+                  <dd className="text-gray-900 font-medium text-sm sm:text-base">16+</dd>
+                </div>
+              </dl>
+            </article>
+
+            {/* Pricing */}
+            <article className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 border border-emerald-200 shadow-lg md:shadow-xl hover:shadow-xl md:hover:shadow-2xl transition-all duration-300">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">
+                Course Investment
+              </h3>
+
+              <div className="space-y-3 md:space-y-4">
+                {/* Course Fee FIRST */}
+                <div className="bg-white/80 rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 border border-gray-200">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
+                    <div className="mb-2 sm:mb-0">
+                      <h4 className="text-gray-900 font-semibold text-sm sm:text-base md:text-lg">
+                        Course Fee
+                      </h4>
+                      <p className="text-gray-900 text-xs sm:text-sm">3-Day Course Fee</p>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <div className="text-lg sm:text-xl md:text-2xl font-light text-gray-900">
+                        KES 25,000
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Early Bird SECOND */}
+                <div className="bg-white/80 rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 border border-emerald-200">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
+                    <div className="mb-2 sm:mb-0">
+                      <h4 className="text-gray-900 font-semibold text-sm sm:text-base md:text-lg">
+                        Early Bird Offer
+                      </h4>
+                      <p className="text-emerald-600 text-xs sm:text-sm">
+                        Paid before November 1st
+                      </p>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <div className="text-lg sm:text-xl md:text-2xl font-light text-gray-900">
+                        KES 20,000
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        {/* M-Pesa Payment Section - SINGLE INSTANCE */}
+        <section
+          id="payment-section"
+          className="mt-16"
+          aria-labelledby="payment-heading"
+        >
+          <div className="max-w-3xl mx-auto bg-gradient-to-br from-emerald-600 to-teal-500 rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden">
+            <div className="absolute inset-0 bg-white/10"></div>
+
+            <div className="relative z-10 text-center">
+              <h3
+                id="payment-heading"
+                className="text-2xl md:text-3xl font-bold text-white mb-2"
+              >
+                Secure Your Spot
+              </h3>
+              <p className="text-emerald-100 mb-6 text-sm md:text-base">
+                November 13–15, 9am – 4pm • Nairobi, Kenya
+              </p>
+
+              {/* Payment Information */}
+              <div className="max-w-md mx-auto bg-white/20 backdrop-blur-md rounded-xl p-6 border border-white/30">
+                <div className="text-center mb-4">
+                  <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                    {/* M-Pesa styled icon */}
+                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                      <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">M</span>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 className="text-lg font-semibold text-white mb-4">To pay: M-Pesa</h4>
+                </div>
+
+                <div className="space-y-4 text-white text-center">
+                  <div className="py-2">
+                    <div className="font-mono font-bold text-2xl">303030</div>
+                    <div className="text-emerald-100 text-sm">Paybill number</div>
+                  </div>
+                  
+                  <div className="py-2">
+                    <div className="font-mono font-bold text-2xl">2052768686</div>
+                    <div className="text-emerald-100 text-sm">Account</div>
+                  </div>
+                  
+                  <div className="py-2">
+                    <div className="font-semibold text-lg">Catherine Communications Ltd.</div>
+                    <div className="text-emerald-100 text-sm">Account Name</div>
+                  </div>
+                </div>
+
+                {/* Payment Instructions */}
+                <div className="mt-6 p-4 bg-white/10 rounded-lg border border-white/20">
+                  <h5 className="font-semibold text-white mb-2 text-sm">How to Pay:</h5>
+                  <ol className="text-emerald-100 text-xs space-y-1 list-decimal list-inside text-left">
+                    <li>Go to M-Pesa on your phone</li>
+                    <li>Select <strong>"Lipa Na M-Pesa"</strong></li>
+                    <li>Select <strong>"Pay Bill"</strong></li>
+                    <li>Enter Business No: <strong>303030</strong></li>
+                    <li>Enter Account No: <strong>2052768686</strong></li>
+                    <li>Enter Amount: <strong>KES 25,000</strong></li>
+                    <li>Enter your M-Pesa PIN and send</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+  );
+};
   const renderBlogPost = (post: BlogPost) => {
     // Get current URL for sharing
     const currentUrl = window.location.href;
@@ -1382,119 +1722,132 @@ const App = () => {
   );
 
   // Footer component - UPDATED: Completely removed Manage Blog Posts button
-  const Footer = () => (
-    <footer className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 py-8 md:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 items-center">
-          <div className="text-center lg:text-left">
-            <button 
-              onClick={() => setCurrentView('catherine')}
-              className="flex items-center justify-center lg:justify-start"
-            >
-              <img 
-                src="/img/logo/wysa-logo.png" 
-                alt="What's Your Story Africa Logo" 
-                className="h-16 md:h-20 w-auto max-w-[200px] md:max-w-[300px] object-contain transition-opacity duration-300 hover:opacity-80"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                }}
-              />
-            </button>
-          </div>
-
-          <div className="text-center">
-            <h2 className="text-xl md:text-2xl font-bold !text-white mb-3">
-              For Legacy & Posterity
-            </h2>
-            <p className="text-sm text-white mb-4">
-              Share Your Own Story
-            </p>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-
-                const subject = encodeURIComponent("General Inquiry");
-                const body = encodeURIComponent(
-                  "Hello Catherine,\n\nI'd like to get in touch regarding..."
-                );
-
-                const mailtoLink = `mailto:catherine@whatsyourstoryafrica.com?subject=${subject}&body=${body}`;
-                const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=${subject}&body=${body}`;
-
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-                if (isMobile) {
-                  window.location.href = mailtoLink; // opens native email app
-                } else {
-                  window.open(gmailUrl, "_blank"); // opens Gmail web
-                }
+// Footer component - UPDATED: Shows "Back to Main Website" only on coaching page
+const Footer = () => (
+  <footer className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 py-8 md:py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className={`grid ${currentView === 'coaching' ? 'grid-cols-1 lg:grid-cols-4' : 'grid-cols-1 lg:grid-cols-3'} gap-6 md:gap-8 items-center`}>
+        <div className="text-center lg:text-left">
+          <button 
+            onClick={() => setCurrentView('coaching')}
+            className="flex items-center justify-center lg:justify-start"
+          >
+            <img 
+              src="/img/logo/wysa-logo.png" 
+              alt="What's Your Story Africa Logo" 
+              className="h-16 md:h-20 w-auto max-w-[200px] md:max-w-[300px] object-contain transition-opacity duration-300 hover:opacity-80"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
               }}
-              className="inline-flex items-center px-5 py-2.5 bg-white text-emerald-600 font-semibold rounded-lg hover:bg-emerald-50 transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm"
+            />
+          </button>
+        </div>
+
+        {/* NEW: Navigation back to main website - ONLY SHOWS ON COACHING PAGE */}
+        {currentView === 'coaching' && (
+          <div className="text-center">
+            <h3 className="text-white font-semibold mb-3 text-sm uppercase tracking-wide">Explore More</h3>
+            <button
+              onClick={() => setCurrentView('catherine')}
+              className="inline-flex items-center px-5 py-2.5  text-white font-semibold rounded-lg  transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm border-2 "
             >
-              Get In Touch
-              <ExternalLink className="w-4 h-4 md:w-5 md:h-5 ml-2" />
+              <i className="bi bi-arrow-left-circle mr-2"></i>
+              Visit Main Website
             </button>
           </div>
+        )}
 
-          <div className="flex items-center justify-center lg:justify-end space-x-3 md:space-x-4">
-            <div className="flex items-center space-x-2 md:space-x-3">
-              <a 
-                href="https://linkedin.com/in/catherinemwangitv" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-              >
-                <i className="bi bi-linkedin text-sm md:text-base"></i>
-              </a>
-              <a 
-                href="https://tiktok.com/@cathmwangi" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-              >
-                <i className="bi bi-tiktok text-sm md:text-base"></i>
-              </a>
-              <a 
-                href="https://facebook.com/CatherineMwangiKE" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-              >
-                <i className="bi bi-facebook text-sm md:text-base"></i>
-              </a>
-              <a 
-                href="https://instagram.com/cathmwangi" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-              >
-                <i className="bi bi-instagram text-sm md:text-base"></i>
-              </a>
-              <a 
-                href="https://x.com/CathMwangi" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-              >
-                <i className="bi bi-twitter-x text-sm md:text-base"></i>
-              </a>
-              <a 
-                href="https://www.youtube.com/@WhatsYourStoryAfrica" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
-              >
-                <i className="bi bi-youtube text-sm md:text-base"></i>
-              </a>
-            </div>
+        <div className="text-center">
+          <h2 className="text-xl md:text-2xl font-bold !text-white mb-3">
+            For Legacy & Posterity
+          </h2>
+          <p className="text-sm text-white mb-4">
+            Share Your Own Story
+          </p>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+
+              const subject = encodeURIComponent("General Inquiry");
+              const body = encodeURIComponent(
+                "Hello Catherine,\n\nI'd like to get in touch regarding..."
+              );
+
+              const mailtoLink = `mailto:catherine@whatsyourstoryafrica.com?subject=${subject}&body=${body}`;
+              const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=catherine@whatsyourstoryafrica.com&su=${subject}&body=${body}`;
+
+              const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+              if (isMobile) {
+                window.location.href = mailtoLink;
+              } else {
+                window.open(gmailUrl, "_blank");
+              }
+            }}
+            className="inline-flex items-center px-5 py-2.5 bg-white text-emerald-600 font-semibold rounded-lg hover:bg-emerald-50 transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm"
+          >
+            Get In Touch
+            <ExternalLink className="w-4 h-4 md:w-5 md:h-5 ml-2" />
+          </button>
+        </div>
+
+        <div className="flex items-center justify-center lg:justify-end space-x-3 md:space-x-4">
+          <div className="flex items-center space-x-2 md:space-x-3">
+            <a 
+              href="https://linkedin.com/in/catherinemwangitv" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+            >
+              <i className="bi bi-linkedin text-sm md:text-base"></i>
+            </a>
+            <a 
+              href="https://tiktok.com/@cathmwangi" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+            >
+              <i className="bi bi-tiktok text-sm md:text-base"></i>
+            </a>
+            <a 
+              href="https://facebook.com/CatherineMwangiKE" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+            >
+              <i className="bi bi-facebook text-sm md:text-base"></i>
+            </a>
+            <a 
+              href="https://instagram.com/cathmwangi" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+            >
+              <i className="bi bi-instagram text-sm md:text-base"></i>
+            </a>
+            <a 
+              href="https://x.com/CathMwangi" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+            >
+              <i className="bi bi-twitter-x text-sm md:text-base"></i>
+            </a>
+            <a 
+              href="https://www.youtube.com/@WhatsYourStoryAfrica" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="w-8 h-8 md:w-9 md:h-9 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:scale-110 hover:bg-white/30 transition-all duration-300 social-icon"
+            >
+              <i className="bi bi-youtube text-sm md:text-base"></i>
+            </a>
           </div>
         </div>
-        
-        {/* REMOVED: Entire Manage Blog Posts button section */}
       </div>
-    </footer>
-  );
+    </div>
+  </footer>
+);
 
   if (viewingBlogPost) {
     return (
@@ -1503,7 +1856,7 @@ const App = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex items-center justify-between h-16 sm:h-20">
               <button 
-                onClick={() => setCurrentView('catherine')}
+                onClick={() => setCurrentView('coaching')}
                 className="flex items-center"
               >
                 <img 
@@ -1518,6 +1871,12 @@ const App = () => {
               </button>
 
               <div className="flex items-center space-x-6 md:space-x-8">
+                <button 
+                  onClick={() => setCurrentView('catherine')}
+                  className="font-medium text-gray-700 hover:text-emerald-600 transition-colors text-sm"
+                >
+                  Home
+                </button>
                 <button 
                   onClick={() => setCurrentView('podcasts')}
                   className="font-medium text-gray-700 hover:text-emerald-600 transition-colors text-sm"
@@ -1556,7 +1915,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 sm:h-20">
             <button 
-              onClick={() => setCurrentView('catherine')}
+              onClick={() => setCurrentView('coaching')}
               className="flex items-center"
             >
               <img 
