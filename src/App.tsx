@@ -384,7 +384,7 @@ const NextButton = ({ onNext, currentPost, allPosts }: {
 };
 
 const App = () => {
-  const [currentView, setCurrentView] = useState('coaching'); // Coaching page loads first
+  const [currentView, setCurrentView] = useState('catherine'); // Coaching page loads first
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBlogManager, setShowBlogManager] = useState(false);
   const [publishedBlogPosts, setPublishedBlogPosts] = useState<BlogPost[]>([]);
@@ -1883,12 +1883,12 @@ const Footer = () => (
                 >
                   Podcasts
                 </button>
-                <button 
+                {/*<button 
                   onClick={() => setCurrentView('coaching')}
                   className="font-medium text-gray-700 hover:text-emerald-600 transition-colors text-sm"
                 >
                   Coaching
-                </button>
+                </button>*/}
                 <button 
                   onClick={() => setCurrentView('connect')}
                   className="font-medium text-gray-700 hover:text-emerald-600 transition-colors text-sm"
@@ -1950,7 +1950,7 @@ const Footer = () => (
               >
                 Podcasts
               </button>
-              <button 
+              {/*<button 
                 onClick={() => setCurrentView('coaching')}
                 className={`font-medium transition-colors text-sm ${
                   currentView === 'coaching' 
@@ -1959,7 +1959,7 @@ const Footer = () => (
                 }`}
               >
                 Coaching
-              </button>
+              </button>*/}
               <button 
                 onClick={() => setCurrentView('connect')}
                 className={`font-medium transition-colors text-sm ${
@@ -2010,7 +2010,7 @@ const Footer = () => (
               >
                 Podcasts
               </button>
-              <button 
+              {/*<button 
                 onClick={() => {
                   setCurrentView('coaching');
                   setMobileMenuOpen(false);
@@ -2022,7 +2022,7 @@ const Footer = () => (
                 }`}
               >
                 Coaching
-              </button>
+              </button>*/}
               <button 
                 onClick={() => {
                   setCurrentView('connect');
@@ -2044,7 +2044,7 @@ const Footer = () => (
       <main className="pt-16 sm:pt-20">
         {currentView === 'catherine' && renderCatherine()}
         {currentView === 'podcasts' && renderPodcasts()}
-        {currentView === 'coaching' && renderCoaching()}
+        {/*{currentView === 'coaching' && renderCoaching()}*/}
         {currentView === 'connect' && renderConnect()}
       </main>
       
