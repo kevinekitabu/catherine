@@ -9,7 +9,9 @@ const socialIconClass = 'bi social-icon';
 import { Play, ExternalLink, Menu, X, ArrowRight, BookOpen, Users, Calendar } from 'lucide-react';
 import BlogManager from './components/BlogManager';
 import ImageCarousel from './components/ImageCarousel';
-import { blogService, BlogPost } from './lib/supabase';
+import FeedbackForm from './components/FeedbackForm';
+import FeedbackDisplay from './components/FeedbackDisplay';
+import { blogService, BlogPost, feedbackService } from './lib/supabase';
 import { youtubeService, YouTubeVideo } from './lib/youtube';
 
 // Update URL when navigating between pages - Clean path-based URLs
@@ -771,33 +773,15 @@ const App = () => {
             </div>
 
             {/* Comments Section */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-white/50 shadow-xl mb-6">
-              <h4 className="text-lg font-semibold mb-6 text-gray-900">Share Your Comments</h4>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your Email"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <textarea
-                  placeholder="Your Comment"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-                  rows={4}
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors text-sm"
-                >
-                  Submit 
-                </button>
-              </form>
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-xl mb-8">
+              <h4 className="text-xl font-semibold mb-6">Leave a Feedback</h4>
+              <FeedbackForm 
+                onFeedbackSubmitted={() => alert('Thank you for your feedback!')} 
+              />
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Feedback</h3>
+                <FeedbackDisplay limit={3} />
+              </div>
             </div>
           </div>
 

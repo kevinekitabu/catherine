@@ -7,4 +7,9 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  server: {
+    proxy: {
+      '/send-feedback-email': 'http://localhost:3001',
+    },
+  },
 });
